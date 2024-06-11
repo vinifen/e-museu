@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->text('history');
-            $table->text('detail');
+            $table->text('history')->nullable();
+            $table->text('detail')->nullable();
             $table->date('date');
             $table->string('identification_code');
             $table->string('image');

@@ -27,8 +27,8 @@ class StoreItemRequest extends FormRequest
             'name' => 'required|string|min:1|max:200|unique:items',
             'date' => 'date',
             'description' => 'required|string|min:1|max:1000',
-            'detail' => 'required|string|min:1|max:10000',
-            'history' => 'required|string|min:1|max:50000',
+            'detail' => 'max:10000',
+            'history' => 'max:50000',
             'section_id' => 'required|integer|numeric|exists:sections,id',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:10240',
         ];
@@ -39,8 +39,6 @@ class StoreItemRequest extends FormRequest
         return [
             'name.required' => 'O campo nome é obrigatório.',
             'description.required' => 'O campo descrição é obrigatório.',
-            'detail.required' => 'O campo detalhes é obrigatório.',
-            'history.required' => 'O campo história é obrigatório.',
             'section_id.required' => 'O campo seção é obrigatório.',
             'image.required' => 'O campo imagem é obrigatório.',
         ];

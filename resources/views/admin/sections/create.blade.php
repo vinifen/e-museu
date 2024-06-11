@@ -1,8 +1,9 @@
 @extends('layouts.admin')
+@section('title', 'Criar seção')
 
 @section('content')
     <div class="mb-auto container-fluid">
-        @foreach($errors->all() as $error)
+        @foreach ($errors->all() as $error)
             <div class="alert alert-danger" role="alert">
                 {{ $error }}
             </div>
@@ -16,11 +17,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
-                        @error('name') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                            name="name" value="{{ old('name') }}">
+                        @error('name')
+                            <div class="invalid-feedback"> {{ $message }} </div>
+                        @enderror
                     </div>
                     <div class="mb-3">
-                        <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle"></i> Adicionar Seção</button>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle"></i> Adicionar
+                            Seção</button>
                     </div>
                 </div>
             </div>

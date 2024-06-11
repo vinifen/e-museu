@@ -3,7 +3,7 @@
         <div class="col-3 m-0">
             <label class="fw-bold" for="search">Buscar por nome</label>
             <form action="{{ route('items.index') }}" method="GET" class="d-flex">
-                <input name="section" value="{{ request()->query("section") }}" hidden>
+                <input name="section" value="{{ request()->query('section') }}" hidden>
                 <div class="input-div m-0 mt-1">
                     <input class="form-control input-form" type="text" name="search" id="search" placeholder="">
                 </div>
@@ -16,13 +16,15 @@
             </div>
             <div class="d-flex explore-menu-options">
                 <a href="{{ route('items.index') }}" class="explore-menu-option">
-                    <div class="nav-link menu-option py-4 px-4 fw-bold @if(request()->query("section") == '') menu-option-active @endif">
+                    <div
+                        class="nav-link menu-option py-4 px-4 fw-bold @if (request()->query('section') == '') menu-option-active @endif">
                         Todos
                     </div>
                 </a>
-                @foreach($sections as $section)
+                @foreach ($sections as $section)
                     <a href="{{ route('items.index', ['section' => $section->id]) }}" class="explore-menu-option">
-                        <div class="nav-link menu-option py-4 px-4 fw-bold @if(request()->query("section") == $section->id) menu-option-active @endif">
+                        <div
+                            class="nav-link menu-option py-4 px-4 fw-bold @if (request()->query('section') == $section->id) menu-option-active @endif">
                             {{ $section->name }}
                         </div>
                     </a>
@@ -36,12 +38,14 @@
 </div>
 
 
-<button class="button navbar-toggler p-1 nav-link justify-content-between d-flex d-md-none py-3" type="button" data-bs-toggle="collapse" data-bs-target="#categoriesToggle" aria-controls="categoriesToggle" aria-expanded="false" aria-label="Toggle navigation">
-    @if(request()->query("section") == '')
+<button class="button navbar-toggler p-1 nav-link justify-content-between d-flex d-md-none py-3" type="button"
+    data-bs-toggle="collapse" data-bs-target="#categoriesToggle" aria-controls="categoriesToggle" aria-expanded="false"
+    aria-label="Toggle navigation">
+    @if (request()->query('section') == '')
         <h4 class="ms-3 fw-bold">Todos</h4>
     @else
-        @foreach($sections as $section)
-            @if($section->id == request()->query("section"))
+        @foreach ($sections as $section)
+            @if ($section->id == request()->query('section'))
                 <h4 class="ms-3 fw-bold">{{ $section->name }}</h4>
             @endif
         @endforeach
@@ -52,7 +56,7 @@
     <div class="explore-menu-div-mobile mt-0 sticky-top" id="sub-menu">
         <label class="fw-bold" for="search">Buscar por nome</label>
         <form action="{{ route('items.index') }}" method="GET" class="row">
-            <input name="section" value="{{ request()->query("section") }}" hidden>
+            <input name="section" value="{{ request()->query('section') }}" hidden>
             <div class="input-div m-0 mt-2 col-10">
                 <input class="form-control" type="text" name="search" id="search" placeholder="">
             </div>
@@ -60,13 +64,15 @@
         </form>
         <div class="division-line my-1"></div>
         <a href="{{ route('items.index', ['section' => '']) }}" class="explore-menu-option">
-            <div class="nav-link menu-option py-4 px-4 fw-bold @if(request()->query("section") == '') menu-option-active @endif">
+            <div
+                class="nav-link menu-option py-4 px-4 fw-bold @if (request()->query('section') == '') menu-option-active @endif">
                 Todos
             </div>
         </a>
-        @foreach($sections as $section)
+        @foreach ($sections as $section)
             <a href="{{ route('items.index', ['section' => $section->id]) }}" class="explore-menu-option">
-                <div class="nav-link menu-option py-4 px-4 fw-bold @if(request()->query("section") == $section->id) menu-option-active @endif">
+                <div
+                    class="nav-link menu-option py-4 px-4 fw-bold @if (request()->query('section') == $section->id) menu-option-active @endif">
                     {{ $section->name }}
                 </div>
             </a>
@@ -84,7 +90,7 @@
     const leftArrow = document.querySelector(".left-arrow");
     const rightArrow = document.querySelector(".right-arrow");
 
-    $( document ).ready(function() {
+    $(document).ready(function() {
         options.scrollLeft = localStorage.getItem("scrollPosition");
     });
 
@@ -102,7 +108,8 @@
         });
     });
 
-    $( document ).onBeforeUnload(function() {
+    $(document).onBeforeUnload(function() {
         options.scrollLeft = 0;
-    });onbeforeunload
+    });
+    onbeforeunload
 </script>

@@ -1,8 +1,10 @@
 @extends('layouts.admin')
+@section('title', 'Editar categoria ' . $category->id)
+
 
 @section('content')
     <div class="mb-auto container-fluid">
-        @foreach($errors->all() as $error)
+        @foreach ($errors->all() as $error)
             <div class="alert alert-danger" role="alert">
                 {{ $error }}
             </div>
@@ -17,8 +19,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $category->name }}">
-                        @error('name') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                            name="name" value="{{ $category->name }}">
+                        @error('name')
+                            <div class="invalid-feedback"> {{ $message }} </div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-warning"><i class="bi bi-pencil-fill"></i> Enviar</button>

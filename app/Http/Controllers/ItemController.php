@@ -156,17 +156,18 @@ class ItemController extends Controller
 
     public function storeItem($itemData, $proprietary)
     {
-        $item = false;
         $itemData['proprietary_id'] = $proprietary->id;
         $itemData['identification_code'] = '000';
 
-        DB::transaction(function () use ($itemData, $item){
+        $item = DB::transaction(function () use ($itemData){
 
             $item = Item::create($itemData);
 
             $itemData['identification_code'] = self::createIdentificationCode($item);
 
             $item->update($itemData);
+
+            return $item;
         });
 
         return $item;

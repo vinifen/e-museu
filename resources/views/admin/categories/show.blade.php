@@ -1,4 +1,6 @@
 @extends('layouts.admin')
+@section('title', 'Categoria ' . $category->id)
+
 
 @section('content')
     <div class="mb-auto container-fluid">
@@ -12,11 +14,13 @@
                 <div class="card mb-3">
                     <h2 class="card-header">Mostrando Categoria: {{ $category->id }} - {{ $category->name }}</h2>
                     <div class="card-body d-flex">
-                        <a href="{{ route('admin.categories.edit', $category->id) }}" type="button" class="btn btn-warning me-1"><i class="bi bi-pencil-fill"></i> Editar</a>
+                        <a href="{{ route('admin.categories.edit', $category->id) }}" type="button"
+                            class="btn btn-warning me-1"><i class="bi bi-pencil-fill"></i> Editar</a>
                         <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="deleteCategoryButton btn btn-danger"><i class="bi bi-trash-fill"></i> Excluir
+                            <button type="submit" class="deleteCategoryButton btn btn-danger"><i
+                                    class="bi bi-trash-fill"></i> Excluir
                         </form>
                     </div>
                 </div>

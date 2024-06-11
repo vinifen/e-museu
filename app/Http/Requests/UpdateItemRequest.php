@@ -15,7 +15,7 @@ class UpdateItemRequest extends FormRequest
 
     public function rules(): array
     {
-        $itemId = $this->route()->parameter('item') ?? null;
+        $item = $this->route()->parameter('item') ?? null;
 
         return [
             'name' => [
@@ -23,12 +23,12 @@ class UpdateItemRequest extends FormRequest
                 'string',
                 'min:1',
                 'max:200',
-                Rule::unique('items')->ignore($itemId),
+                Rule::unique('items')->ignore($item->id),
             ],
             'date' => 'date',
             'description' => 'required|string|min:1|max:1000',
-            'detail' => 'required|string|min:1|max:10000',
-            'history' => 'required|string|min:1|max:50000',
+            'detail' => 'max:10000',
+            'history' => 'max:50000',
             'section_id' => 'required|integer|numeric|exists:sections,id',
             'proprietary_id' => 'required|integer|numeric|exists:proprietaries,id',
             'identification_code' => 'required|string|min:1|max:50',
@@ -43,8 +43,6 @@ class UpdateItemRequest extends FormRequest
             'name.required' => 'O campo nome é obrigatório.',
             'data.required' => 'O campo data é obrigatório.',
             'description.required' => 'O campo descrição é obrigatório.',
-            'detail.required' => 'O campo detalhes é obrigatório.',
-            'history.required' => 'O campo história é obrigatório.',
             'section_id.required' => 'O campo seção é obrigatório.',
             'validation.required' => 'O campo validado é obrigatório.',
             'identification_code.required' => 'O campo código de identificação é obrigatório.',

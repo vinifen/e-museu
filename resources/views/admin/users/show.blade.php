@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('title', 'Administrador ' . $user->id)
 
 @section('content')
     <div class="mb-auto container-fluid">
@@ -15,7 +16,8 @@
                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="deleteUserButton btn btn-danger"><i class="bi bi-trash-fill"></i> Excluir
+                            <button type="submit" class="deleteUserButton btn btn-danger"><i class="bi bi-trash-fill"></i>
+                                Excluir
                         </form>
                     </div>
                 </div>

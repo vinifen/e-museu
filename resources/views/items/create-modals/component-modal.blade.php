@@ -1,78 +1,71 @@
 <div class="modal fade" id="addComponentModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">Adicionar um Componente</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form method="POST" id="addComponentForm">
-                @csrf
-                <input type="text" name="component_id" id="component-id" hidden>
-                <label for="component-category">
-                    <h5>Categoria do Componente
-                        <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus" data-bs-content="A qual categoria, o componente a ser adicionado pertence?">
-                            <i class="bi bi-info-circle-fill h4 ms-1" style="color: #ED6E38; cursor: pointer;"></i>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Adicionar um Componente</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="addComponentForm">
+                    @csrf
+                    <input type="text" name="component_id" id="component-id" hidden>
+                    <label for="component-category">
+                        <h5>Categoria do Componente
+                            <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1"
+                                data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus"
+                                data-bs-content="A qual categoria, o componente a ser adicionado pertence?">
+                                <i class="bi bi-info-circle-fill h4 ms-1" style="color: #ED6E38; cursor: pointer;"></i>
+                            </button>
+                        </h5>
+                    </label>
+                    <div class="input-div rounded-top">
+                        <select class="form-select me-2 input-form" name="component-category" id="component-category"
+                            onchange="checkIfComponentCategoryIsEmpty()">
+                            <option selected="selected" value="">-</option>
+                            @foreach ($sections as $section)
+                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <label for="name">
+                        <h5>Nome do Componente
+                            <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1"
+                                data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus"
+                                data-bs-content="O nome do componente a ser relacionado ao item que está sendo cadastrado. Só é possível adicionar componentes que já estejão listados no nosso museu.">
+                                <i class="bi bi-info-circle-fill h4 ms-1" style="color: #ED6E38; cursor: pointer;"></i>
+                            </button>
+                        </h5>
+                    </label>
+                    <div class="input-div rounded-top">
+                        <input class="form-control typeahead me-2 input-form" type="text" name="component-name"
+                            id="component-name" onchange="checkComponentName()" placeholder="" disabled>
+                    </div>
+                    <div class="error-div px-1 mx-5 mb-3" id="component-name-warning" hidden>
+                        <i class="bi bi-exclamation-circle-fill mx-1 h5"></i>Não encontramos este item nos nossos
+                        registros! O campo "categoria" e "nome" foram preenchidos corretamente?
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-end">
+                        <button class="button nav-link py-2 px-3 fw-bold" type="button" onclick="saveComponent()"
+                            id="save-component-button" disabled>
+                            Adicionar
                         </button>
-                    </h5>
-                </label>
-                <div class="input-div rounded-top">
-                    <select class="form-select me-2 input-form" name="component-category" id="component-category" onchange="checkIfComponentCategoryIsEmpty()">
-                        <option selected="selected" value="">-</option>
-                        @foreach($sections as $section)
-                            <option value="{{ $section->id }}">{{ $section->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <label for="name">
-                    <h5>Nome do Componente
-                        <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus" data-bs-content="O nome do componente a ser relacionado ao item que está sendo cadastrado. Só é possível adicionar componentes que já estejão listados no nosso museu.">
-                            <i class="bi bi-info-circle-fill h4 ms-1" style="color: #ED6E38; cursor: pointer;"></i>
+                        <button class="button nav-link py-2 px-3 fw-bold" type="button" onclick="updateComponent()"
+                            id="update-component-button" hidden>
+                            Editar
                         </button>
-                    </h5>
-                </label>
-                <div class="input-div rounded-top">
-                    <input class="form-control typeahead me-2 input-form" type="text" name="component-name" id="component-name" onchange="checkComponentName()" placeholder="" disabled>
-                </div>
-                <div class="error-div px-1 mx-5 mb-3" id="component-name-warning" hidden>
-                    <i class="bi bi-exclamation-circle-fill mx-1 h5"></i>Não encontramos este item nos nossos registros! O campo "categoria" e "nome" foram preenchidos corretamente?
-                </div>
-                <div class="col d-flex align-items-center justify-content-end">
-                    <button
-                        class="button nav-link py-2 px-3 fw-bold"
-                        type="button"
-                        onclick="saveComponent()"
-                        id="save-component-button"
-                        disabled
-                    >
-                        Adicionar
-                    </button>
-                    <button
-                        class="button nav-link py-2 px-3 fw-bold"
-                        type="button"
-                        onclick="updateComponent()"
-                        id="update-component-button"
-                        hidden
-                    >
-                        Editar
-                    </button>
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-button nav-link py-2 px-3 fw-bold" type="button" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button
-                class="cancel-button nav-link py-2 px-3 fw-bold"
-                type="button"
-                data-bs-dismiss="modal"
-            >
-                Cancelar
-            </button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <script type="text/javascript">
+<script type="text/javascript">
     let componentNameAutoCompletePath = "{{ route('component-name-auto-complete') }}";
     let componentCheckName = "{{ route('check-component-name') }}";
     let componentCount = 0;
@@ -111,7 +104,7 @@
 
     function editComponent(componentId) {
         let inputs = [];
-        $('#component-' + componentId + ' > input').each(function () {
+        $('#component-' + componentId + ' > input').each(function() {
             inputs.push($(this).val());
         });
 
@@ -122,8 +115,8 @@
         checkIfComponentCategoryIsEmpty();
         checkComponentName();
 
-        $('#save-component-button').prop("hidden",true);
-        $('#update-component-button').prop("hidden",false);
+        $('#save-component-button').prop("hidden", true);
+        $('#update-component-button').prop("hidden", false);
     }
 
     function updateComponent() {
@@ -166,7 +159,7 @@
         checkComponents();
     }
 
-   function checkIfComponentCategoryIsEmpty() {
+    function checkIfComponentCategoryIsEmpty() {
         if ($('#component-category').find(":selected").val() == '') {
             $('#component-name').prop('disabled', true);
             $('#component-description').prop('disabled', true);
@@ -174,7 +167,7 @@
             $('#component-name').prop('disabled', false);
             $('#component-description').prop('disabled', false);
         }
-   }
+    }
 
     function checkComponents() {
         if (componentCount > 0) {
@@ -193,18 +186,22 @@
         }
 
         $('#component-count-text').text(componentCount + "/10");
-   }
+    }
 
-   function componentBuilder(componentCategoryText, componentCategoryVal, componentName, componentId) {
+    function componentBuilder(componentCategoryText, componentCategoryVal, componentName, componentId) {
         let componentDiv = '<div class="component" id="component-' + componentId + '"></div>';
 
-        let componentCategoryInput = '<input type="text" name="components[' + componentId + '][category_id]" id="category-component-' + componentId + '" value="' + componentCategoryVal + '" hidden>';
-        let componentNameInput = '<input type="text" name="components[' + componentId + '][name]" id="name-component-' + componentId + '" value="' + componentName + '" hidden>';
+        let componentCategoryInput = '<input type="text" name="components[' + componentId +
+            '][category_id]" id="category-component-' + componentId + '" value="' + componentCategoryVal + '" hidden>';
+        let componentNameInput = '<input type="text" name="components[' + componentId + '][name]" id="name-component-' +
+            componentId + '" value="' + componentName + '" hidden>';
 
         let componentCard = `<div class="col s-2 m-2 d-flex justify-content-center">
                             <div class="card-body tag-card mw-100 p-2">
-                                <h6 class="card-title fw-bold border-dark" id="component-category-text-` + componentId + `">` + componentCategoryText + `</h6>
-                                <p class="card-subtitle mb-1" id="component-name-text-` + componentId + `">` + componentName + `</p>
+                                <h6 class="card-title fw-bold border-dark" id="component-category-text-` +
+            componentId + `">` + componentCategoryText + `</h6>
+                                <p class="card-subtitle mb-1" id="component-name-text-` + componentId + `">` +
+            componentName + `</p>
                             </div>
                             <button
                                 class="edit-button d-flex align-items-center nav-link px-2 d-flex justify-content-center"
@@ -226,9 +223,9 @@
 
         $("#components").append(componentDiv);
         $("#component-" + componentIds).append(componentCategoryInput, componentNameInput, componentCard);
-   }
+    }
 
-   function checkComponentName() {
+    function checkComponentName() {
         $.ajax({
             type: "GET",
             url: componentCheckName,
@@ -238,35 +235,35 @@
             },
             success: function(data) {
                 if (data > 0) {
-                    $('#component-name-warning').prop("hidden",true);
-                    $('#save-component-button').prop("disabled",false);
+                    $('#component-name-warning').prop("hidden", true);
+                    $('#save-component-button').prop("disabled", false);
                     return;
                 } else {
-                    $('#component-name-warning').prop("hidden",false);
-                    $('#save-component-button').prop("disabled",true);
+                    $('#component-name-warning').prop("hidden", false);
+                    $('#save-component-button').prop("disabled", true);
                     return;
                 }
             }
         });
-   }
+    }
 
-   $('#component-name').typeahead({
-        source: function (query, process) {
+    $('#component-name').typeahead({
+        source: function(query, process) {
             return $.get(componentNameAutoCompletePath, {
                 category: $('#component-category').find(":selected").val()
-            }, function (data) {
+            }, function(data) {
                 return process(data);
             });
         }
     });
 
-   $('#addComponentModal').on('hidden.bs.modal', function () {
+    $('#addComponentModal').on('hidden.bs.modal', function() {
         $('#component-category').val('');
         $('#component-name').val('');
 
-        $('#save-component-button').prop("hidden",false);
-        $('#update-component-button').prop("hidden",true);
-        $('#component-name').prop("disabled",true);
-        $('#component-name-warning').prop("hidden",true);
-   });
+        $('#save-component-button').prop("hidden", false);
+        $('#update-component-button').prop("hidden", true);
+        $('#component-name').prop("disabled", true);
+        $('#component-name-warning').prop("hidden", true);
+    });
 </script>
