@@ -7,8 +7,13 @@
                 {{ session('success') }}
             </div>
         @endif
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger" role="alert">
+                {{ $error }}
+            </div>
+        @endforeach
         <div class="card mb-3">
-            <h2 class="card-header">Listar Seções</h2>
+            <h2 class="card-header">Seções - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
@@ -43,11 +48,11 @@
                     </thead>
                     <tbody>
                     @foreach($sections as $section)
-                        <tr>
+                        <tr class="@if(!$section->locks->isEmpty() && $section->locks->first()->user_id != auth()->user()->id) table-warning @endif">
                             <th scope="row">{{ $section->id }}</th>
                             <td>{{ $section->name }}</td>
-                            <td>{{ date('d-m-Y', strtotime($section->created_at)) }}</td>
-                            <td>{{ date('d-m-Y', strtotime($section->updated_at)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($section->created_at)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($section->updated_at)) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
                                     <a href="{{ route('admin.sections.show', $section->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i></a>

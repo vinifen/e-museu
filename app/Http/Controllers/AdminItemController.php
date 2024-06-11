@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckLock;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateItemRequest;
@@ -16,12 +18,19 @@ use App\Models\Category;
 
 class AdminItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckLock::class)->only(['edit', 'update', 'destroy']);
+    }
+
     public function index(Request $request)
     {
         $searchColumn = $request->search_column;
         $search = $request->search;
         $sort = $request->sort;
         $order = $request->order;
+        $count = Item::count();
+
 
         $query = Item::query();
         $query->leftJoin('proprietaries', 'items.proprietary_id', '=', 'proprietaries.id');
@@ -63,7 +72,7 @@ class AdminItemController extends Controller
 
         $items = $query->paginate(50)->withQueryString();
 
-        return view('admin.items.index', compact('items'));
+        return view('admin.items.index', compact('items', 'count'));
     }
 
     public function show($id)
@@ -83,6 +92,8 @@ class AdminItemController extends Controller
 
     public function store(StoreItemRequest $request)
     {
+        $item = false;
+
         $rules = [
             'proprietary_id' => 'required|integer|numeric|exists:proprietaries,id',
             'validation' => 'required|boolean'
@@ -100,7 +111,14 @@ class AdminItemController extends Controller
             $data['image'] = $request->image->store('items');
 
         $data['identification_code'] = '000';
-        $item = Item::create($data);
+
+        DB::transaction(function () use ($data, $item){
+            $item = Item::create($data);
+
+            $data['identification_code'] = self::createIdentificationCode($item);
+
+            $item->update($data);
+        });
 
         return redirect()->route('admin.items.show', $item)->with('success', 'Item adicionado com sucesso.');
     }
@@ -108,6 +126,9 @@ class AdminItemController extends Controller
     public function edit($id)
     {
         $item = Item::find($id);
+
+        $this->lock($item);
+
         $sections = Section::orderBy('name')->get();
         $proprietaries = Proprietary::orderBy('full_name')->get();
 
@@ -126,12 +147,36 @@ class AdminItemController extends Controller
 
         $item->update($data);
 
+        $this->unlock($item);
+
         return redirect()->route('admin.items.show', $item)->with('success', 'Item atualizado com sucesso.');
     }
 
     public function destroy(Item $item)
     {
+        $this->unlock($item);
+
         $item->delete();
+
         return redirect()->route('admin.items.index')->with('success', 'Item excluído com sucesso.');
+    }
+
+    public function createIdentificationCode(Item $item)
+    {
+        $section = Section::find($item->section_id)->name;
+
+        $proprietaryCode = '';
+
+        if ($item->proprietary->contact == 'unicentro@unicentro.com')
+            $proprietaryCode = 'UNICENTRO';
+        elseif ($item->proprietary->contact == 'utfpr@utfpr.com')
+            $proprietaryCode = 'UTFPR';
+        else
+            $proprietaryCode = 'PREX';
+
+        $sectionCode = strtoupper(substr($section, 0, 2));
+        $sectionCode .= strtoupper(substr($section, -2));
+
+        return $proprietaryCode . '_' . $sectionCode . '_' . $item->id;
     }
 }

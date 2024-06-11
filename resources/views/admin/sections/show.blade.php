@@ -39,13 +39,13 @@
                         <div class="card mb-3">
                             <h5 class="card-header">Criado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($section->created_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($section->created_at)) }}</p>
                             </div>
                         </div>
                         <div class="card mb-3">
                             <h5 class="card-header">Atualizado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($section->updated_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($section->updated_at)) }}</p>
                             </div>
                         </div>
                     </div>

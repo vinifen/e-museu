@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckLock;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProprietaryRequest;
@@ -13,12 +14,18 @@ use App\Models\Proprietary;
 
 class AdminProprietaryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckLock::class)->only(['edit', 'update', 'destroy']);
+    }
+
     public function index(Request $request)
     {
         $searchColumn = $request->search_column;
         $search = $request->search;
         $sort = $request->sort;
         $order = $request->order;
+        $count = Proprietary::count();
 
         $query = Proprietary::query();
 
@@ -40,7 +47,7 @@ class AdminProprietaryController extends Controller
 
         $proprietaries = $query->paginate(50)->withQueryString();
 
-        return view('admin.proprietaries.index', compact('proprietaries'));
+        return view('admin.proprietaries.index', compact('proprietaries', 'count'));
     }
 
     public function show($id)
@@ -67,6 +74,8 @@ class AdminProprietaryController extends Controller
     {
         $proprietary = Proprietary::find($id);
 
+        $this->lock($proprietary);
+
         return view('admin.proprietaries.edit', compact('proprietary'));
     }
 
@@ -76,12 +85,17 @@ class AdminProprietaryController extends Controller
 
         $proprietary->update($data);
 
+        $this->unlock($proprietary);
+
         return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', 'Proprietário atualizado com sucesso.');
     }
 
     public function destroy(Proprietary $proprietary)
     {
+        $this->unlock($proprietary);
+
         $proprietary->delete();
+
         return redirect()->route('admin.proprietaries.index')->with('success', 'Proprietário excluído com sucesso.');
     }
 }

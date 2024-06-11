@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckLock;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ContributionRequest;
@@ -14,12 +15,18 @@ use App\Models\Section;
 
 class AdminContributionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckLock::class)->only(['edit', 'update', 'destroy']);
+    }
+
     public function index(Request $request)
     {
         $searchColumn = $request->search_column;
         $search = $request->search;
         $sort = $request->sort;
         $order = $request->order;
+        $count = Contribution::count();
 
         $query = Contribution::query();
         $query->leftJoin('proprietaries', 'contributions.proprietary_id', '=', 'proprietaries.id');
@@ -61,7 +68,7 @@ class AdminContributionController extends Controller
 
         $contributions = $query->paginate(50)->withQueryString();
 
-        return view('admin.contributions.index', compact('contributions'));
+        return view('admin.contributions.index', compact('contributions', 'count'));
     }
 
     public function show($id)
@@ -90,6 +97,9 @@ class AdminContributionController extends Controller
     public function edit($id)
     {
         $contribution = Contribution::find($id);
+
+        $this->lock($contribution);
+
         $proprietaries = Proprietary::orderBy('contact', 'asc')->get();
         $sections = Section::orderBy('name', 'asc')->get();
 
@@ -102,11 +112,14 @@ class AdminContributionController extends Controller
 
         $contribution->update($data);
 
+        $this->unlock($contribution);
+
         return redirect()->route('admin.contributions.show', $contribution)->with('success', 'Contribuição atualizada com sucesso.');
     }
 
     public function destroy(Contribution $contribution)
     {
+        $this->unlock($contribution);
         $contribution->delete();
         return redirect()->route('admin.contributions.index', $contribution)->with('success', 'Contribuição adicionada com sucesso.');
     }

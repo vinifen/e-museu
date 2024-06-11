@@ -20,6 +20,7 @@ class AdminItemTagController extends Controller
         $search = $request->search;
         $sort = $request->sort;
         $order = $request->order;
+        $count = TagItem::count();
 
         $query = TagItem::query();
         $query->leftJoin('items', 'tag_item.item_id', '=', 'items.id');
@@ -61,7 +62,7 @@ class AdminItemTagController extends Controller
 
         $itemTags = $query->paginate(50)->withQueryString();
 
-        return view('admin.item-tags.index', compact('itemTags'));
+        return view('admin.item-tags.index', compact('itemTags', 'count'));
     }
 
     public function show($id)

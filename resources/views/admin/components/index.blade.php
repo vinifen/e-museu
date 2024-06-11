@@ -8,7 +8,7 @@
             </div>
         @endif
         <div class="card mb-3">
-            <h2 class="card-header">Listar Componentes</h2>
+            <h2 class="card-header">Componentes - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
@@ -52,8 +52,8 @@
                             <td>{{ $component->item->name }}</td>
                             <td>{{ $component->component->name }}</td>
                             <td>@if($component->item_component_validation == 1) Sim @else Não @endif</td>
-                            <td>{{ date('d-m-Y', strtotime($component->item_component_created)) }}</td>
-                            <td>{{ date('d-m-Y', strtotime($component->item_component_updated)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($component->item_component_created)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($component->item_component_updated)) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
                                     <a href="{{ route('admin.components.show', $component->id) }}" type="button" class="btn btn-primary me-1" data-toggle="tooltip" data-placement="top" title="Visualizar Componente"><i class="bi bi-eye-fill"></i></a>

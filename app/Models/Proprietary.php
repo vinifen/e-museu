@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
 class Proprietary extends Model
 {
     use HasFactory;
@@ -20,5 +22,10 @@ class Proprietary extends Model
 
     public function items() {
         return $this->hasMany(Item::class);
+    }
+
+    public function locks(): MorphMany
+    {
+        return $this->morphMany(Lock::class, 'lockable');
     }
 }

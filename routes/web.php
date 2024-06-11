@@ -14,7 +14,10 @@ use App\Http\Controllers\AdminComponentController;
 use App\Http\Controllers\AdminItemTagController;
 use App\Http\Controllers\AdminExtraController;
 use App\Http\Controllers\AdminContributionController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -48,11 +51,9 @@ Route::get('/check-contact', [QueryController::class, 'checkContact'])->name('ch
 Route::get('/get-tags', [QueryController::class, 'getTags'])->name('get-tags');
 Route::get('/get-items', [QueryController::class, 'getItems'])->name('get-items');
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
 Route::group(['middleware' => 'auth'], function () {
+    Route::redirect('/admin', '/admin/items');
+
     Route::resource('admin/items', AdminItemController::class)->names([
         'index' => 'admin.items.index',
         'create' => 'admin.items.create',
@@ -140,4 +141,16 @@ Route::group(['middleware' => 'auth'], function () {
         'update' => 'admin.contributions.update',
         'destroy' => 'admin.contributions.destroy',
     ]);
+
+    Route::resource('admin/users', AdminUserController::class)->names([
+        'index' => 'admin.users.index',
+        'create' => 'admin.users.create',
+        'store' => 'admin.users.store',
+        'show' => 'admin.users.show',
+        'destroy' => 'admin.users.destroy',
+    ]);
 });
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

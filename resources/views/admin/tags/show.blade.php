@@ -43,13 +43,13 @@
                         <div class="card mb-3">
                             <h5 class="card-header">Criado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($tag->created_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($tag->created_at)) }}</p>
                             </div>
                         </div>
                         <div class="card mb-3">
                             <h5 class="card-header">Atualizado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($tag->updated_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($tag->updated_at)) }}</p>
                             </div>
                         </div>
                     </div>
@@ -59,8 +59,8 @@
                             <div class="card-body">
                                 <strong>Id: </strong><p class="ms-3">{{ $tag->category->id }}</p>
                                 <strong>Nome: </strong><p class="card-text">{{ $tag->category->name }}</p>
-                                <strong>Criado em: </strong><p class="ms-2">{{ date('d-m-Y', strtotime($tag->category->created_at)) }}</p>
-                                <strong>Atualizado em: </strong><p class="ms-2">{{ date('d-m-Y', strtotime($tag->category->updated_at)) }}</p>
+                                <strong>Criado em: </strong><p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($tag->category->created_at)) }}</p>
+                                <strong>Atualizado em: </strong><p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($tag->category->updated_at)) }}</p>
                                 <div class="d-flex">
                                     <a href="{{ route('admin.categories.show', $tag->category->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i> Visualizar</a>
                                     <a href="{{ route('admin.categories.edit', $tag->category->id) }}" type="button" class="btn btn-warning me-1"><i class="bi bi-pencil-fill"></i> Editar</a>

@@ -13,15 +13,15 @@
             </div>
         @endforeach
         <div class="card mb-3">
-            <h2 class="card-header">Categorias - {{ $count }} Cadastrados</h2>
+            <h2 class="card-header">Administradores - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
-                <a href="{{ route('admin.categories.create') }}" type="button" class="btn btn-success"><i class="bi bi-plus-circle"></i> Adicionar Categoria</a>
-              <form action="{{ route('admin.categories.index') }}" class="d-flex" method="GET">
+                <a href="{{ route('admin.users.create') }}" type="button" class="btn btn-success"><i class="bi bi-plus-circle"></i> Adicionar Administrador</a>
+              <form action="{{ route('admin.users.index') }}" class="d-flex" method="GET">
                 <select class="form-select me-2" id="search_column" name="search_column">
                     <option value="id" @if( request()->query("search_column") == 'id' ) selected @endif>Id</option>
-                    <option value="name" @if( request()->query("search_column") == 'name' ) selected @endif>Nome</option>
+                    <option value="username" @if( request()->query("search_column") == 'name' ) selected @endif>Nome de Usuário</option>
                     <option value="created_at" @if( request()->query("search_column") == 'created_at' ) selected @endif>Criado em</option>
                     <option value="updated_at" @if( request()->query("search_column") == 'updated_at' ) selected @endif>Atualizado em</option>
                 </select>
@@ -34,10 +34,10 @@
             <div class="col">
                 <table class="table table-hover table-bordered">
                     <thead>
-                        <form action="{{ route('admin.categories.index') }}" method="GET">
+                        <form action="{{ route('admin.users.index') }}" method="GET">
                             <tr>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit" name="sort" value="id">Id</button></th>
-                                <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit" name="sort" value="name">Nome</button></th>
+                                <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit" name="sort" value="username">Nome de Usuário</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit" name="sort" value="created_at">Criado em</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit" name="sort" value="updated_at">Atualizado em</button></th>
                             </tr>
@@ -47,20 +47,19 @@
                         </form>
                     </thead>
                     <tbody>
-                    @foreach($categories as $category)
-                        <tr class="@if(!$category->locks->isEmpty() && $category->locks->first()->user_id != auth()->user()->id) table-warning @endif">
-                            <th scope="row">{{ $category->id }}</th>
-                            <td>{{ $category->name }}</td>
-                            <td>{{ date('d-m-Y H:i:s', strtotime($category->created_at)) }}</td>
-                            <td>{{ date('d-m-Y H:i:s', strtotime($category->updated_at)) }}</td>
+                    @foreach($users as $user)
+                        <tr>
+                            <th scope="row">{{ $user->id }}</th>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($user->created_at)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($user->updated_at)) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
-                                    <a href="{{ route('admin.categories.show', $category->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i></a>
-                                    <a href="{{ route('admin.categories.edit', $category->id) }}" type="button" class="btn btn-warning me-1"><i class="bi bi-pencil-fill"></i></a>
-                                    <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
+                                    <a href="{{ route('admin.users.show', $user->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i></a>
+                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger deleteCategoryButton"><i class="bi bi-trash-fill"></i>
+                                    <button type="submit" class="btn btn-danger deleteUserButton"><i class="bi bi-trash-fill"></i>
                                 </form>
                                 </div>
                             </td>
@@ -70,8 +69,8 @@
                 </table>
             </div>
         </div>
-        {{ $categories->links('pagination::bootstrap-5') }}
+        {{ $users->links('pagination::bootstrap-5') }}
     </div>
 
-    <script src="{{ asset('script/deleteCategoryWarning.js') }}"></script>
+    <script src="{{ asset('script/deleteUserWarning.js') }}"></script>
 @endsection

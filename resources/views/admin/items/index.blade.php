@@ -7,8 +7,13 @@
                 {{ session('success') }}
             </div>
         @endif
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger" role="alert">
+                {{ $error }}
+            </div>
+        @endforeach
         <div class="card mb-3">
-            <h2 class="card-header">Listar Itens</h2>
+            <h2 class="card-header">Itens - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
@@ -61,7 +66,7 @@
                     </thead>
                     <tbody>
                     @foreach($items as $item)
-                        <tr>
+                        <tr class="@if(!$item->locks->isEmpty() && $item->locks->first()->user_id != auth()->user()->id) table-warning @endif">
                             <th scope="row">{{ $item->id }}</th>
                             <td>{{ $item->name }}</td>
                             <td>{{ Str::limit($item->description, 150) }}</td>
@@ -72,8 +77,8 @@
                             <td>@if($item->item_validation == 1) Sim @else Não @endif</td>
                             <td>{{ $item->section->name }}</td>
                             <td>{{ $item->proprietary->contact }}</td>
-                            <td>{{ date('d-m-Y', strtotime($item->item_created)) }}</td>
-                            <td>{{ date('d-m-Y', strtotime($item->item_updated)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($item->item_created)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($item->item_updated)) }}</td>
                             <td>
                                 <a href="{{ route('admin.items.show', $item->id) }}" type="button" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
                                 <a href="{{ route('admin.items.edit', $item->id) }}" type="button" class="btn btn-warning my-1"><i class="bi bi-pencil-fill"></i></a>

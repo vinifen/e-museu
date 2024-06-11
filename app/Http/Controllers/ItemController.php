@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Rules\DifferentIds;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\TagRequest;
@@ -155,14 +156,18 @@ class ItemController extends Controller
 
     public function storeItem($itemData, $proprietary)
     {
+        $item = false;
         $itemData['proprietary_id'] = $proprietary->id;
         $itemData['identification_code'] = '000';
 
-        $item = Item::create($itemData);
+        DB::transaction(function () use ($itemData, $item){
 
-        $itemData['identification_code'] = self::createIdentificationCode($item);
+            $item = Item::create($itemData);
 
-        $item->update($itemData);
+            $itemData['identification_code'] = self::createIdentificationCode($item);
+
+            $item->update($itemData);
+        });
 
         return $item;
     }

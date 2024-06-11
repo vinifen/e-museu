@@ -51,13 +51,13 @@
                         <div class="card mb-3">
                             <h5 class="card-header">Criado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($proprietary->created_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($proprietary->created_at)) }}</p>
                             </div>
                         </div>
                         <div class="card mb-3">
                             <h5 class="card-header">Atualizado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($proprietary->updated_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($proprietary->updated_at)) }}</p>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                     <h5 class="card-header d-flex justify-content-between">Itens Adicionados</h5>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            @foreach($proprietary->items as $item)
+                            @foreach($proprietary->items()->paginate(15) as $item)
                                 <li class="list-group-item">
                                     <strong>Id: </strong><p class="ms-3">{{ $item->id }}</p>
                                     <strong>Nome: </strong><p class="card-text">{{ $item->name }}</p>
@@ -81,8 +81,8 @@
                                     <strong>Validado: </strong><p class="ms-3">@if($item->validation == 1) Sim @else Não @endif</p>
                                     <strong>Seção: </strong><p class="card-text">{{ $item->section->name }}</p>
                                     <strong>Proprietário: </strong><p class="card-text">{{ $item->proprietary->full_name }}</p>
-                                    <strong>Criado em: </strong><p class="ms-2">{{ date('d-m-Y', strtotime($item->created_at)) }}</p>
-                                    <strong>Atualizado em: </strong><p class="ms-2">{{ date('d-m-Y', strtotime($item->updated_at)) }}</p>
+                                    <strong>Criado em: </strong><p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($item->created_at)) }}</p>
+                                    <strong>Atualizado em: </strong><p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}</p>
                                     <div class="d-flex">
                                         <a href="{{ route('admin.items.show', $item->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i> Visualizar</a>
                                         <a href="{{ route('admin.items.edit', $item->id) }}" type="button" class="btn btn-warning me-1"><i class="bi bi-pencil-fill"></i> Editar</a>
@@ -97,6 +97,7 @@
                         </ul>
                     </div>
                 </div>
+                {{ $proprietary->items()->paginate(15)->links() }}
             </div>
         </div>
     </div>

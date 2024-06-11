@@ -45,13 +45,13 @@
                         <div class="card mb-3">
                             <h5 class="card-header">Criado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($extra->created_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($extra->created_at)) }}</p>
                             </div>
                         </div>
                         <div class="card mb-3">
                             <h5 class="card-header">Atualizado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($extra->updated_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($extra->updated_at)) }}</p>
                             </div>
                         </div>
                         <div class="card mb-3">
@@ -61,8 +61,8 @@
                                 <strong>Nome completo: </strong><p class="ms-3">{{ $extra->proprietary->full_name }}</p>
                                 <strong>Contato: </strong><p class="ms-3">{{ $extra->proprietary->contact }}</p>
                                 <strong>Bloqueado: </strong><p class="ms-3">@if($extra->proprietary->blocked == 1) Sim @else Não @endif</p>
-                                <strong>Criado em: </strong><p class="ms-3">{{ date('d-m-Y', strtotime($extra->proprietary->created_at)) }}</p>
-                                <strong>Atualizado em: </strong><p class="ms-3">{{ date('d-m-Y', strtotime($extra->proprietary->updated_at)) }}</p>
+                                <strong>Criado em: </strong><p class="ms-3">{{ date('d-m-Y H:i:s', strtotime($extra->proprietary->created_at)) }}</p>
+                                <strong>Atualizado em: </strong><p class="ms-3">{{ date('d-m-Y H:i:s', strtotime($extra->proprietary->updated_at)) }}</p>
                                 <div class="d-flex">
                                     <a href="{{ route('admin.proprietaries.show', $extra->proprietary->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i> Visualizar</a>
                                     <a href="{{ route('admin.proprietaries.edit', $extra->proprietary->id) }}" type="button" class="btn btn-warning me-1"><i class="bi bi-pencil-fill"></i> Editar</a>
@@ -92,8 +92,8 @@
                         <strong>Validado: </strong><p class="ms-3">@if($extra->item->validation == 1) Sim @else Não @endif</p>
                         <strong>Seção: </strong><p class="card-text">{{ $extra->item->section->name }}</p>
                         <strong>Proprietário: </strong><p class="card-text">{{ $extra->item->proprietary->name }}</p>
-                        <strong>Criado em: </strong><p class="ms-2">{{ date('d-m-Y', strtotime($extra->item->created_at)) }}</p>
-                        <strong>Atualizado em: </strong><p class="ms-2">{{ date('d-m-Y', strtotime($extra->item->updated_at)) }}</p>
+                        <strong>Criado em: </strong><p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($extra->item->created_at)) }}</p>
+                        <strong>Atualizado em: </strong><p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($extra->item->updated_at)) }}</p>
                         <div class="d-flex">
                             <a href="{{ route('admin.items.show', $extra->item->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i> Visualizar</a>
                             <a href="{{ route('admin.items.edit', $extra->item->id) }}" type="button" class="btn btn-warning me-1"><i class="bi bi-pencil-fill"></i> Editar</a>

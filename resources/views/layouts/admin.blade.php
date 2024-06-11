@@ -79,6 +79,11 @@
                             Associações de Item e Etiqueta
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('admin.users.index') }}" class="nav-link @if(Str::startsWith(Route::currentRouteName(), 'admin.users')) active @endif" aria-current="page">
+                            Administradores
+                            </a>
+                        </li>
                     </ul>
                     <div class="dropdown mt-2">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle ms-3" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">

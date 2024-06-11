@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CheckLock;
+
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 
@@ -9,10 +11,15 @@ use App\Models\Category;
 
 class AdminCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckLock::class)->only(['edit', 'update', 'destroy']);
+    }
 
     public function index(Request $request)
     {
         $query = Category::query();
+        $count = Category::count();
 
         if ($request->search_column && $request->search)
             $query->where($request->search_column, 'LIKE', "%{$request->search}%");
@@ -26,7 +33,7 @@ class AdminCategoryController extends Controller
 
         $categories = $query->paginate(50)->withQueryString();
 
-        return view('admin.categories.index', compact('categories'));
+        return view('admin.categories.index', compact('categories', 'count'));
     }
 
     public function create()
@@ -53,6 +60,8 @@ class AdminCategoryController extends Controller
     {
         $category = Category::find($id);
 
+        $this->lock($category);
+
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -62,12 +71,17 @@ class AdminCategoryController extends Controller
 
         $category->update($data);
 
+        $this->unlock($category);
+
         return redirect()->route('admin.categories.show', $category)->with('success', 'Categoria atualizada com sucesso.');
     }
 
     public function destroy(Category $category)
     {
+        $this->unlock($category);
+
         $category->delete();
+
         return redirect()->route('admin.categories.index')->with('success', 'Categoria excluída com sucesso.');
     }
 }

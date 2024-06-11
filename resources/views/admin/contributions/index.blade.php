@@ -7,8 +7,13 @@
                 {{ session('success') }}
             </div>
         @endif
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger" role="alert">
+                {{ $error }}
+            </div>
+        @endforeach
         <div class="card mb-3">
-            <h2 class="card-header">Listar Contribuições</h2>
+            <h2 class="card-header">Contribuições - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
@@ -49,14 +54,14 @@
                     </thead>
                     <tbody>
                     @foreach($contributions as $contribution)
-                        <tr>
+                        <tr class="@if(!$contribution->locks->isEmpty() && $contribution->locks->first()->user_id != auth()->user()->id) table-warning @endif">
                             <th scope="row">{{ $contribution->id }}</th>
                             <td>{{ $contribution->content }}</td>
                             <td>{{ $contribution->item->name }}</td>
                             <td>{{ $contribution->proprietary->contact }}</td>
                             <td>@if($contribution->contribution_validation == 1) Sim @else Não @endif</td>
-                            <td>{{ date('d-m-Y', strtotime($contribution->contribution_created)) }}</td>
-                            <td>{{ date('d-m-Y', strtotime($contribution->contribution_updated)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($contribution->contribution_created)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($contribution->contribution_updated)) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
                                     <a href="{{ route('admin.contributions.show', $contribution->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i></a>

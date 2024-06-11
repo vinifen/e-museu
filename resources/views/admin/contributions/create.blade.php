@@ -43,8 +43,6 @@
                     <div class="mb-3">
                         <label for="proprietary_id" class="form-label">Proprietário</label>
                         <select class="form-select @error('proprietary_id') is-invalid @enderror" id="proprietary_id" name="proprietary_id">
-                            <option value="uni" {{ old('proprietary_id') == 'uni' ? 'selected' : '' }}>UNICENTRO</option>
-                            <option value="utf" {{ old('proprietary_id') == 'utf' ? 'selected' : '' }}>UTFPR</option>
                             @foreach($proprietaries as $proprietary)
                             <option value="{{ $proprietary->id }}" {{ old('proprietary_id') == $proprietary->id ? 'selected' : '' }}>{{ $proprietary->contact }}</option>
                             @endforeach

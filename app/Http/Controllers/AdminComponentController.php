@@ -19,6 +19,7 @@ class AdminComponentController extends Controller
         $search = $request->search;
         $sort = $request->sort;
         $order = $request->order;
+        $count = ItemCOmponent::count();
 
         $query = ItemComponent::query();
         $query->leftJoin('items as item', 'item_component.item_id', '=', 'item.id');
@@ -60,7 +61,7 @@ class AdminComponentController extends Controller
 
         $components = $query->paginate(50)->withQueryString();
 
-        return view('admin.components.index', compact('components'));
+        return view('admin.components.index', compact('components','count'));
     }
 
     public function show($id)

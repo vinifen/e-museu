@@ -8,7 +8,7 @@
             </div>
         @endif
         <div class="card mb-3">
-            <h2 class="card-header">Listar Relacionamentos de Item e Etiqueta</h2>
+            <h2 class="card-header">Relacionamentos de Item e Etiqueta - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
@@ -53,8 +53,8 @@
                             <td>{{ $itemTag->item->name }}</td>
                             <td>{{ $itemTag->tag->name }}</td>
                             <td>@if($itemTag->tag_item_validation == 1) Sim @else Não @endif</td>
-                            <td>{{ date('d-m-Y', strtotime($itemTag->tag_item_created)) }}</td>
-                            <td>{{ date('d-m-Y', strtotime($itemTag->tag_item_updated)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($itemTag->tag_item_created)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($itemTag->tag_item_updated)) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
                                     <a href="{{ route('admin.item-tags.show', $itemTag->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i></a>

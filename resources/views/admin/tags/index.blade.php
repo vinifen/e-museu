@@ -7,8 +7,13 @@
                 {{ session('success') }}
             </div>
         @endif
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger" role="alert">
+                {{ $error }}
+            </div>
+        @endforeach
         <div class="card mb-3">
-            <h2 class="card-header">Listar Etiquetas</h2>
+            <h2 class="card-header">Etiquetas - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
@@ -47,13 +52,13 @@
                     </thead>
                     <tbody>
                     @foreach($tags as $tag)
-                        <tr>
+                        <tr class="@if(!$tag->locks->isEmpty() && $tag->locks->first()->user_id != auth()->user()->id) table-warning @endif">
                             <th scope="row">{{ $tag->id }}</th>
                             <td>{{ $tag->tag_name }}</td>
                             <td>@if($tag->validation == 1) Sim @else Não @endif</td>
                             <td>{{ $tag->category->name }}</td>
-                            <td>{{ date('d-m-Y', strtotime($tag->tag_created)) }}</td>
-                            <td>{{ date('d-m-Y', strtotime($tag->tag_updated)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($tag->tag_created)) }}</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($tag->tag_updated)) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
                                     <a href="{{ route('admin.tags.show', $tag->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i></a>

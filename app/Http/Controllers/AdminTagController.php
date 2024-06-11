@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckLock;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SingleTagRequest;
@@ -13,12 +14,18 @@ use App\Models\Category;
 
 class AdminTagController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckLock::class)->only(['edit', 'update', 'destroy']);
+    }
+
     public function index(Request $request)
     {
         $searchColumn = $request->search_column;
         $search = $request->search;
         $sort = $request->sort;
         $order = $request->order;
+        $count = Tag::count();
 
         $query = Tag::query();
         $query->leftJoin('categories', 'tags.category_id', '=', 'categories.id');
@@ -52,7 +59,7 @@ class AdminTagController extends Controller
 
         $tags = $query->paginate(50)->withQueryString();;
 
-        return view('admin.tags.index', compact('tags'));
+        return view('admin.tags.index', compact('tags', 'count'));
     }
 
     public function show($id)
@@ -83,6 +90,8 @@ class AdminTagController extends Controller
 
         $categories = Category::orderBy('name', 'asc')->get();
 
+        $this->lock($tag);
+
         return view('admin.tags.edit', compact('tag', 'categories'));
     }
 
@@ -92,12 +101,17 @@ class AdminTagController extends Controller
 
         $tag->update($data);
 
+        $this->unlock($tag);
+
         return redirect()->route('admin.tags.show', $tag)->with('success', 'Etiqueta atualizada com sucesso.');
     }
 
     public function destroy(Tag $tag)
     {
+        $this->unlock($tag);
+
         $tag->delete();
+
         return redirect()->route('admin.tags.index')->with('success', 'Etiqueta excluída com sucesso.');
     }
 }

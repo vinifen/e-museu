@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckLock;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SingleExtraRequest;
@@ -14,12 +15,18 @@ use App\Models\Section;
 
 class AdminExtraController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckLock::class)->only(['edit', 'update', 'destroy']);
+    }
+
     public function index(Request $request)
     {
         $searchColumn = $request->search_column;
         $search = $request->search;
         $sort = $request->sort;
         $order = $request->order;
+        $count = Extra::count();
 
         $query = Extra::query();
         $query->leftJoin('proprietaries', 'extras.proprietary_id', '=', 'proprietaries.id');
@@ -61,7 +68,7 @@ class AdminExtraController extends Controller
 
         $extras = $query->paginate(50)->withQueryString();
 
-        return view('admin.extras.index', compact('extras'));
+        return view('admin.extras.index', compact('extras', 'count'));
     }
 
     public function show($id)
@@ -93,6 +100,8 @@ class AdminExtraController extends Controller
         $proprietaries = Proprietary::orderBy('contact', 'asc')->get();
         $sections = Section::orderBy('name', 'asc')->get();
 
+        $this->lock($extra);
+
         return view('admin.extras.edit', compact('extra', 'sections', 'proprietaries'));
     }
 
@@ -102,11 +111,15 @@ class AdminExtraController extends Controller
 
         $extra->update($data);
 
+        $this->unlock($extra);
+
         return redirect()->route('admin.extras.show', $extra)->with('success', 'Curiosidade extra atualizada com sucesso.');
     }
 
     public function destroy(Extra $extra)
     {
+        $this->unlock($extra);
+
         $extra->delete();
         return redirect()->route('admin.extras.index')->with('success', 'Curiosidade extra excluída com sucesso.');
     }

@@ -75,13 +75,13 @@
                         <div class="card mb-3">
                             <h5 class="card-header">Criado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($item->created_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($item->created_at)) }}</p>
                             </div>
                         </div>
                         <div class="card mb-3">
                             <h5 class="card-header">Atualizado em</h5>
                             <div class="card-body">
-                                <p class="ms-2">{{ date('d-m-Y', strtotime($item->updated_at)) }}</p>
+                                <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}</p>
                             </div>
                         </div>
                         <div class="card mb-3">
@@ -202,8 +202,8 @@
                                             <strong>Item: </strong><p class="ms-3">{{ $tagItem->item->name }}</p>
                                             <strong>Etiqueta: </strong><p class="ms-3">{{ $tagItem->Tag->name }}</p>
                                             <strong>Validado: </strong><p class="ms-3">@if($tagItem->validation == 1) Sim @else Não @endif</p>
-                                            <strong>Criado em: </strong><p class="ms-3">{{ date('d-m-Y', strtotime($tagItem->created_at)) }}</p>
-                                            <strong>Atualizado em: </strong><p class="ms-3">{{ date('d-m-Y', strtotime($tagItem->updated_at)) }}</p>
+                                            <strong>Criado em: </strong><p class="ms-3">{{ date('d-m-Y H:i:s', strtotime($tagItem->created_at)) }}</p>
+                                            <strong>Atualizado em: </strong><p class="ms-3">{{ date('d-m-Y H:i:s', strtotime($tagItem->updated_at)) }}</p>
                                             <div class="d-flex">
                                                 <a href="{{ route('admin.item-tags.show', $tagItem->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i> Visualizar</a>
                                                 <form action="{{ route('admin.item-tags.update', $tagItem->id) }}" method="POST">
@@ -234,8 +234,8 @@
                                             <strong>Item principal: </strong><p class="ms-3">{{ $itemComponent->item->name }}</p>
                                             <strong>Componente: </strong><p class="ms-3">{{ $itemComponent->component->name }}</p>
                                             <strong>Validado: </strong><p class="ms-3">@if($itemComponent->validation == 1) Sim @else Não @endif</p>
-                                            <strong>Criado em: </strong><p class="ms-3">{{ date('d-m-Y', strtotime($itemComponent->created_at)) }}</p>
-                                            <strong>Atualizado em: </strong><p class="ms-3">{{ date('d-m-Y', strtotime($itemComponent->updated_at)) }}</p>
+                                            <strong>Criado em: </strong><p class="ms-3">{{ date('d-m-Y H:i:s', strtotime($itemComponent->created_at)) }}</p>
+                                            <strong>Atualizado em: </strong><p class="ms-3">{{ date('d-m-Y H:i:s', strtotime($itemComponent->updated_at)) }}</p>
                                             <div class="d-flex">
                                                 <a href="{{ route('admin.components.show', $itemComponent->id) }}" type="button" class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i> Visualizar</a>
                                                 <form action="{{ route('admin.components.update', $itemComponent->id) }}" method="POST">
