@@ -31,6 +31,7 @@
                             type="text"
                             name="name"
                             id="name"
+                            autocomplete="off"
                             placeholder=""
                             value="{{ old('name') }}"
                             required
@@ -44,7 +45,7 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <label for="name">
+                        <label for="section_id">
                             <h5>Categoria
                                 <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus" data-bs-content="De qual categoria, o item a ser cadastrado faz parte?">
                                     <i class="bi bi-info-circle-fill h4 ms-1" style="color: #ED6E38; cursor: pointer;"></i>
