@@ -40,7 +40,7 @@
                         <div class="card mb-3">
                             <h5 class="card-header">Imagem</h5>
                             <div class="card-body">
-                                <img src="{{ url("storage/{$item->image}") }}" class="img-thumbnail clickable-image myImg"
+                                <img src="{{ url("{$item->image}") }}" class="img-thumbnail clickable-image myImg"
                                     alt="Imagem do item">
                             </div>
                         </div>

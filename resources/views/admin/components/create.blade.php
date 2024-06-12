@@ -131,5 +131,5 @@
         });
     </script>
 
-    <script src="{{ asset('script/getComponentBySection.js') }}"></script>
+    <script src="{{ asset('script/getComponentsBySection.js') }}"></script>
 @endsection

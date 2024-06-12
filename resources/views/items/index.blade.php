@@ -35,7 +35,7 @@
                         <div class="col pb-5 d-flex justify-content-center">
                             <a href={{ route('items.show', $item->id) }} class="card d-flex card-anim"
                                 style="width: 18rem; height: 28rem;">
-                                <img src="{{ url("storage/{$item->image}") }}" class="card-img-top p-1"
+                                <img src="{{ url("{$item->image}") }}" class="card-img-top p-1"
                                     style="height: 12rem; object-fit: cover;" alt="Imagem do item">
                                 <div class="card-body">
                                     <h6 class="card-title fw-bold border-dark">{{ Str::limit($item->name, 40) }}</h6>

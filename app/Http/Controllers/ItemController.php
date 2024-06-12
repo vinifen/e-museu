@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Rules\DifferentIds;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\TagRequest;
@@ -119,7 +120,8 @@ class ItemController extends Controller
             $proprietary = self::storeProprietary($proprietaryData);
 
         if ($request->image) {
-            $itemData['image'] = $request->image->store('items');
+            $path = $request->image->store('items');
+            $itemData['image'] = Storage::disk('s3')->url($path);
         }
 
         $item = self::storeItem($itemData, $proprietary);

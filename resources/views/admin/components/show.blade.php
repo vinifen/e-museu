@@ -71,7 +71,7 @@
                         <p class="ms-3">{{ $component->item->id }}</p>
                         <strong>Nome: </strong>
                         <p class="card-text">{{ $component->item->name }}</p>
-                        <img src="{{ url("storage/{$component->item->image}") }}" class="img-thumbnail clickable-image"
+                        <img src="{{ url("{$component->item->image}") }}" class="img-thumbnail clickable-image"
                             alt="Imagem do item"
                             style="aspect-ratio: 1 / 1; width: 100%; max-height: 100%; object-fit: cover">
                         <strong>Descrição: </strong>
@@ -123,7 +123,7 @@
                         <p class="ms-3">{{ $component->component->id }}</p>
                         <strong>Nome: </strong>
                         <p class="card-text">{{ $component->component->name }}</p>
-                        <img src="{{ url("storage/{$component->component->image}") }}"
+                        <img src="{{ url("{$component->component->image}") }}"
                             class="img-thumbnail clickable-image" alt="Imagem do componente"
                             style="aspect-ratio: 1 / 1; width: 100%; max-height: 100%; object-fit: cover">
                         <strong>Descrição: </strong>

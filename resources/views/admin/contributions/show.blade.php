@@ -115,7 +115,7 @@
                         <p class="ms-3">{{ $contribution->item->id }}</p>
                         <strong>Nome: </strong>
                         <p class="card-text">{{ $contribution->item->name }}</p>
-                        <img src="{{ url("storage/{$contribution->item->image}") }}" class="img-thumbnail clickable-image"
+                        <img src="{{ url("{$contribution->item->image}") }}" class="img-thumbnail clickable-image"
                             alt="Imagem do item"
                             style="aspect-ratio: 1 / 1; width: 100%; max-height: 100%; object-fit: cover">
                         <strong>Descrição: </strong>

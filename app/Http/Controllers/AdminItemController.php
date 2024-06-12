@@ -107,8 +107,10 @@ class AdminItemController extends Controller
 
         $data = $request->all();
 
-        if ($request->image)
-            $data['image'] = $request->image->store('items');
+        if ($request->image) {
+            $path = $request->image->store('items');
+            $data['image'] = Storage::disk('s3')->url($path);
+        }
 
         $data['identification_code'] = '000';
 

@@ -59,7 +59,7 @@
                         <h5>{{ $item->name }}</h5>
                     </div>
                     <div style="overflow:hidden;">
-                        <img src="{{ url("storage/{$item->image}") }}" class="card-img-top p-1 clickable-image"
+                        <img src="{{ url("{$item->image}") }}" class="card-img-top p-1 clickable-image"
                             style="aspect-ratio: 1 / 1; width: 100%; max-height: 100%; object-fit: cover"
                             alt="Imagem do item">
                     </div>
@@ -113,7 +113,7 @@
                                     <a href={{ route('items.show', $ItemComponent->component->id) }}>
                                         <div class="card-anim component-button p-1">
                                             <div class="">
-                                                <img src="{{ url("storage/{$ItemComponent->component->image}") }}"
+                                                <img src="{{ url("{$ItemComponent->component->image}") }}"
                                                     class="component-img p-1" alt="Imagem do componente">
                                             </div>
                                             <div class="p-1">
@@ -193,7 +193,7 @@
                                                 </div>
                                                 <div class="d-md-flex">
                                                     <div>
-                                                        <img src="{{ url("storage/{$timelineItem->image}") }}"
+                                                        <img src="{{ url("{$timelineItem->image}") }}"
                                                             class="card-img-top p-1 clickable-image"
                                                             style="width: 12rem; height: 12rem; object-fit: cover"
                                                             alt="Imagem do item da série">
