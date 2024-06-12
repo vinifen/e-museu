@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckLock;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateItemRequest;
