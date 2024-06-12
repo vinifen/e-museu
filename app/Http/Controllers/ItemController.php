@@ -119,10 +119,16 @@ class ItemController extends Controller
         if (!$proprietary)
             $proprietary = self::storeProprietary($proprietaryData);
 
+        if ($proprietary->blocked == 1)
+            return back()->withErrors(['Este usuário não possui permissão para registrar itens.']);
+
         if ($request->image) {
             $path = $request->image->store('items');
             $itemData['image'] = Storage::disk('s3')->url($path);
         }
+
+        $path = $request->image->store('items');
+        $data['image'] = Storage::disk('s3')->url($path);
 
         $item = self::storeItem($itemData, $proprietary);
 
@@ -261,6 +267,9 @@ class ItemController extends Controller
         if (!$proprietary)
             $proprietary = self::storeProprietary($proprietary);
 
+        if ($proprietary->blocked == 1)
+            return back()->withErrors(['Este usuário não possui permissão para registrar itens.']);
+
         $data['proprietary_id'] = $proprietary->id;
 
         $extra = Extra::create($data);
@@ -306,6 +315,9 @@ class ItemController extends Controller
 
         if (!$proprietary)
             $proprietary = self::storeProprietary($proprietaryData);
+
+        if ($proprietary->blocked == 1)
+            return back()->withErrors(['Este usuário não possui permissão para registrar itens.']);
 
         $data['proprietary_id'] = $proprietary->id;
 
