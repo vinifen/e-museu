@@ -142,7 +142,8 @@ class AdminItemController extends Controller
         $data = $request->validated();
 
         if ($request->image) {
-            $data['image'] = $request->image->store('items');
+            $path = $request->image->store('items');
+            $data['image'] = Storage::disk('s3')->url($path);
         } else {
             unset($data['image']);
         }
