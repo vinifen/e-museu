@@ -1,6 +1,18 @@
 @extends('layouts.app')
 @section('title', $item->name)
 
+@php
+    $hasSeries = $item->tagItems->filter(function ($tagItem) {
+        return $tagItem->tag->category->name == 'Série' && $tagItem->validation == true;
+    })->isEmpty();
+@endphp
+
+@php
+    $hasComponents = $item->ItemComponents->filter(function ($itemComponent) {
+        return $itemComponent->validation == true;
+    })->isEmpty();
+@endphp
+
 @section('content')
     <div class="container main-container mb-auto">
         @if (session('success'))
@@ -115,6 +127,11 @@
                                 </div>
                             @endif
                         @endforeach
+                        @if ($hasComponents)
+                            <div class="m-4">
+                                <strong>No momento este item não apresenta componentes. Nos ajude relacionando um componente com este item!</strong>
+                            </div>
+                        @endif
                     </div>
                     <div>
                         <h5>Créditos</h5>
@@ -151,7 +168,13 @@
                 </div>
                 <h3>História</h3>
                 <div class="m-4">
-                    <p>{{ $item->history }}</p>
+                    @if ($item->history == null)
+                        <div class="m-4">
+                            <strong>No momento este item não pertence a uma série. Nos ajude com uma contribuição!</strong>
+                        </div>
+                    @else
+                        <p>{{ $item->history }}</p>
+                    @endif
                 </div>
                 <h3>Linhas do Tempo</h3>
                 @foreach ($item->tagItems as $tagItem)
@@ -192,7 +215,7 @@
                         @endif
                     @endif
                 @endforeach
-                @if (empty($item->tagItems))
+                @if ($hasSeries)
                     <div class="m-4">
                         <strong>No momento este item não pertence a uma série. Nos ajude adicionando uma etiqueta!</strong>
                     </div>
