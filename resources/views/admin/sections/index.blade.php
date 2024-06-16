@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Listar seções')
+@section('title', 'Listar categorias de item')
 
 @section('content')
     <div class="mb-auto container-fluid">
@@ -19,7 +19,7 @@
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
                 <a href="{{ route('admin.sections.create') }}" type="button" class="btn btn-success"><i
-                        class="bi bi-plus-circle"></i> Adicionar Seção</a>
+                        class="bi bi-plus-circle"></i> Adicionar Categoria de Item</a>
                 <form action="{{ route('admin.sections.index') }}" class="d-flex" method="GET">
                     <select class="form-select me-2" id="search_column" name="search_column">
                         <option value="id" @if (request()->query('search_column') == 'id') selected @endif>Id</option>

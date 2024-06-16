@@ -7,38 +7,36 @@
         <div class="container headline-content">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="h1 fw-bold">Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+                    <p class="h1 fw-bold">SEJA BEM-VINDO AO E-MUSEU</p>
+                    <p class="h2">SEU MUSEU VIRTUAL DE INFORMÁTICA</p>
                     <h6>
-                        Pellentesque semper dapibus nisi. Aliquam eu felis in sem fringilla
-                        ultrices. Pellentesque fringilla neque a ultricies mollis.
-                        Cras malesuada aliquam suscipit.
+                        Explore e descubra o que o mundo dos computadores, periféricos, componentes eletrônicos e muitos
+                        outros dispositivos têm a oferecer!
                     </h6>
-                    <a class="nav-link p-3 fw-bold explore-button col-md-6" href="{{ route('items.index') }}">EXPLORAR O MUSEU
+                    <a class="nav-link p-3 fw-bold explore-button col-md-6" href="{{ route('items.index') }}">EXPLORAR O
+                        MUSEU
                         VIRTUAL</a>
                 </div>
             </div>
         </div>
     </div>
     <div class="container main-container mb-auto">
-        <h1>Lorem ipsum</h1>
+        <h1>SOBRE O NOSSO MUSEU</h1>
         <div class="row">
             <div class="col-md-6">
                 <p class="p-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim tempus solli citudin. Orci
-                    varius natoque
-                    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nunc risus, lobortis a
-                    augue et,
-                    sagittis pretium nulla.
+                    Desde muito tempo atrás, o homem, por ser curioso e ter interesse no passado, coleciona objetos que
+                    fazem parte da cultura e do passado de um povo. Muitas vezes, esses objetos não possuem valor monetário,
+                    mas um valor histórico imensurável. Por conta disso, foram criados os museus, locais
+                    sem fins lucrativos que tem como objetivo apresentar, toda ou em partes, a história e a cultura de um
+                    povo.
                     <br>
-                    Integer malesuada luctus ex ut porttitor. Morbi sed orci semper, elementum est eu, congue metus.
-                    Curabitur mauris
-                    nisl, interdum vitae dapibus vitae, molestie eget ligula.
-                    <br>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim tempus solli citudin. Orci
-                    varius natoque
-                    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nunc risus, lobortis a
-                    augue et,
-                    sagittis pretium nulla.
+                    O objetivo do nosso projeto é de aprender sobre o passado e compreender o presente, tanto em questões
+                    culturais
+                    como também em questões tecnológicas, de forma a evitar erros cometidos. Nosso museu de informática
+                    existe para preservar a história de diversos itens de informática, e então, mostrar para as pessoas o
+                    passado dos computadores, ensinar
+                    e registrar tudo o que foi criado de mais marcante até o momento atual.
                 </p>
             </div>
             <div class="col-md-6 ">
@@ -46,7 +44,6 @@
                     style="aspect-ratio: 3 / 2; width: 100%; max-height: 100%; object-fit: cover" alt="">
             </div>
         </div>
-        <h3>Lorem ipsum</h3>
         <div class="row">
             <div class="col-md-6 ">
                 <img src="/img/placeholder.png" class="p-4 clickable-image"
@@ -54,25 +51,28 @@
             </div>
             <div class="col-md-6">
                 <p class="p-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim tempus solli citudin. Orci
-                    varius natoque
-                    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nunc risus, lobortis a
-                    augue et,
-                    sagittis pretium nulla.
+                    A Universidade Tecnológica Federal do Paraná (UTFPR) e a Universidade Estadual do Centro-Oeste
+                    (UNICENTRO) possuem projetos relacionados a lixo eletrônico. A <a href="{{ route('about') }}">UTFPR</a>
+                    possui o projeto Tecno-Lixo:
+                    Oficina do
+                    Aprender e a <a href="{{ route('about') }}">UNICENTRO</a> o projeto E-Lixo. Os projetos recebem peças de
+                    computadores que as pessoas não
+                    utilizam
+                    mais. Para que as informações obre essas peças não sejam perdidas, a ideia para este museu emergiu.
                     <br>
-                    Integer malesuada luctus ex ut porttitor. Morbi sed orci semper, elementum est eu, congue metus.
-                    Curabitur mauris
-                    nisl, interdum vitae dapibus vitae, molestie eget ligula.
+                    Nosso museu conta com itens adicionados ao acervo pelas próprias pessoas responsáveis pelo projeto, e
+                    também, por pessoas que tenham interesse em colaborar conosco. Você também pode fazer parte!
                     <br>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim tempus solli citudin. Orci
-                    varius natoque
-                    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nunc risus, lobortis a
-                    augue et,
-                    sagittis pretium nulla.
+                    <br>
+                    <strong>Se tiver quaisquer dúvidas em relação ao nosso site, temos uma assistente virtual que pode te auxiliar.
+                    Apenas clique (ou toque) sobre ela para interagir com o recurso.</strong>
+                    <br>
+                    <br>
+                    Logo abaixo disponilizamos alguns pontos de partida para começar a explorar nosso site. Boa visita!
                 </p>
             </div>
         </div>
-        <h3>Lorem ipsum</h3>
+        <h3>Opções de páginas para começar sua exploração</h3>
         <div class="row p-4">
             <div class="col-md-4 ">
                 <div class="col-md pb-5 d-flex justify-content-center">
@@ -80,8 +80,8 @@
                         <img class="p-1" src="/img/placeholder.png" style="height: 12rem; object-fit: cover;"
                             alt="...">
                         <div class="card-body">
-                            <h6 class="card-title fw-bold">Lorem ipsum dolor</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim tempus solli citudin.
+                            <h6 class="card-title fw-bold">Explorar itens do museu</h6>
+                            <p>Se deseja explorar os itens do nosso scervo virtual, esta é a opção que procura!
                             </p>
                             <h6 class="me-4 d-flex justify-content-end card-more-details">VER MAIS ></h6>
                         </div>
@@ -90,12 +90,12 @@
             </div>
             <div class="col-md-4 ">
                 <div class="col-md pb-5 d-flex justify-content-center">
-                    <a href="{{ route('contribute') }}" class="card d-flex card-anim">
+                    <a href="{{ route('items.create') }}" class="card d-flex card-anim">
                         <img class="p-1" src="/img/placeholder.png" style="height: 12rem; object-fit: cover;"
                             alt="...">
                         <div class="card-body">
-                            <h6 class="card-title fw-bold">Lorem ipsum dolor</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim tempus solli citudin.
+                            <h6 class="card-title fw-bold">Cadastrar um item no museu</h6>
+                            <p>Quer colaborar com o nosso museu, enviando um item ao nosso acervo virtual?
                             </p>
                             <h6 class="me-4 d-flex justify-content-end card-more-details">VER MAIS ></h6>
                         </div>
@@ -108,8 +108,8 @@
                         <img class="p-1" src="/img/placeholder.png" style="height: 12rem; object-fit: cover;"
                             alt="...">
                         <div class="card-body">
-                            <h6 class="card-title fw-bold">Lorem ipsum dolor</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim tempus solli citudin.
+                            <h6 class="card-title fw-bold">Sobre o nosso museu</h6>
+                            <p>Gostaria de saber mais sobre o nosso projeto e as entidades envolvidas na criação dele?
                             </p>
                             <h6 class="me-4 d-flex justify-content-end card-more-details">VER MAIS ></h6>
                         </div>
@@ -121,5 +121,7 @@
 
     @include('image-modal.img-modal')
     <script src="{{ asset('script/img-modal.js') }}"></script>
+    <script src="{{ asset('script/img-modal.js') }}"></script>
+    <script src="{{ asset('script/assistentDialogues/homeDialogue.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/img-modal.css') }}">
 @endsection

@@ -20,6 +20,7 @@ class ProprietaryRequest extends FormRequest
         return [
             'full_name' => 'required|string|min:1|max:200',
             'contact' => 'required|email:rfc,dns|min:1|max:200',
+            'is_admin' => 'sometimes|boolean',
         ];
     }
 
@@ -28,6 +29,7 @@ class ProprietaryRequest extends FormRequest
         return [
             'full_name.required' => 'O campo Nome Completo é obrigatório.',
             'contact.required' => 'O campo Email é obrigatório.',
+            'is_admin' => 'O campo Administrador é obrigatório.',
         ];
     }
 }

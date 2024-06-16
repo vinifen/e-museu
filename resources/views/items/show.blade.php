@@ -2,15 +2,23 @@
 @section('title', $item->name)
 
 @php
-    $hasSeries = $item->tagItems->filter(function ($tagItem) {
-        return $tagItem->tag->category->name == 'Série' && $tagItem->validation == true;
-    })->isEmpty();
-@endphp
+    $hasSeries = $item->tagItems
+        ->filter(function ($tagItem) {
+            return $tagItem->tag->category->name == 'Série' && $tagItem->validation == true;
+        })
+        ->isEmpty();
 
-@php
-    $hasComponents = $item->ItemComponents->filter(function ($itemComponent) {
-        return $itemComponent->validation == true;
-    })->isEmpty();
+    $hasComponents = $item->ItemComponents
+        ->filter(function ($itemComponent) {
+            return $itemComponent->validation == true;
+        })
+        ->isEmpty();
+
+    $hasExtras = $item->extras
+        ->filter(function ($extra) {
+            return $extra->validation == true;
+        })
+        ->isEmpty();
 @endphp
 
 @section('content')
@@ -27,32 +35,10 @@
         <div class="row">
             <div class="col-md-4 order-md-2">
                 <div>
-                    <div class="dropdown">
-                        <a type="button" class="nav-link p-3 fw-bold explore-button dropdown-toggle" data-bs-toggle="collapse"
-                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="bi bi-plus-circle h4 me-2"></i> CONTRIBUIR
-                        </a>
-                        <div class="collapse" id="collapseExample">
-                            <ul class="list-group p-2">
-                                <a class="nav-link py-3 fw-bold" href="" data-bs-toggle="modal"
-                                    data-bs-target="#addContributionModal">
-                                    <i class="bi bi-patch-plus-fill h4 me-2"></i>Agregar Conteúdo
-                                </a>
-                                <a class="nav-link py-3 fw-bold" href="" data-bs-toggle="modal"
-                                    data-bs-target="#addComponentModal">
-                                    <i class="bi bi-cpu h4 me-2"></i>Associar Componente
-                                </a>
-                                <a class="nav-link py-3 fw-bold" href="" data-bs-toggle="modal"
-                                    data-bs-target="#addTagModal">
-                                    <i class="bi bi-tag-fill h4 me-2"></i>Associar Etiqueta
-                                </a>
-                                <a class="nav-link py-3 fw-bold" href="" data-bs-toggle="modal"
-                                    data-bs-target="#addExtraModal">
-                                    <i class="bi bi-question-square-fill h4 me-2"></i>Adicionar Curiosidade
-                                </a>
-                            </ul>
-                        </div>
-                    </div>
+                    <a class="nav-link py-3 fw-bold explore-button px-2" href="" data-bs-toggle="modal"
+                        data-bs-target="#addExtraModal">
+                        <i class="bi bi-patch-plus-fill h4 me-2"></i>Enviar Informação Extra
+                    </a>
                 </div>
                 <div class="card mt-2">
                     <div>
@@ -101,7 +87,7 @@
                         <h5>Detalhes Técnicos</h5>
                     </div>
                     <div class="card-body">
-                        <p>{{ $item->detail }}</p>
+                        <p>{!! nl2br($item->detail) !!}</p>
                     </div>
                     <div>
                         <h5>Componentes</h5>
@@ -129,7 +115,7 @@
                         @endforeach
                         @if ($hasComponents)
                             <div class="m-4">
-                                <strong>No momento este item não apresenta componentes. Nos ajude relacionando um componente com este item!</strong>
+                                <strong>No momento este item não apresenta componentes.</strong>
                             </div>
                         @endif
                     </div>
@@ -143,18 +129,33 @@
                         <div class="col-md-7">
                             <p>{{ $item->proprietary->full_name }}</p>
                         </div>
+                        @if ($item->proprietary->is_admin)
+                        <small class="fw-bold show-item-link">Acervo físico da {{$item->proprietary->full_name}}</small>
+                    @endif
                     </div>
-                    @if (!empty($item->contributions))
-                        <div class="row m-1">
-                            <div class="col-md-5">
-                                <p class="fw-bold">Contribuição de</p>
-                            </div>
-                            <div class="col-md-7">
-                                @foreach ($item->contributions as $contribution)
-                                    @if ($contribution->validation == true)
-                                        <p>{{ $item->proprietary->full_name }}</p>
-                                    @endif
-                                @endforeach
+                    @if (!$hasExtras)
+                        <div class="dropdown">
+                            <a type="button" class="nav-link py-3 fw-bold dropdown-toggle" data-bs-toggle="collapse"
+                                data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <h5>Colaboradores <i class="bi bi-caret-down-fill"></i></h5>
+                            </a>
+                            <div class="collapse" id="collapseExample">
+                                <ul class="list-group p-2">
+                                    <div class="card-body">
+                                        @foreach ($item->extras as $extra)
+                                            @if ($extra->validation == true)
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <p class="fw-bold">Colaborador</p>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <p>{{ $extra->proprietary->full_name }}</p>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </ul>
                             </div>
                         </div>
                     @endif
@@ -170,10 +171,10 @@
                 <div class="m-4">
                     @if ($item->history == null)
                         <div class="m-4">
-                            <strong>No momento este item não pertence a uma série. Nos ajude com uma contribuição!</strong>
+                            <strong>No momento este item não apresenta história. Nos ajude enviando uma informação extra!</strong>
                         </div>
                     @else
-                        <p>{{ $item->history }}</p>
+                        {!! nl2br($item->history) !!}
                     @endif
                 </div>
                 <h3>Linhas do Tempo</h3>
@@ -217,10 +218,10 @@
                 @endforeach
                 @if ($hasSeries)
                     <div class="m-4">
-                        <strong>No momento este item não pertence a uma série. Nos ajude adicionando uma etiqueta!</strong>
+                        <strong>No momento este item não pertence a uma série.</strong>
                     </div>
                 @endif
-                <h3>Curiosidades</h3>
+                <h3>Informações Extra</h3>
                 @if ($item->extras->isNotEmpty() && $item->extras->contains('validation', '1'))
                     @foreach ($item->extras as $extra)
                         @if ($extra->validation == '1')
@@ -236,8 +237,8 @@
                     @endforeach
                 @else
                     <div class="m-4">
-                        <strong>Nenhuma Curiosidade extra validada está disponível para este item. Nos ajude adicionando uma
-                            curiosidade!</strong>
+                        <strong>Nenhuma Informação extra validada está disponível para este item. Nos ajude adicionando
+                            uma!</strong>
                     </div>
                 @endif
             </div>
@@ -245,9 +246,6 @@
     </div>
 
     @include('image-modal.img-modal')
-    @include('items.show-modals.tag-modal')
-    @include('items.show-modals.component-modal')
-    @include('items.show-modals.contribution-modal')
     @include('items.show-modals.extra-modal')
 
     <script>
@@ -257,4 +255,5 @@
     <script src="{{ asset('script/img-modal.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/img-modal.css') }}">
     <script src="{{ asset('script/popOverButton.js') }}"></script>
+    <script src="{{ asset('script/assistentDialogues/showDialogue.js') }}"></script>
 @endsection

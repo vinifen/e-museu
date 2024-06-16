@@ -16,7 +16,7 @@
                         <h2 class="card-header">Adicionar Item</h2>
                     </div>
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nome</label>
+                        <label for="name" class="form-label">Nome*</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                             name="name" value="{{ old('name') }}">
                         @error('name')
@@ -24,7 +24,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Descrição</label>
+                        <label for="description" class="form-label">Descrição*</label>
                         <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description"
                             name="description" rows="5">{{ old('description') }}</textarea>
                         @error('description')
@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="section_id" class="form-label">Seção</label>
+                                <label for="section_id" class="form-label">Categoria do Item*</label>
                                 <select class="form-select @error('section_id') is-invalid @enderror" id="section_id"
                                     name="section_id">
                                     <option selected="selected" value="">-</option>
@@ -57,7 +57,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="proprietary_id" class="form-label">Proprietário</label>
+                                <label for="proprietary_id" class="form-label">Colaborador*</label>
                                 <select class="form-select @error('proprietary_id') is-invalid @enderror"
                                     id="proprietary_id" name="proprietary_id">
                                     <option selected="selected" value="">-</option>
@@ -72,7 +72,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="date" class="form-label">Data</label>
+                                <label for="date" class="form-label">Data*</label>
                                 <input type="date" class="form-control @error('date') is-invalid @enderror"
                                     id="date" name="date" value="{{ old('date') }}">
                                 @error('date')
@@ -82,7 +82,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="image" class="form-label">Imagem</label>
+                                <label for="image" class="form-label">Imagem*</label>
                                 <input type="file" class="form-control @error('image') is-invalid @enderror"
                                     id="image" name="image">
                                 @error('image')
@@ -90,7 +90,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="validation" class="form-label">Validado</label>
+                                <label for="validation" class="form-label">Validado*</label>
                                 <select class="form-select @error('validation') is-invalid @enderror" id="validation"
                                     name="validation">
                                     <option value="0" {{ old('validation') == 0 ? 'selected' : '' }}>Não</option>

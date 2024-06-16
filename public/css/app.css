@@ -400,9 +400,8 @@ textarea {
     border: none;
     box-shadow: 0 0 10px #c4c4c4;
     position: fixed;
-    margin: 10rem;
-    bottom: -15vh;
-    right: -15vh;
+    bottom: 1rem;
+    left: 1rem;
     z-index: 10;
 }
 
@@ -464,3 +463,41 @@ footer {
     background-color: #c4c4c4;
 }
 
+.assistent {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 37vh;
+    z-index: 100;
+    border-radius: 10px;
+    padding: 15px 15px 0 15px;
+    overflow: auto;
+    max-height: 100vh;
+}
+
+.assistent-portrait {
+    width: 98%;
+    height: 98%;
+    object-fit: cover;
+}
+
+.assistent-portrait:hover {
+    cursor: pointer;
+}
+
+.choice {
+    text-align: left;
+    box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.dialogue {
+    border-radius: 5px;
+}
+
+.assistent-title {
+    background-color: #5BE1B9;
+}
+
+.dialogue-card {
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.3);
+}

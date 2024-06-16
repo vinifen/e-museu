@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Criar seção')
+@section('title', 'Criar categoria de item')
 
 @section('content')
     <div class="mb-auto container-fluid">
@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card mb-3">
-                        <h2 class="card-header">Adicionar Seção</h2>
+                        <h2 class="card-header">Adicionar Categoria de Item</h2>
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle"></i> Adicionar
-                            Seção</button>
+                            Categoria de Item</button>
                     </div>
                 </div>
             </div>

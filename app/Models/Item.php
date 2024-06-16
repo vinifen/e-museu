@@ -46,10 +46,6 @@ class Item extends Model
         return $this->hasMany(Extra::class);
     }
 
-    public function contributions() {
-        return $this->hasMany(Contribution::class);
-    }
-
     public function section() {
         return $this->belongsTo(Section::class);
     }

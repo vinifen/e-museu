@@ -23,10 +23,6 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/contribute', function () {
-    return view('contribute');
-})->name('contribute');
-
 Route::get('/about', function () {
     return view('about');
 })->name('about');
@@ -38,9 +34,6 @@ Route::get('/items/{id}', [ItemController::class, 'show'])->name('items.show')->
 Route::group(['middleware' => 'validate.proprietary'], function () {
     Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
     Route::post('/items/store-extra', [ItemController::class, 'storeSingleExtra'])->name('items.store-extra');
-    Route::post('/items/store-tag', [ItemController::class, 'storeSingleTag'])->name('items.store-tag');
-    Route::post('/items/store-component', [ItemController::class, 'storeSingleComponent'])->name('items.store-component');
-    Route::post('/items/store-contribution', [ItemController::class, 'storeContribution'])->name('items.store-contribution');
 });
 
 Route::get('/component-name-auto-complete', [QueryController::class, 'componentNameAutoComplete'])->name('component-name-auto-complete');

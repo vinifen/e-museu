@@ -171,12 +171,11 @@ class AdminItemController extends Controller
 
         $proprietaryCode = '';
 
-        if ($item->proprietary->contact == 'unicentro@unicentro.com')
-            $proprietaryCode = 'UNICENTRO';
-        elseif ($item->proprietary->contact == 'utfpr@utfpr.com')
-            $proprietaryCode = 'UTFPR';
-        else
-            $proprietaryCode = 'PREX';
+        if ($item->proprietary->is_admin) {
+            $proprietaryCode = strtoupper($item->proprietary->full_name);
+        } else {
+            $proprietaryCode = 'CONT';
+        }
 
         $sectionCode = strtoupper(substr($section, 0, 2));
         $sectionCode .= strtoupper(substr($section, -2));

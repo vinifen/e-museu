@@ -120,7 +120,7 @@
                         <strong>História: </strong>
                         <p class="card-text">{{ $extra->item->history }}</p>
                         <strong>Detalhe: </strong>
-                        <p class="ms-3">{{ $extra->item->detail }}</p>
+                        <p class="ms-3">{!! nl2br($extra->item->detail) !!}</p>
                         <strong>Data: </strong>
                         <p class="card-text">{{ date('d-m-Y', strtotime($extra->item->date)) }}</p>
                         <strong>Código de Identificação: </strong>
@@ -133,7 +133,7 @@
                                 Não
                             @endif
                         </p>
-                        <strong>Seção: </strong>
+                        <strong>Categoria do Item: </strong>
                         <p class="card-text">{{ $extra->item->section->name }}</p>
                         <strong>Proprietário: </strong>
                         <p class="card-text">{{ $extra->item->proprietary->name }}</p>

@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label for="section_id">
                                 <h5>Categoria*
                                     <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1"
@@ -64,7 +64,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label for="date">
                                 <h5>Data de Lançamento*
                                     <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1"
@@ -254,7 +254,7 @@
                     </div>
                     <div>
                         <div class="d-flex justify-content-between">
-                            <h5>Curiosidades
+                            <h5>Informação Extra
                                 <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1"
                                     data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus"
                                     data-bs-content="Possui alguma curiosidade sobre o item a ser cadastrado que gostaria de compartilhar?">
@@ -267,7 +267,7 @@
                         <div class="extraContainer mb-4">
                             <div class="extras ms-3" id="extras">
                                 <p class="text-center p-1 empty-text" id="extra-empty-text">Este item ainda não apresenta
-                                    curiosidades.</p>
+                                    informações extra.</p>
                             </div>
                             <div class="d-flex justify-content-center mt-3">
                                 <div class="warning-div px-1 mx-5 mb-3" id="extra-full-text" hidden>
@@ -419,4 +419,5 @@
     </script>
 
     <script src="{{ asset('script/popOverButton.js') }}"></script>
+    <script src="{{ asset('script/assistentDialogues/createDialogue.js') }}"></script>
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Proprietário ' . $proprietary->id)
+@section('title', 'Colaborador ' . $proprietary->id)
 
 @section('content')
     <div class="mb-auto container-fluid">
@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card mb-3">
-                    <h2 class="card-header">Mostrando Proprietário: {{ $proprietary->id }} - {{ $proprietary->full_name }}
+                    <h2 class="card-header">Mostrando Colaborador: {{ $proprietary->id }} - {{ $proprietary->full_name }}
                     </h2>
                     <div class="card-body d-flex">
                         <a href="{{ route('admin.proprietaries.edit', $proprietary->id) }}" type="button"
@@ -59,6 +59,18 @@
                             </div>
                         </div>
                         <div class="card mb-3">
+                            <h5 class="card-header">Administrador</h5>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    @if ($proprietary->is_admin == 1)
+                                        Sim
+                                    @else
+                                        Não
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
                             <h5 class="card-header">Criado em</h5>
                             <div class="card-body">
                                 <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($proprietary->created_at)) }}</p>
@@ -92,7 +104,7 @@
                                     <strong>História: </strong>
                                     <p class="card-text">{{ Str::limit($item->history, 500) }}</p>
                                     <strong>Detalhe: </strong>
-                                    <p class="ms-3">{{ $item->detail }}</p>
+                                    <p class="ms-3">{!! nl2br($item->detail) !!}</p>
                                     <strong>Data: </strong>
                                     <p class="card-text">{{ date('d-m-Y', strtotime($item->date)) }}</p>
                                     <strong>Código de Identificação: </strong>
@@ -105,7 +117,7 @@
                                             Não
                                         @endif
                                     </p>
-                                    <strong>Seção: </strong>
+                                    <strong>Categoria de Item: </strong>
                                     <p class="card-text">{{ $item->section->name }}</p>
                                     <strong>Proprietário: </strong>
                                     <p class="card-text">{{ $item->proprietary->full_name }}</p>

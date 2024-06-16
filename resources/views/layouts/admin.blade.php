@@ -36,6 +36,12 @@
             </a>
             <div class="collapse d-md-block" id="sidebarCollapse">
                 <ul class="nav nav-pills flex-column mb-auto">
+                    <li>
+                        <a href="{{ route('admin.sections.index') }}"
+                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.sections')) active @endif" aria-current="page">
+                            Categorias de Item
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.items.index') }}"
                             class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.items')) active @endif" aria-current="page">
@@ -43,9 +49,16 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.sections.index') }}"
-                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.sections')) active @endif" aria-current="page">
-                            Seções de Item
+                        <a href="{{ route('admin.components.index') }}"
+                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.components')) active @endif" aria-current="page">
+                            Associações de Item a Componente
+                        </a>
+                    </li>
+                    <hr/>
+                    <li>
+                        <a href="{{ route('admin.categories.index') }}"
+                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.categories')) active @endif" aria-current="page">
+                            Categorias de Etiqueta
                         </a>
                     </li>
                     <li>
@@ -55,39 +68,23 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.categories.index') }}"
-                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.categories')) active @endif" aria-current="page">
-                            Categorias de Etiqueta
+                        <a href="{{ route('admin.item-tags.index') }}"
+                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.item-tags')) active @endif" aria-current="page">
+                            Associações de Item a Etiqueta
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.proprietaries.index') }}"
-                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.proprietaries')) active @endif" aria-current="page">
-                            Proprietários
-                        </a>
-                    </li>
+                    <hr/>
                     <li>
                         <a href="{{ route('admin.extras.index') }}"
                             class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.extras')) active @endif" aria-current="page">
                             Informações Extra
                         </a>
                     </li>
+                    <hr/>
                     <li>
-                        <a href="{{ route('admin.contributions.index') }}"
-                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.contributions')) active @endif" aria-current="page">
-                            Contribuições
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.components.index') }}"
-                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.components')) active @endif" aria-current="page">
-                            Associações de Item e Componente
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.item-tags.index') }}"
-                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.item-tags')) active @endif" aria-current="page">
-                            Associações de Item e Etiqueta
+                        <a href="{{ route('admin.proprietaries.index') }}"
+                            class="nav-link @if (Str::startsWith(Route::currentRouteName(), 'admin.proprietaries')) active @endif" aria-current="page">
+                            Colaboradores
                         </a>
                     </li>
                     <li>
@@ -97,6 +94,7 @@
                         </a>
                     </li>
                 </ul>
+                <hr/>
                 <div class="dropdown mt-2">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle ms-3"
                         id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">

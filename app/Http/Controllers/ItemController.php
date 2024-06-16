@@ -12,11 +12,8 @@ use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\TagRequest;
 use App\Http\Requests\ExtraRequest;
 use App\Http\Requests\ComponentRequest;
-use App\Http\Requests\SingleTagRequest;
 use App\Http\Requests\SingleExtraRequest;
-use App\Http\Requests\SingleComponentRequest;
 use App\Http\Requests\ProprietaryRequest;
-use App\Http\Requests\ContributionRequest;
 use Illuminate\Http\Request;
 
 use App\Models\Item;
@@ -238,22 +235,6 @@ class ItemController extends Controller
         return $data;
     }
 
-    public function storeSingleTag(SingleTagRequest $request)
-    {
-        $data = $request->validated();
-
-        $tag = Tag::where('category_id', '=', $data['category_id'])->where('name', '=', $data['name'])->first();
-
-        if (is_null($tag))
-            $tag = Tag::create($data);
-
-        $item = Item::find($request->item_id);
-
-        $item->tags()->attach($tag->id);
-
-        return back()->with('success', 'Nova associação com etiqueta enviada com sucesso! Agradecemos pelo seu tempo, analisaremos sua proposta antes de adicionarmos ao nosso museu.');
-    }
-
     public function storeSingleExtra(SingleExtraRequest $request)
     {
         $proprietaryRequest = new ProprietaryRequest();
@@ -276,60 +257,11 @@ class ItemController extends Controller
         return back()->with('success', 'Curiosidade extra enviada com sucesso! Agradecemos pelo seu tempo, analisaremos sua proposta antes de adicionarmos ao nosso museu.');
     }
 
-    public function storeSingleComponent(SingleComponentRequest $request)
-    {
-        $data = $request->validated();
-
-        $component = Item::where('section_id', '=', $request->section_id)
-                            ->where('name', '=', $request->component_name)
-                            ->first();
-
-        $validator = Validator::make(['component_id' => $component->id], [
-            'component_id' => [
-                'integer',
-                'numeric',
-                'exists:items,id',
-                new DifferentIds([$component->id, $data['item_id']])
-            ]
-        ]);
-
-        if ($validator->fails())
-            return redirect()->back()->withErrors($validator)->withInput();
-
-        $data['validation'] = 0;
-        $data['component_id'] = $component->id;
-
-        $component = ItemComponent::create($data);
-        return back()->with('success', 'Nova associação com componente enviada com sucesso! Agradecemos pelo seu tempo, analisaremos sua proposta antes de adicionarmos ao nosso museu.');
-    }
-
-    public function storeContribution(ContributionRequest $request)
-    {
-        $proprietaryRequest = new ProprietaryRequest();
-        $proprietaryData = $request->validate($proprietaryRequest->rules(), $proprietaryRequest->messages());
-
-        $data = $request->validated();
-        $data['validation'] = 0;
-
-        $proprietary = Proprietary::where('contact', $proprietaryData['contact'])->first();
-
-        if (!$proprietary)
-            $proprietary = self::storeProprietary($proprietaryData);
-
-        if ($proprietary->blocked == 1)
-            return back()->withErrors(['Este usuário não possui permissão para registrar itens.']);
-
-        $data['proprietary_id'] = $proprietary->id;
-
-        $contribution = Contribution::create($data);
-        return back()->with('success', 'Contribuição enviada com sucesso! Agradecemos pelo seu tempo, analisaremos sua proposta antes de adicionarmos ao nosso museu.');
-    }
-
     public function createIdentificationCode(Item $item)
     {
         $section = Section::find($item->section_id)->name;
 
-        $proprietaryCode = 'PREX';
+        $proprietaryCode = 'CONT';
 
         $sectionCode = strtoupper(substr($section, 0, 2));
         $sectionCode .= strtoupper(substr($section, -2));

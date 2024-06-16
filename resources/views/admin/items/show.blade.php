@@ -53,7 +53,7 @@
                         <div class="card mb-3">
                             <h5 class="card-header">Detalhe</h5>
                             <div class="card-body">
-                                <p class="card-text">{{ $item->detail }}</p>
+                                <p class="card-text">{!! nl2br($item->detail) !!}</p>
                             </div>
                         </div>
                         <div class="card mb-3">
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div class="card mb-3">
-                            <h5 class="card-header">Seção</h5>
+                            <h5 class="card-header">Categoria do Item</h5>
                             <div class="card-body">
                                 <strong>Id: </strong>
                                 <p class="ms-3">{{ $item->section->id }}</p>
@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div class="card mb-3">
-                            <h5 class="card-header">Proprietário</h5>
+                            <h5 class="card-header">Colaborador</h5>
                             <div class="card-body">
                                 <strong>Id: </strong>
                                 <p class="ms-3">{{ $item->proprietary->id }}</p>
@@ -170,61 +170,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <h5 class="card-header d-flex justify-content-between">Contribuições <a type="button"
-                                    class="btn btn-success"
-                                    href="{{ route('admin.contributions.create', ['id' => $item->id, 'section' => $item->section]) }}"><i
-                                        class="bi bi-plus-circle"></i> Adicionar Contribuição</a></h5>
-                            <div class="card-body">
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($item->contributions as $contribution)
-                                        <li class="list-group-item">
-                                            <strong>Id: </strong>
-                                            <p class="ms-3">{{ $contribution->id }}</p>
-                                            <strong>Conteúdo: </strong>
-                                            <p class="ms-3">{{ Str::limit($contribution->content, 500) }}</p>
-                                            <strong>validado: </strong>
-                                            <p class="ms-3">
-                                                @if ($contribution->validation == 1)
-                                                    Sim
-                                                @else
-                                                    Não
-                                                @endif
-                                            </p>
-                                            <strong>Item: </strong>
-                                            <p class="ms-3">{{ $contribution->item->name }}</p>
-                                            <strong>Proprietário: </strong>
-                                            <p class="ms-3">{{ $contribution->proprietary->full_name }}</p>
-                                            <strong>Criado em: </strong>
-                                            <p class="ms-3">{{ date('d-m-Y', strtotime($contribution->created_at)) }}
-                                            </p>
-                                            <strong>Atualizado em: </strong>
-                                            <p class="ms-3">{{ date('d-m-Y', strtotime($contribution->updated_at)) }}
-                                            </p>
-                                            <div class="d-flex">
-                                                <a href="{{ route('admin.contributions.show', $contribution->id) }}"
-                                                    type="button" class="btn btn-primary me-1"><i
-                                                        class="bi bi-eye-fill"></i> Visualizar</a>
-                                                <a href="{{ route('admin.contributions.edit', $contribution->id) }}"
-                                                    type="button" class="btn btn-warning me-1"><i
-                                                        class="bi bi-pencil-fill"></i> Editar</a>
-                                                <form
-                                                    action="{{ route('admin.contributions.destroy', $contribution->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="deleteContributionButton btn btn-danger"
-                                                        type="submit"><i class="bi bi-trash-fill"></i> Excluir
-                                                </form>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card mb-3">
                             <h5 class="card-header d-flex justify-content-between">Informações Extra <a type="button"
                                     class="btn btn-success"
@@ -248,7 +194,7 @@
                                             </p>
                                             <strong>Item: </strong>
                                             <p class="ms-3">{{ $extra->item->name }}</p>
-                                            <strong>Proprietário: </strong>
+                                            <strong>Colaborador: </strong>
                                             <p class="ms-3">{{ $extra->proprietary->full_name }}</p>
                                             <strong>Criado em: </strong>
                                             <p class="ms-3">{{ date('d-m-Y', strtotime($extra->created_at)) }}</p>

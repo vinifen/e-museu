@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="section_id" class="form-label">Seção do Item</label>
+                                <label for="section_id" class="form-label">Categoria do Item</label>
                                 <select class="form-select @error('section_id') is-invalid @enderror" id="section_id"
                                     name="section_id">
                                     @foreach ($sections as $section)

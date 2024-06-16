@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Editar seção ' . $section->id)
+@section('title', 'Editar categoria de item ' . $section->id)
 
 @section('content')
     <div class="mb-auto container-fluid">
@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card mb-3">
-                        <h2 class="card-header">Editar Seção: {{ $section->id }} - {{ $section->name }}</h2>
+                        <h2 class="card-header">Editar Categoria de Item: {{ $section->id }} - {{ $section->name }}</h2>
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>

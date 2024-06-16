@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Adicionar uma curiosidade</h4>
+                <h4 class="modal-title">Adicionar uma Informação Extra</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -10,10 +10,10 @@
                     @csrf
                     <input name="item_id" value="{{ $item->id }}" hidden>
                     <label for="info">
-                        <h5>Curiosidade
+                        <h5>Informação Extra
                             <button type="button" class="info-icon btn border-0 bg-transparent px-0 py-0 mb-1"
                                 data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus"
-                                data-bs-content="Possui alguma curiosidade que queria compartilhar e essa informação não se encaixa nos outros campos? Nos informe por aqui.">
+                                data-bs-content="Possui alguma informação adicional ou curiosidade sobre o item que gostaria de compartilhar? Por favor, nos informe por aqui.">
                                 <i class="bi bi-info-circle-fill h4 ms-1" style="color: #ED6E38; cursor: pointer;"></i>
                             </button>
                         </h5>

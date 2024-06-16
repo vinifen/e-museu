@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Seção ' . $section->id)
+@section('title', 'Categoria de item ' . $section->id)
 
 @section('content')
     <div class="mb-auto container-fluid">
@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card mb-3">
-                    <h2 class="card-header">Mostrando Seção: {{ $section->id }} - {{ $section->name }}</h2>
+                    <h2 class="card-header">Mostrando Categoria de Item: {{ $section->id }} - {{ $section->name }}</h2>
                     <div class="card-body d-flex">
                         <a href="{{ route('admin.sections.edit', $section->id) }}" type="button"
                             class="btn btn-warning me-1"><i class="bi bi-pencil-fill"></i> Editar</a>
@@ -58,4 +58,5 @@
     </div>
 
     <script src="{{ asset('script/deleteSectionWarning.js') }}"></script>
+    <script src="{{ asset('script/popOverButton.js') }}"></script>
 @endsection

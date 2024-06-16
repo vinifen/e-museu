@@ -79,7 +79,7 @@
                         <strong>História: </strong>
                         <p class="card-text">{{ $component->item->history }}</p>
                         <strong>Detalhe: </strong>
-                        <p class="ms-3">{{ $component->item->detail }}</p>
+                        <p class="ms-3">{!! nl2br($component->item->detail) !!}</p>
                         <strong>Data: </strong>
                         <p class="card-text">{{ date('d-m-Y', strtotime($component->item->date)) }}</p>
                         <strong>Código de Identificação: </strong>
@@ -92,7 +92,7 @@
                                 Não
                             @endif
                         </p>
-                        <strong>Seção: </strong>
+                        <strong>Categoria do Item: </strong>
                         <p class="card-text">{{ $component->item->section->name }}</p>
                         <strong>Proprietário: </strong>
                         <p class="card-text">{{ $component->item->proprietary->name }}</p>
@@ -131,7 +131,7 @@
                         <strong>História: </strong>
                         <p class="card-text">{{ $component->component->history }}</p>
                         <strong>Detalhe: </strong>
-                        <p class="ms-3">{{ $component->component->detail }}</p>
+                        <p class="ms-3">{!! nl2br($component->component->detail) !!}</p>
                         <strong>Data: </strong>
                         <p class="card-text">{{ date('d-m-Y', strtotime($component->component->date)) }}</p>
                         <strong>Código de Identificação: </strong>
@@ -144,7 +144,7 @@
                                 Não
                             @endif
                         </p>
-                        <strong>Seção: </strong>
+                        <strong>Categoria do Item: </strong>
                         <p class="card-text">{{ $component->component->section->name }}</p>
                         <strong>Proprietário: </strong>
                         <p class="card-text">{{ $component->component->proprietary->name }}</p>

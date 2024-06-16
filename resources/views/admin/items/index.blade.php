@@ -34,7 +34,7 @@
                         <option value="validation" @if (request()->query('search_column') == 'validation') selected @endif>Validação</option>
                         <option value="proprietary_id" @if (request()->query('search_column') == 'proprietary_id') selected @endif>Proprietário
                         </option>
-                        <option value="section_id" @if (request()->query('search_column') == 'section_id') selected @endif>Seção</option>
+                        <option value="section_id" @if (request()->query('search_column') == 'section_id') selected @endif>Categoria do Item</option>
                         <option value="created_at" @if (request()->query('search_column') == 'created_at') selected @endif>Criado em</option>
                         <option value="updated_at" @if (request()->query('search_column') == 'updated_at') selected @endif>Atualizado em
                         </option>
@@ -68,9 +68,9 @@
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
                                         name="sort" value="validation">Validado</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
-                                        name="sort" value="section_id">Seção</button></th>
+                                        name="sort" value="section_id">Categoria do Item</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
-                                        name="sort" value="proprietary_id">Proprietário</button></th>
+                                        name="sort" value="proprietary_id">Colaborador</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
                                         name="sort" value="created_at">Criado em</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"

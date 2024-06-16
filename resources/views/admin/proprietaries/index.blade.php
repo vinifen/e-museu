@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Listar proprietários')
+@section('title', 'Listar colaboradores')
 
 @section('content')
     <div class="mb-auto container-fluid">
@@ -14,12 +14,12 @@
             </div>
         @endforeach
         <div class="card mb-3">
-            <h2 class="card-header">Proprietários - {{ $count }} Cadastrados</h2>
+            <h2 class="card-header">Colaboradores - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
                 <a href="{{ route('admin.proprietaries.create') }}" type="button" class="btn btn-success"><i
-                        class="bi bi-plus-circle"></i> Adicionar Proprietário</a>
+                        class="bi bi-plus-circle"></i> Adicionar Colaborador</a>
                 <form action="{{ route('admin.proprietaries.index') }}" class="d-flex" method="GET">
                     <select class="form-select me-2" id="search_column" name="search_column">
                         <option value="id" @if (request()->query('search_column') == 'id') selected @endif>Id</option>

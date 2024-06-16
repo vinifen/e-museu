@@ -45,7 +45,7 @@
                                 class="h5 bi bi-search me-2"></i>EXPLORAR</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link p-3 fw-bold" href={{ route('contribute') }}>CONTRIBUA</a>
+                        <a class="nav-link p-3 fw-bold" href={{ route('items.create') }}>CONTRIBUA</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link p-3 fw-bold" href={{ route('about') }}>SOBRE</a>
@@ -57,11 +57,16 @@
     @if (request()->routeIs('items.index'))
         @include('items.explore-menu')
     @endif
-
+    @include('assistent.assistent')
     @yield('content')
     <div>
         <footer class="d-md-flex custom-footer px-md-5 justify-content-between fixed align-items-center  py-5 mt-2">
-            <p class="col-md-4 mb-0 d-flex justify-content-center">2024 - UTFPR - UNICENTRO</p>
+            <ul class="custom-nav mb-0 d-flex justify-content-center col-md-4">
+                <li class="nav-item"><a href="/" class="nav-link p-2">Página principal</a></li>
+                <li class="nav-item"><a href="{{ route('items.index') }}" class="nav-link p-2">Explorar</a></li>
+                <li class="nav-item"><a href="{{ route('items.create') }}" class="nav-link p-2">Contribua</a></li>
+                <li class="nav-item"><a href="{{ route('about') }}" class="nav-link p-2">Sobre</a></li>
+            </ul>
 
             <a href="/"
                 class="col-md-4 d-flex align-items-center justify-content-center my-3 me-md-auto link-dark text-decoration-none">
@@ -70,14 +75,11 @@
                 <img class="tecnolixo-footer-logo" src="/img/tecnolixo-footer-logo.png" alt="">
             </a>
 
-            <ul class="custom-nav mb-0 d-flex justify-content-center col-md-4">
-                <li class="nav-item"><a href="#" class="nav-link p-2">Página principal</a></li>
-                <li class="nav-item"><a href="#" class="nav-link p-2">Explorar</a></li>
-                <li class="nav-item"><a href="#" class="nav-link p-2">Contribua</a></li>
-                <li class="nav-item"><a href="#" class="nav-link p-2">Sobre</a></li>
-            </ul>
+            <p class="col-md-4 mb-0 d-flex justify-content-center">2024 - UTFPR - UNICENTRO</p>
         </footer>
     </div>
+    <script src="{{ asset('script/assistentDialogueHandler.js') }}"></script>
+    <script src="{{ asset('script/assistentButton.js') }}"></script>
 </body>
 
 </html>

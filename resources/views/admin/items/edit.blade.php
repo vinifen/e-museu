@@ -17,7 +17,7 @@
                         <h2 class="card-header">Editar Item: {{ $item->id }} - {{ $item->name }}</h2>
                     </div>
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nome</label>
+                        <label for="name" class="form-label">Nome*</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                             name="name" value="{{ $item->name }}">
                         @error('name')
@@ -25,7 +25,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Descrição</label>
+                        <label for="description" class="form-label">Descrição*</label>
                         <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description"
                             name="description" rows="5">{{ $item->description }}</textarea>
                         @error('description')
@@ -43,7 +43,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="section_id" class="form-label">Seção</label>
+                                <label for="section_id" class="form-label">Categoria do Item*</label>
                                 <select class="form-select @error('section_id') is-invalid @enderror" id="section_id"
                                     name="section_id">
                                     @foreach ($sections as $section)
@@ -56,7 +56,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="proprietary_id" class="form-label">Proprietário</label>
+                                <label for="proprietary_id" class="form-label">Colaborador*</label>
                                 <select class="form-select @error('proprietary_id') is-invalid @enderror"
                                     id="proprietary_id" name="proprietary_id">
                                     @foreach ($proprietaries as $proprietary)
@@ -70,7 +70,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="date" class="form-label">Data</label>
+                                <label for="date" class="form-label">Data*</label>
                                 <input type="date" class="form-control @error('date') is-invalid @enderror"
                                     id="date" name="date" value="{{ $item->date }}">
                                 @error('date')
@@ -78,7 +78,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="identification_code" class="form-label">Código de Identificação</label>
+                                <label for="identification_code" class="form-label">Código de Identificação*</label>
                                 <input type="text"
                                     class="form-control @error('identification_code') is-invalid @enderror"
                                     id="identification_code" name="identification_code"
@@ -88,7 +88,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="validation" class="form-label">Validado</label>
+                                <label for="validation" class="form-label">Validado*</label>
                                 <select class="form-select @error('validation') is-invalid @enderror" id="validation"
                                     name="validation">
                                     <option value="0" @if ($item->validation == 0) selected @endif>Não</option>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="image" class="form-label">Imagem</label>
+                                <label for="image" class="form-label">Imagem*</label>
                                 <input type="file" class="form-control @error('image') is-invalid @enderror"
                                     id="image" name="image">
                                 @error('image')

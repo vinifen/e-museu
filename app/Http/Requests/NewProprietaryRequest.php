@@ -28,7 +28,8 @@ class NewProprietaryRequest extends FormRequest
                 'max:200',
                 Rule::unique('proprietaries')->ignore($proprietaryId),
             ],
-            'blocked' => 'sometimes|boolean'
+            'blocked' => 'sometimes|boolean',
+            'is_admin' => 'sometimes|boolean',
         ];
     }
 
@@ -37,6 +38,7 @@ class NewProprietaryRequest extends FormRequest
         return [
             'full_name.required' => 'O campo Nome Completo é obrigatório.',
             'contact.required' => 'O campo Email é obrigatório.',
+            'is_admin' => 'O campo Administrador é obrigatório.',
         ];
     }
 }
