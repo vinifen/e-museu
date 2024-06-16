@@ -3,7 +3,7 @@
         <div class="col-6 col-md-8">
             <div id="assistent-button" data-bs-toggle="collapse" data-bs-target="#assistentCollapse"
                 aria-expanded="false" aria-controls="assistentCollapse">
-                <img class="assistent-portrait mb-0" src="/img/assistent.png" alt="Assistente Virtual">
+                <img class="assistent-portrait mb-0" src="/img/assistent1.png" alt="Assistente Virtual">
             </div>
         </div>
     </div>
@@ -16,3 +16,14 @@
         <div id="choices" class="d-flex flex-column align-items-end my-2"></div>
     </div>
 </div>
+
+<Script>
+    $(document).ready(function() {
+        $('.assistent-portrait').on('click', function() {
+            const $img = $(this);
+            const currentSrc = $img.attr('src');
+
+            $img.attr('src', currentSrc.includes('/img/assistent1.png') ? '/img/assistent2.png' : '/img/assistent1.png');
+        });
+    });
+</script>
