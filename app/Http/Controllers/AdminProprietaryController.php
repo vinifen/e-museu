@@ -45,7 +45,7 @@ class AdminProprietaryController extends Controller
                 $query->orderBy($sort, 'asc');
         }
 
-        $proprietaries = $query->paginate(50)->withQueryString();
+        $proprietaries = $query->paginate(10)->withQueryString();
 
         return view('admin.proprietaries.index', compact('proprietaries', 'count'));
     }

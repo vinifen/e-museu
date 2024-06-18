@@ -2,6 +2,7 @@
 @section('title', 'Listar informações extra')
 
 @section('content')
+
     <div class="mb-auto container-fluid">
         @if (session('success'))
             <div class="alert alert-success" role="alert">
@@ -19,11 +20,11 @@
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
                 <a href="{{ route('admin.extras.create') }}" type="button" class="btn btn-success"><i
-                        class="bi bi-plus-circle"></i> Adicionar Curiosidade Extra</a>
+                        class="bi bi-plus-circle"></i> Adicionar Informação Extra</a>
                 <form action="{{ route('admin.extras.index') }}" class="d-flex" method="GET">
                     <select class="form-select me-2" id="search_column" name="search_column">
                         <option value="id" @if (request()->query('search_column') == 'id') selected @endif>Id</option>
-                        <option value="info" @if (request()->query('search_column') == 'info') selected @endif>Curiosidade</option>
+                        <option value="info" @if (request()->query('search_column') == 'info') selected @endif>Informação</option>
                         <option value="item_id" @if (request()->query('search_column') == 'item_id') selected @endif>Item</option>
                         <option value="proprietary_id" @if (request()->query('search_column') == 'proprietary_id') selected @endif>Proprietário
                         </option>
@@ -46,7 +47,7 @@
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
                                         name="sort" value="id">Id</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
-                                        name="sort" value="info">Curiosidade</button></th>
+                                        name="sort" value="info">Informação</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
                                         name="sort" value="item_id">Item</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
@@ -68,8 +69,8 @@
                             <tr class="@if (!$extra->locks->isEmpty() && $extra->locks->first()->user_id != auth()->user()->id) table-warning @endif">
                                 <th scope="row">{{ $extra->id }}</th>
                                 <td>{{ $extra->info }}</td>
-                                <td>{{ $extra->item->name }}</td>
-                                <td>{{ $extra->proprietary->contact }}</td>
+                                <td>{{ $extra->item_name }}</td>
+                                <td>{{ $extra->proprietary_contact }}</td>
                                 <td>
                                     @if ($extra->extra_validation == 1)
                                         Sim

@@ -13,10 +13,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card mb-3">
-                        <h2 class="card-header">Adicionar Extra</h2>
+                        <h2 class="card-header">Adicionar Informação Extra</h2>
                     </div>
                     <div class="mb-3">
-                        <label for="info" class="form-label">Curiosidade</label>
+                        <label for="info" class="form-label">Informação</label>
                         <textarea type="text" class="form-control @error('info') is-invalid @enderror" id="info" name="info"
                             rows="5">{{ old('info') }}</textarea>
                         @error('info')
@@ -79,7 +79,7 @@
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle"></i> Adicionar
-                            curiosidade Extra</button>
+                            Informação Extra</button>
                     </div>
                 </div>
             </div>

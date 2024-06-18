@@ -15,7 +15,7 @@ class ItemFactory extends Factory
         return [
             'name' => $this->faker->unique()->sentence,
             'description' => $this->faker->paragraph,
-            'history' => $this->faker->paragraph(100),
+            'history' => $this->faker->paragraph(500),
             'detail' => $this->faker->text,
             'date' => $this->faker->date,
             'identification_code' => $this->faker->unique()->numberBetween(1, 1000),

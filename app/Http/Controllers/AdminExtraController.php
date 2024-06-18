@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckLock;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SingleExtraRequest;
@@ -29,9 +30,14 @@ class AdminExtraController extends Controller
         $count = Extra::count();
 
         $query = Extra::query();
-        $query->leftJoin('proprietaries', 'extras.proprietary_id', '=', 'proprietaries.id');
-        $query->leftJoin('items', 'extras.item_id', '=', 'items.id');
-        $query->select(['extras.*', 'extras.created_at AS extra_created', 'extras.updated_at AS extra_updated', 'extras.validation AS extra_validation']);
+        $query
+        ->leftJoin('proprietaries', 'extras.proprietary_id', '=', 'proprietaries.id')
+        ->leftJoin('items', 'extras.item_id', '=', 'items.id')
+        ->select([
+            'extras.*',
+            'items.name AS item_name',
+            'proprietaries.contact AS proprietary_contact',
+        ]);
 
         if ($searchColumn == 'proprietary_id')
             $query->where('proprietaries.contact', 'LIKE', "%{$search}%");
@@ -66,7 +72,7 @@ class AdminExtraController extends Controller
             }
         }
 
-        $extras = $query->paginate(50)->withQueryString();
+        $extras = $query->paginate(30)->withQueryString();
 
         return view('admin.extras.index', compact('extras', 'count'));
     }

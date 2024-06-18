@@ -62,7 +62,7 @@
     <div>
         <footer class="d-md-flex custom-footer px-md-5 justify-content-between fixed align-items-center  py-5 mt-2">
             <ul class="custom-nav mb-0 d-flex justify-content-center col-md-4">
-                <li class="nav-item"><a href="/" class="nav-link p-2">Página principal</a></li>
+                <li class="nav-item"><a href="/" class="nav-link p-2">Home</a></li>
                 <li class="nav-item"><a href="{{ route('items.index') }}" class="nav-link p-2">Explorar</a></li>
                 <li class="nav-item"><a href="{{ route('items.create') }}" class="nav-link p-2">Contribua</a></li>
                 <li class="nav-item"><a href="{{ route('about') }}" class="nav-link p-2">Sobre</a></li>

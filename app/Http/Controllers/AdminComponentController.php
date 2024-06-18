@@ -19,12 +19,18 @@ class AdminComponentController extends Controller
         $search = $request->search;
         $sort = $request->sort;
         $order = $request->order;
-        $count = ItemCOmponent::count();
+        $count = ItemComponent::count();
 
         $query = ItemComponent::query();
         $query->leftJoin('items as item', 'item_component.item_id', '=', 'item.id');
         $query->leftJoin('items as component', 'item_component.component_id', '=', 'component.id');
-        $query->select(['item_component.*', 'item_component.created_at AS item_component_created', 'item_component.updated_at AS item_component_updated', 'item_component.validation AS item_component_validation']);
+        $query->select([
+            'item_component.*',
+            'item_component.created_at AS item_component_created',
+            'item_component.updated_at AS item_component_updated',
+            'item_component.validation AS item_component_validation',
+            'item.name AS item_name',
+            'component.name AS component_name']);
 
         if ($searchColumn == 'item_id')
             $query->where('item.name', 'LIKE', "%{$search}%");
@@ -59,7 +65,7 @@ class AdminComponentController extends Controller
             }
         }
 
-        $components = $query->paginate(50)->withQueryString();
+        $components = $query->paginate(30)->withQueryString();
 
         return view('admin.components.index', compact('components','count'));
     }

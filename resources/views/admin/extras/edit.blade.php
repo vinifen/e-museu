@@ -14,10 +14,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card mb-3">
-                        <h2 class="card-header">Editar Curiosidade Extra: {{ $extra->id }}</h2>
+                        <h2 class="card-header">Editar Informação Extra: {{ $extra->id }}</h2>
                     </div>
                     <div class="mb-3">
-                        <label for="info" class="form-label">Curiosidade</label>
+                        <label for="info" class="form-label">Informação</label>
                         <textarea type="text" class="form-control @error('info') is-invalid @enderror" id="info" name="info"
                             rows="5">{{ $extra->info }}</textarea>
                         @error('info')

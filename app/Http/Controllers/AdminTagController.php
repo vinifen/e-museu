@@ -29,7 +29,12 @@ class AdminTagController extends Controller
 
         $query = Tag::query();
         $query->leftJoin('categories', 'tags.category_id', '=', 'categories.id');
-        $query->select(['tags.*', 'tags.name AS tag_name', 'tags.created_at AS tag_created', 'tags.updated_at AS tag_updated']);
+        $query->select([
+            'tags.*',
+            'tags.name AS tag_name',
+            'tags.created_at AS tag_created',
+            'tags.updated_at AS tag_updated',
+            'categories.name AS category_name']);
 
         if ($searchColumn == 'category_id')
             $query->where('categories.name', 'LIKE', "%{$search}%");
@@ -57,7 +62,7 @@ class AdminTagController extends Controller
             }
         }
 
-        $tags = $query->paginate(50)->withQueryString();;
+        $tags = $query->paginate(30)->withQueryString();;
 
         return view('admin.tags.index', compact('tags', 'count'));
     }

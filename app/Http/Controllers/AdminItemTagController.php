@@ -25,7 +25,13 @@ class AdminItemTagController extends Controller
         $query = TagItem::query();
         $query->leftJoin('items', 'tag_item.item_id', '=', 'items.id');
         $query->leftJoin('tags', 'tag_item.tag_id', '=', 'tags.id');
-        $query->select(['tag_item.*', 'tag_item.created_at AS tag_item_created', 'tag_item.updated_at AS tag_item_updated', 'tag_item.validation AS tag_item_validation']);
+        $query->select([
+            'tag_item.*',
+            'tag_item.created_at AS tag_item_created',
+            'tag_item.updated_at AS tag_item_updated',
+            'tag_item.validation AS tag_item_validation',
+            'items.name AS item_name',
+            'tags.name AS tag_name']);
 
         if ($searchColumn == 'item_id')
             $query->where('items.name', 'LIKE', "%{$search}%");

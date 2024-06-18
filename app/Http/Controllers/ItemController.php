@@ -30,6 +30,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $query = Item::query();
+        $query->select('id', 'name', 'date', 'section_id', 'description', 'image');
         $query->where('validation', true);
         $order = $request->order;
         $sectionName = '';
@@ -216,21 +217,21 @@ class ItemController extends Controller
 
     public function loadCategories()
     {
-        $data = Category::orderBy('name', 'asc')->get();
+        $data = Category::select('name', 'id')->orderBy('name', 'asc')->get();
 
         return $data;
     }
 
     public function loadTags($category)
     {
-        $data = Tag::where('validation', true)->where('category_id', $category)->orderBy('name', 'asc')->get();
+        $data = Tag::select('name', 'id')->where('validation', true)->where('category_id', $category)->orderBy('name', 'asc')->get();
 
         return $data;
     }
 
     public function loadSections()
     {
-        $data = Section::orderBy('name', 'asc')->get();
+        $data = Section::select('name', 'id')->orderBy('name', 'asc')->get();
 
         return $data;
     }

@@ -58,8 +58,8 @@
                         @foreach ($components as $component)
                             <tr>
                                 <th scope="row">{{ $component->id }}</th>
-                                <td>{{ $component->item->name }}</td>
-                                <td>{{ $component->component->name }}</td>
+                                <td>{{ $component->item_name }}</td>
+                                <td>{{ $component->component_name }}</td>
                                 <td>
                                     @if ($component->item_component_validation == 1)
                                         Sim

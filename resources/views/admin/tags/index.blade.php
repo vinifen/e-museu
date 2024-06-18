@@ -71,7 +71,7 @@
                                         Não
                                     @endif
                                 </td>
-                                <td>{{ $tag->category->name }}</td>
+                                <td>{{ $tag->category_name }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($tag->tag_created)) }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($tag->tag_updated)) }}</td>
                                 <td>

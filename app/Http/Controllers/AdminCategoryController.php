@@ -31,7 +31,7 @@ class AdminCategoryController extends Controller
                 $query->orderBy($request->sort, 'asc');
         }
 
-        $categories = $query->paginate(50)->withQueryString();
+        $categories = $query->paginate(30)->withQueryString();
 
         return view('admin.categories.index', compact('categories', 'count'));
     }

@@ -36,7 +36,18 @@ class AdminItemController extends Controller
         $query = Item::query();
         $query->leftJoin('proprietaries', 'items.proprietary_id', '=', 'proprietaries.id');
         $query->leftJoin('sections', 'items.section_id', '=', 'sections.id');
-        $query->select(['items.*', 'items.name AS item_name', 'items.created_at AS item_created', 'items.updated_at AS item_updated', 'items.validation AS item_validation']);
+        $query->select([
+            'items.*',
+            'items.name AS item_name',
+            'items.created_at AS item_created',
+            'items.updated_at AS item_updated',
+            'items.validation AS item_validation',
+            DB::raw('LEFT(items.history, 300) as history'),
+            DB::raw('LEFT(items.description, 150) as description'),
+            DB::raw('LEFT(items.detail, 150) as detail'),
+            'sections.name AS section_name',
+            'proprietaries.contact AS proprietary_contact',
+        ]);
 
         if ($searchColumn == 'proprietary_id')
             $query->where('proprietaries.contact', 'LIKE', "%{$search}%");
@@ -71,7 +82,7 @@ class AdminItemController extends Controller
             }
         }
 
-        $items = $query->paginate(50)->withQueryString();
+        $items = $query->paginate(30)->withQueryString();
 
         return view('admin.items.index', compact('items', 'count'));
     }

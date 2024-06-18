@@ -102,7 +102,7 @@
                                     <strong>Descrição: </strong>
                                     <p class="ms-3">{{ $item->description }}</p>
                                     <strong>História: </strong>
-                                    <p class="card-text">{{ Str::limit($item->history, 500) }}</p>
+                                    <p class="card-text">$item->history</p>
                                     <strong>Detalhe: </strong>
                                     <p class="ms-3">{!! nl2br($item->detail) !!}</p>
                                     <strong>Data: </strong>
@@ -142,7 +142,7 @@
                         </ul>
                     </div>
                 </div>
-                {{ $proprietary->items()->paginate(15)->links() }}
+                {{ $proprietary->items()->paginate(15)->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>

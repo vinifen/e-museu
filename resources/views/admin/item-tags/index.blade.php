@@ -59,8 +59,8 @@
                         @foreach ($itemTags as $itemTag)
                             <tr>
                                 <th scope="row">{{ $itemTag->id }}</th>
-                                <td>{{ $itemTag->item->name }}</td>
-                                <td>{{ $itemTag->tag->name }}</td>
+                                <td>{{ $itemTag->item_name }}</td>
+                                <td>{{ $itemTag->tag_name }}</td>
                                 <td>
                                     @if ($itemTag->tag_item_validation == 1)
                                         Sim

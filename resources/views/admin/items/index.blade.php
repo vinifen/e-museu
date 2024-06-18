@@ -88,9 +88,9 @@
                             <tr class="@if (!$item->locks->isEmpty() && $item->locks->first()->user_id != auth()->user()->id) table-warning @endif">
                                 <th scope="row">{{ $item->id }}</th>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ Str::limit($item->description, 150) }}</td>
-                                <td>{{ Str::limit($item->history, 300) }}</td>
-                                <td>{{ Str::limit($item->detail, 150) }}</td>
+                                <td>{{ $item->description}}</td>
+                                <td>{{ $item->history }}</td>
+                                <td>{{ $item->detail }}</td>
                                 <td>{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td>{{ $item->identification_code }}</td>
                                 <td>
@@ -100,8 +100,8 @@
                                         Não
                                     @endif
                                 </td>
-                                <td>{{ $item->section->name }}</td>
-                                <td>{{ $item->proprietary->contact }}</td>
+                                <td>{{ $item->section_name }}</td>
+                                <td>{{ $item->proprietary_contact }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($item->item_created)) }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($item->item_updated)) }}</td>
                                 <td>
