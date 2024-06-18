@@ -40,7 +40,7 @@
                         <i class="bi bi-patch-plus-fill h4 me-2"></i>Enviar Informação Extra
                     </a>
                 </div>
-                <div class="card mt-2">
+                <div class="card my-2">
                     <div>
                         <h5>{{ $item->name }}</h5>
                     </div>

@@ -24,7 +24,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Nome</label>
+                        <label for="password" class="form-label">Senha</label>
                         <input type="text" class="form-control @error('password') is-invalid @enderror" id="password"
                             name="password">
                         @error('password')

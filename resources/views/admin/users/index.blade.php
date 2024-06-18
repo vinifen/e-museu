@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
-                            <tr>
+                            <tr class="@if (!$user->locks->isEmpty()) table-warning @endif">
                                 <th scope="row">{{ $user->id }}</th>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($user->created_at)) }}</td>
@@ -64,11 +64,18 @@
                                     <div class="d-flex justify-content-center align-items-center">
                                         <a href="{{ route('admin.users.show', $user->id) }}" type="button"
                                             class="btn btn-primary me-1"><i class="bi bi-eye-fill"></i></a>
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                                        <form class="me-1" action="{{ route('admin.users.destroy', $user->id) }}"
+                                            method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger deleteUserButton"><i
-                                                    class="bi bi-trash-fill"></i>
+                                                    class="bi bi-trash-fill"></button></i>
+                                        </form>
+                                        <form action="{{ route('admin.users.delete-lock', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-warning deleteLockButton"><i
+                                                    class="bi bi-unlock-fill"></button></i>
                                         </form>
                                     </div>
                                 </td>

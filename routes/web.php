@@ -13,7 +13,6 @@ use App\Http\Controllers\AdminProprietaryController;
 use App\Http\Controllers\AdminComponentController;
 use App\Http\Controllers\AdminItemTagController;
 use App\Http\Controllers\AdminExtraController;
-use App\Http\Controllers\AdminContributionController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -125,16 +124,6 @@ Route::group(['middleware' => 'auth'], function () {
         'destroy' => 'admin.extras.destroy',
     ]);
 
-    Route::resource('admin/contributions', AdminContributionController::class)->names([
-        'index' => 'admin.contributions.index',
-        'create' => 'admin.contributions.create',
-        'store' => 'admin.contributions.store',
-        'show' => 'admin.contributions.show',
-        'edit' => 'admin.contributions.edit',
-        'update' => 'admin.contributions.update',
-        'destroy' => 'admin.contributions.destroy',
-    ]);
-
     Route::resource('admin/users', AdminUserController::class)->names([
         'index' => 'admin.users.index',
         'create' => 'admin.users.create',
@@ -142,6 +131,8 @@ Route::group(['middleware' => 'auth'], function () {
         'show' => 'admin.users.show',
         'destroy' => 'admin.users.destroy',
     ]);
+
+    Route::delete('/admin/users/{id}/delete-lock', [AdminUserController::class, 'destroyLock'])->name('admin.users.delete-lock');
 });
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

@@ -46,8 +46,8 @@
         </div>
         <div class="row">
             <div class="col-md-6 ">
-                <img src="/img/placeholder.png" class="p-4 clickable-image"
-                    style="aspect-ratio: 3 / 2; width: 100%; max-height: 100%; object-fit: cover" alt="">
+                <img src="/img/unicentro-utfpr-logos.png" class="p-4 clickable-image" style="width: 100%; max-height: 100%;"
+                    alt="">
             </div>
             <div class="col-md-6">
                 <p class="p-4">
@@ -64,8 +64,9 @@
                     também, por pessoas que tenham interesse em colaborar conosco. Você também pode fazer parte!
                     <br>
                     <br>
-                    <strong>Se tiver quaisquer dúvidas em relação ao nosso site, temos uma assistente virtual que pode te auxiliar.
-                    Apenas clique (ou toque) sobre ela para interagir com o recurso.</strong>
+                    <strong>Se tiver quaisquer dúvidas em relação ao nosso site, temos uma assistente virtual que pode te
+                        auxiliar.
+                        Apenas clique (ou toque) sobre ela para interagir com o recurso.</strong>
                     <br>
                     <br>
                     Logo abaixo disponilizamos alguns pontos de partida para começar a explorar nosso site. Boa visita!
@@ -75,43 +76,57 @@
         <h3>Opções de páginas para começar sua exploração</h3>
         <div class="row p-4">
             <div class="col-md-4 ">
-                <div class="col-md pb-5 d-flex justify-content-center">
+                <div class="col-md pb-1 d-flex justify-content-center">
                     <a href="{{ route('items.index') }}" class="card d-flex card-anim">
-                        <img class="p-1" src="/img/placeholder.png" style="height: 12rem; object-fit: cover;"
-                            alt="...">
                         <div class="card-body">
-                            <h6 class="card-title fw-bold">Explorar itens do museu</h6>
-                            <p>Se deseja explorar os itens do nosso scervo virtual, esta é a opção que procura!
-                            </p>
-                            <h6 class="me-4 d-flex justify-content-end card-more-details">VER MAIS ></h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="p-2" src="/img/compass.png" style="width: 7rem;" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="card-title fw-bold">Explorar itens do museu</h6>
+                                    <p>Se deseja explorar os itens do nosso scervo virtual, esta é a opção que procura!
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </a>
                 </div>
             </div>
             <div class="col-md-4 ">
-                <div class="col-md pb-5 d-flex justify-content-center">
+                <div class="col-md pb-1 d-flex justify-content-center">
                     <a href="{{ route('items.create') }}" class="card d-flex card-anim">
-                        <img class="p-1" src="/img/placeholder.png" style="height: 12rem; object-fit: cover;"
-                            alt="...">
                         <div class="card-body">
-                            <h6 class="card-title fw-bold">Cadastrar um item no museu</h6>
-                            <p>Quer colaborar com o nosso museu, enviando um item ao nosso acervo virtual?
-                            </p>
-                            <h6 class="me-4 d-flex justify-content-end card-more-details">VER MAIS ></h6>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="p-2" src="/img/form.png" style="width: 7rem;" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="card-title fw-bold">Cadastrar um item</h6>
+                                    <p>Quer colaborar com o nosso museu enviando um item ao nosso acervo virtual?
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </a>
                 </div>
             </div>
             <div class="col-md-4 ">
-                <div class="col pb-5 d-flex justify-content-center">
+                <div class="col-md pb-1 d-flex justify-content-center">
                     <a href="{{ route('about') }}" class="card d-flex card-anim">
-                        <img class="p-1" src="/img/placeholder.png" style="height: 12rem; object-fit: cover;"
-                            alt="...">
                         <div class="card-body">
-                            <h6 class="card-title fw-bold">Sobre o nosso museu</h6>
-                            <p>Gostaria de saber mais sobre o nosso projeto e as entidades envolvidas na criação dele?
-                            </p>
-                            <h6 class="me-4 d-flex justify-content-end card-more-details">VER MAIS ></h6>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="p-2" src="/img/info.png" style="width: 7rem;" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="card-title fw-bold">Sobre o museu</h6>
+                                    <p>Gostaria de saber mais sobre o nosso projeto e as entidades envolvidas na criação dele?
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </a>
                 </div>

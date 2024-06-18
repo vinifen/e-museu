@@ -14,7 +14,7 @@
             </div>
         @endforeach
         <div class="card mb-3">
-            <h2 class="card-header">Seções - {{ $count }} Cadastrados</h2>
+            <h2 class="card-header">Categorias de Item - {{ $count }} Cadastrados</h2>
         </div>
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">

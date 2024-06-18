@@ -39,7 +39,7 @@ class StoreItemRequest extends FormRequest
         return [
             'name.required' => 'O campo nome é obrigatório.',
             'description.required' => 'O campo descrição é obrigatório.',
-            'section_id.required' => 'O campo seção é obrigatório.',
+            'section_id.required' => 'O campo categoria de item é obrigatório.',
             'image.required' => 'O campo imagem é obrigatório.',
         ];
     }

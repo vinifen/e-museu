@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 
 use App\Models\User;
+use App\Models\Lock;
 
 class AdminUserController extends Controller
 {
@@ -62,5 +63,18 @@ class AdminUserController extends Controller
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'Administrador excluído com sucesso.');
+    }
+
+    public function destroyLock($id)
+    {
+        $lock = Lock::where('user_id', $id)->first();
+
+        if ($lock) {
+            $lock->delete();
+            return redirect()->route('admin.users.index')->with('success', 'Tranca de edição relacionada ao administrador removida com sucesso.');
+        }
+
+
+        return back()->withErrors(['Nenhuma tranca está associada a este administrador.']);
     }
 }

@@ -38,7 +38,6 @@ class CheckLock
         $routeToModel = [
             'admin.items' => ['item', 'App\Models\Item'],
             'admin.tags' => ['tag', 'App\Models\Tag'],
-            'admin.contributions' => ['contribution', 'App\Models\Contribution'],
             'admin.categories' => ['category', 'App\Models\Category'],
             'admin.proprietaries' => ['proprietary', 'App\Models\Proprietary'],
             'admin.extras' => ['extra', 'App\Models\Extra'],

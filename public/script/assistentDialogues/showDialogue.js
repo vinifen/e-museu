@@ -181,7 +181,7 @@ const dialogues = [
 
     {
         id: 13,
-        text: "Todas as informações que não se encaixarem nos outras seções, ou que foram adicionados por outros colaboradores, serão agrupados como 'informações extra'. Se tiver alguma informação que queria compartilhar conosco sobre o item da página, por favor, nos envie através do botão no topo da página!",
+        text: "Todas as informações que não se encaixarem nas outras seções, ou que foram adicionados por outros colaboradores, serão agrupados como 'informações extra'. Se tiver alguma informação que queria compartilhar conosco sobre o item da página, por favor, nos envie através do botão no topo da página!",
         choices: [
             { text: "Aparência", nextId: 4 },
             { text: "Data de lançamento", nextId: 5 },
