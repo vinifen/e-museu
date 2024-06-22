@@ -34,7 +34,8 @@
                                         value="{{ $tag->id }}" name="tag[]"
                                         {{ in_array($tag->id, request()->input('tag', [])) ? 'checked' : '' }} />
                                     <label class="custom-checkbox-label"
-                                        for="tag-{{ $tag->id }}">{{ $tag->name }}</label>
+                                        for="tag-{{ $tag->id }}">{{ $tag->name }}
+                                    </label>
                                 </div>
                             @endif
                         @endforeach

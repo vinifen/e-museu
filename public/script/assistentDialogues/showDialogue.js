@@ -164,7 +164,7 @@ const dialogues = [
     },
     {
         id: 12,
-        text: "Dependendo do item, ele pode ser composto por outros itens do múseu. Selecionando um deles, você navega para a página do item.",
+        text: "Dependendo do item, ele pode ser composto por outros itens do museu. Selecionando um deles, você navega para a página do item.",
         choices: [
             { text: "Aparência", nextId: 4 },
             { text: "Data de lançamento", nextId: 5 },
