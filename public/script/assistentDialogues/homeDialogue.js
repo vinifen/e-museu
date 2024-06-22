@@ -1,7 +1,7 @@
 const dialogues = [
     {
         id: 1,
-        text: "Olá, sou Assistente, sua assistente virtual. Como posso te ajudar?",
+        text: "Olá, sou Ada, sua assistente virtual. Como posso te ajudar?",
         choices: [
             { text: "Disponibilizar opções", nextId: 2 },
         ]

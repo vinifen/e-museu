@@ -8,13 +8,8 @@ use App\Models\Section;
 
 class SectionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        /* Category::factory(10)->create(); */
-
         Section::create(['name' => 'Monitor']);
         Section::create(['name' => 'Notebook']);
         Section::create(['name' => 'Computador de Mesa']);

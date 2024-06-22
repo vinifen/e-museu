@@ -26,9 +26,9 @@ class StoreItemRequest extends FormRequest
         return [
             'name' => 'required|string|min:1|max:200|unique:items',
             'date' => 'date',
-            'description' => 'required|string|min:1|max:500',
-            'detail' => 'max:5000',
-            'history' => 'max:50000',
+            'description' => 'required|string|min:1|max:1000',
+            'detail' => 'max:10000',
+            'history' => 'max:100000',
             'section_id' => 'required|integer|numeric|exists:sections,id',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:10240',
         ];

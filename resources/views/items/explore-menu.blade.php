@@ -52,7 +52,7 @@
     @endif
     <i class="bi bi-caret-down-fill me-3"></i>
 </button>
-<div class="collapse navbar-collapse flex-grow-0" id="categoriesToggle">
+<div class="collapse flex-grow-0" id="categoriesToggle">
     <div class="explore-menu-div-mobile mt-0 sticky-top" id="sub-menu">
         <label class="fw-bold" for="search">Buscar por nome</label>
         <form action="{{ route('items.index') }}" method="GET" class="row">

@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\QueryController;
-use App\Http\Controllers\TagController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminItemController;
 use App\Http\Controllers\AdminSectionController;
@@ -18,9 +18,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about', function () {
     return view('about');
