@@ -12,6 +12,7 @@
                     valor histórico que esses aparelhos representam. A seguir, você conhecerá mais sobre esses projetos e as
                     pessoas envolvidas.
                 </p>
+                <p class="ms-4 fw-bold">Para quaiquer dúvidas, entre em contato: emuseuvirtual@gmail.com</p>
             </div>
         </div>
         <div class="row">

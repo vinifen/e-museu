@@ -15,6 +15,7 @@ const dialogues = [
             { text: "Explorar outros itens do museu 🡺", url: "/items" },
             { text: "Contribuir com o museu? 🡺", url: "/items/create" },
             { text: "Saber mais sobre o museu 🡺", url: "/about" },
+            { text: "Entrar em contato com o museu 🡺", nextId: 14 },
         ]
     },
     {
@@ -195,6 +196,11 @@ const dialogues = [
             { text: "Voltar para as opções", nextId: 2 },
         ]
     },
-
-
+    {
+        id: 14,
+        text: "Caso tenha alguma dúvida ou outros assuntos a tratar conosco, envie um email para emuseuvirtual@gmail.com.",
+        choices: [
+            { text: "Voltar para as opções", nextId: 2 }
+        ]
+    },
 ];

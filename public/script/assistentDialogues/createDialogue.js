@@ -14,6 +14,7 @@ const dialogues = [
             { text: "Ir para a página inicial do museu 🡺", url: "/" },
             { text: "Explorar outros itens do museu 🡺", url: "/items" },
             { text: "Saber mais sobre o museu 🡺", url: "/about" },
+            { text: "Entrar em contato com o museu 🡺", nextId: 7 },
         ]
     },
     {
@@ -49,7 +50,7 @@ const dialogues = [
     },
     {
         id: 6,
-        text: "Caso queira remover algum item que tenha cadastrado no nosso museu, por favor, nos envie um email através do email que utilizou para o cadastro do item.",
+        text: "Caso queira remover algum item que tenha cadastrado no nosso museu, por favor, envie um email para emuseuvirtual@gmail.com, com do email que utilizou para o cadastro do item.",
         choices: [
             { text: "Instruções de cadastro", nextId: 4 },
             { text: "Sobre o envio de email e nome completo", nextId: 5 },
@@ -59,12 +60,9 @@ const dialogues = [
     },
     {
         id: 7,
-        text: "Caso tenha alguma outra dúvida, nos envie um email!",
+        text: "Caso tenha alguma dúvida ou outros assuntos a tratar conosco, envie um email para emuseuvirtual@gmail.com.",
         choices: [
-            { text: "Instruções de cadastro", nextId: 4 },
-            { text: "Sobre o envio de email e nome completo", nextId: 5 },
-            { text: "Gostaria de remover um item do museu", nextId: 6 },
-            { text: "Voltar para as opções", nextId: 2 },
+            { text: "Voltar para as opções", nextId: 2 }
         ]
-    }
+    },
 ];

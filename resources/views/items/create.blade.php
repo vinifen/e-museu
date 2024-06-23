@@ -4,6 +4,7 @@
 @section('content')
     <div class="container main-container mb-auto">
         <h1>Cadastrar um item</h1>
+        <p class="ms-4 fw-bold">Para quaiquer dúvidas, entre em contato: emuseuvirtual@gmail.com</p>
         <div class="ms-4 mb-4">
             @foreach ($errors->all() as $error)
                 <p class="error-div text-wrap fw-bold m-1 p-1"><i class="bi bi-exclamation-circle-fill mx-1 h5"></i>
