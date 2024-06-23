@@ -115,7 +115,7 @@
             </div>
             <hr>
         </div>
-        <div class="col m-4">
+        <div class="col-md-10 p-4">
             @yield('content')
         </div>
     </div>

@@ -30,7 +30,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $query = Item::query();
-        $query->select('id', 'name', 'date', 'section_id', 'description', 'image');
+        $query->select('id', 'name', 'date', 'section_id', 'description', 'identification_code', 'image');
         $query->where('validation', true);
         $order = $request->order;
         $sectionName = '';
