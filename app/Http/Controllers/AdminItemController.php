@@ -179,18 +179,47 @@ class AdminItemController extends Controller
     public function createIdentificationCode(Item $item)
     {
         $section = Section::find($item->section_id)->name;
+        $section = self::removeAccent($section);
+
+        $words = explode(' ', $section);
+
+        if (count($words) == 1)
+            $words = explode('-', $words[0]);
 
         $proprietaryCode = '';
+
+        if (count($words) > 1) {
+            $section = strtoupper(substr($words[0], 0, 2));
+            $section .= strtoupper(substr(end($words), 0, 2));
+        } else {
+            $section = strtoupper(substr($words[0], 0, 4));
+        }
 
         if ($item->proprietary->is_admin) {
             $proprietaryCode = strtoupper($item->proprietary->full_name);
         } else {
-            $proprietaryCode = 'CONT';
+            $proprietaryCode = 'EXT';
         }
 
-        $sectionCode = strtoupper(substr($section, 0, 2));
-        $sectionCode .= strtoupper(substr($section, -2));
+        return $proprietaryCode . '_' . $section . '_' . $item->id;
+    }
 
-        return $proprietaryCode . '_' . $sectionCode . '_' . $item->id;
+    public function removeAccent($string)
+    {
+        return preg_replace(array(
+                "/(á|à|ã|â|ä)/",
+                "/(Á|À|Ã|Â|Ä)/",
+                "/(é|è|ê|ë)/",
+                "/(É|È|Ê|Ë)/",
+                "/(í|ì|î|ï)/",
+                "/(Í|Ì|Î|Ï)/",
+                "/(ó|ò|õ|ô|ö)/",
+                "/(Ó|Ò|Õ|Ô|Ö)/",
+                "/(ú|ù|û|ü)/",
+                "/(Ú|Ù|Û|Ü)/",
+                "/(ñ)/",
+                "/(Ñ)/"),
+                explode(" ","a A e E i I o O u U n N"),
+                $string);
     }
 }

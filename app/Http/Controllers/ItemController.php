@@ -261,12 +261,41 @@ class ItemController extends Controller
     public function createIdentificationCode(Item $item)
     {
         $section = Section::find($item->section_id)->name;
+        $section = self::removeAccent($section);
 
-        $proprietaryCode = 'CONT';
+        $words = explode(' ', $section);
 
-        $sectionCode = strtoupper(substr($section, 0, 2));
-        $sectionCode .= strtoupper(substr($section, -2));
+        if (count($words) == 1)
+            $words = explode('-', $words[0]);
 
-        return $proprietaryCode . '_' . $sectionCode . '_' . $item->id;
+        if (count($words) > 1) {
+            $section = strtoupper(substr($words[0], 0, 2));
+            $section .= strtoupper(substr(end($words), 0, 2));
+        } else {
+            $section = strtoupper(substr($words[0], 0, 4));
+        }
+
+        $proprietaryCode = 'EXT';
+
+        return $proprietaryCode . '_' . $section . '_' . $item->id;
+    }
+
+    public function removeAccent($string)
+    {
+        return preg_replace(array(
+                "/(á|à|ã|â|ä)/",
+                "/(Á|À|Ã|Â|Ä)/",
+                "/(é|è|ê|ë)/",
+                "/(É|È|Ê|Ë)/",
+                "/(í|ì|î|ï)/",
+                "/(Í|Ì|Î|Ï)/",
+                "/(ó|ò|õ|ô|ö)/",
+                "/(Ó|Ò|Õ|Ô|Ö)/",
+                "/(ú|ù|û|ü)/",
+                "/(Ú|Ù|Û|Ü)/",
+                "/(ñ)/",
+                "/(Ñ)/"),
+                explode(" ","a A e E i I o O u U n N"),
+                $string);
     }
 }
