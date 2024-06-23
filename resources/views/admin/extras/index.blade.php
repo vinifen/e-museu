@@ -26,7 +26,7 @@
                         <option value="id" @if (request()->query('search_column') == 'id') selected @endif>Id</option>
                         <option value="info" @if (request()->query('search_column') == 'info') selected @endif>Informação</option>
                         <option value="item_id" @if (request()->query('search_column') == 'item_id') selected @endif>Item</option>
-                        <option value="proprietary_id" @if (request()->query('search_column') == 'proprietary_id') selected @endif>Proprietário
+                        <option value="proprietary_id" @if (request()->query('search_column') == 'proprietary_id') selected @endif>Colaborador
                         </option>
                         <option value="validation" @if (request()->query('search_column') == 'validation') selected @endif>Validação</option>
                         <option value="created_at" @if (request()->query('search_column') == 'created_at') selected @endif>Criado em</option>
@@ -51,7 +51,7 @@
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
                                         name="sort" value="item_id">Item</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
-                                        name="sort" value="proprietary_id">Proprietário</button></th>
+                                        name="sort" value="proprietary_id">Colaborador</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"
                                         name="sort" value="validation">Validação</button></th>
                                 <th scope="col"><button class="btn border-0 bg-transparent px-0 py-0" type="submit"

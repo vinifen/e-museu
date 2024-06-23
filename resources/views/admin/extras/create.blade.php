@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="proprietary_id" class="form-label">Proprietário</label>
+                        <label for="proprietary_id" class="form-label">Colaborador</label>
                         <select class="form-select @error('proprietary_id') is-invalid @enderror" id="proprietary_id"
                             name="proprietary_id">
                             @foreach ($proprietaries as $proprietary)

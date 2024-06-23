@@ -59,7 +59,7 @@
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle"></i> Adicionar
-                            Proprietário</button>
+                            Colaborador</button>
                     </div>
                 </div>
             </div>

@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="card mb-3">
-                            <h5 class="card-header">Proprietário</h5>
+                            <h5 class="card-header">Colaborador</h5>
                             <div class="card-body">
                                 <strong>Id: </strong>
                                 <p class="ms-3">{{ $extra->proprietary->id }}</p>
@@ -135,7 +135,7 @@
                         </p>
                         <strong>Categoria do Item: </strong>
                         <p class="card-text">{{ $extra->item->section->name }}</p>
-                        <strong>Proprietário: </strong>
+                        <strong>Colaborador: </strong>
                         <p class="card-text">{{ $extra->item->proprietary->name }}</p>
                         <strong>Criado em: </strong>
                         <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($extra->item->created_at)) }}</p>

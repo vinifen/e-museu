@@ -39,6 +39,7 @@
                                     style="height: 12rem; object-fit: cover;" alt="Imagem do item">
                                 <div class="card-body">
                                     <h6 class="card-title fw-bold border-dark">{{ Str::limit($item->name, 40) }}</h6>
+                                    <p class="border-dark">{{ $item->identification_code }}</p>
                                     <div class="division-line my-1"></div>
                                     <div class="d-flex justify-content-between pt-1">
                                         <p class="card-subtitle border- fw-bold">{{ $item->section->name }}</p>

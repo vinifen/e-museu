@@ -67,7 +67,7 @@ class AdminProprietaryController extends Controller
         $data = $request->validated();
         $proprietary = Proprietary::create($data);
 
-        return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', 'Proprietário adicionado com sucesso.');
+        return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', 'Colaborador adicionado com sucesso.');
     }
 
     public function edit($id)
@@ -87,7 +87,7 @@ class AdminProprietaryController extends Controller
 
         $this->unlock($proprietary);
 
-        return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', 'Proprietário atualizado com sucesso.');
+        return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', 'Colaborador atualizado com sucesso.');
     }
 
     public function destroy(Proprietary $proprietary)
@@ -96,6 +96,6 @@ class AdminProprietaryController extends Controller
 
         $proprietary->delete();
 
-        return redirect()->route('admin.proprietaries.index')->with('success', 'Proprietário excluído com sucesso.');
+        return redirect()->route('admin.proprietaries.index')->with('success', 'Colaborador excluído com sucesso.');
     }
 }

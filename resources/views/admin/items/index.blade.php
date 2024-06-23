@@ -32,7 +32,7 @@
                         <option value="identification_code" @if (request()->query('search_column') == 'identification_code') selected @endif>Código de
                             Identificação</option>
                         <option value="validation" @if (request()->query('search_column') == 'validation') selected @endif>Validação</option>
-                        <option value="proprietary_id" @if (request()->query('search_column') == 'proprietary_id') selected @endif>Proprietário
+                        <option value="proprietary_id" @if (request()->query('search_column') == 'proprietary_id') selected @endif>Colaborador
                         </option>
                         <option value="section_id" @if (request()->query('search_column') == 'section_id') selected @endif>Categoria do Item</option>
                         <option value="created_at" @if (request()->query('search_column') == 'created_at') selected @endif>Criado em</option>

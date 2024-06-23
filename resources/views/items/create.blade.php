@@ -192,11 +192,11 @@
                             @enderror
                         </div>
                         <div class="warning-div px-1 mx-5 mb-3" id="contact-warning" hidden>
-                            <i class="bi bi-exclamation-circle-fill mx-1 h5"></i>Proprietário não encontrado! Adicionaremos
+                            <i class="bi bi-exclamation-circle-fill mx-1 h5"></i>Colaborador não encontrado! Adicionaremos
                             aos nossos registros para futuras contribuições.
                         </div>
                         <div class="success-div px-1 mx-5 mb-3" id="contact-success" hidden>
-                            <i class="bi bi-exclamation-circle-fill mx-1 h5"></i>Proprietário encontrado. Bem vindo de
+                            <i class="bi bi-exclamation-circle-fill mx-1 h5"></i>Colaborador encontrado. Bem vindo de
                             volta!
                         </div>
                     </div>

@@ -119,7 +119,7 @@
                                     </p>
                                     <strong>Categoria de Item: </strong>
                                     <p class="card-text">{{ $item->section->name }}</p>
-                                    <strong>Proprietário: </strong>
+                                    <strong>Colaborador: </strong>
                                     <p class="card-text">{{ $item->proprietary->full_name }}</p>
                                     <strong>Criado em: </strong>
                                     <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($item->created_at)) }}</p>

@@ -94,7 +94,7 @@
                         </p>
                         <strong>Categoria do Item: </strong>
                         <p class="card-text">{{ $component->item->section->name }}</p>
-                        <strong>Proprietário: </strong>
+                        <strong>Colaborador: </strong>
                         <p class="card-text">{{ $component->item->proprietary->name }}</p>
                         <strong>Criado em: </strong>
                         <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($component->item->created_at)) }}</p>
@@ -146,7 +146,7 @@
                         </p>
                         <strong>Categoria do Item: </strong>
                         <p class="card-text">{{ $component->component->section->name }}</p>
-                        <strong>Proprietário: </strong>
+                        <strong>Colaborador: </strong>
                         <p class="card-text">{{ $component->component->proprietary->name }}</p>
                         <strong>Criado em: </strong>
                         <p class="ms-2">{{ date('d-m-Y H:i:s', strtotime($component->component->created_at)) }}</p>
