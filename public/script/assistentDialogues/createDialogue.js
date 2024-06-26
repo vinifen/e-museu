@@ -11,10 +11,10 @@ const dialogues = [
         text: "O que gostaria de saber?",
         choices: [
             { text: "Saber mais sobre a página atual", nextId: 3 },
-            { text: "Ir para a página inicial do museu 🡺", url: "/" },
-            { text: "Explorar outros itens do museu 🡺", url: "/items" },
-            { text: "Saber mais sobre o museu 🡺", url: "/about" },
-            { text: "Entrar em contato com o museu 🡺", nextId: 7 },
+            { text: "Ir para a página inicial do museu >", url: "/" },
+            { text: "Explorar outros itens do museu >", url: "/items" },
+            { text: "Saber mais sobre o museu >", url: "/about" },
+            { text: "Entrar em contato com o museu >", nextId: 7 },
         ]
     },
     {

@@ -43,7 +43,7 @@ class AdminExtraController extends Controller
             $query->where('proprietaries.contact', 'LIKE', "%{$search}%");
 
         elseif ($searchColumn == 'item_id')
-            $query->where('items.name', 'LIKE', "%{search}%");
+            $query->where('items.name', 'LIKE', "%{$search}%");
 
         elseif ($searchColumn && $search) {
             if ($search == 'sim')

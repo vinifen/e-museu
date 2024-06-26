@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-6">
                 <p class="p-4">
-                    O nosso museu virtual foi criado graças ao apoio da UTFPR e da UNICENTRO, através dos projetos Tecnolixo
+                    O nosso museu virtual foi criado graças ao apoio da UTFPR e da Unicentro, através dos projetos Tecnolixo
                     e E-Lixo. Esses projetos visam coletar itens de informática descartados, com o intuito de preservar o
                     valor histórico que esses aparelhos representam. A seguir, você conhecerá mais sobre esses projetos e as
                     pessoas envolvidas.

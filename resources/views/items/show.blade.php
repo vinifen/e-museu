@@ -10,7 +10,7 @@
 
     $hasComponents = $item->ItemComponents
         ->filter(function ($itemComponent) {
-            return $itemComponent->validation == true;
+            return $itemComponent->validation == true && $itemComponent->component->validation == true;
         })
         ->isEmpty();
 
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         @foreach ($item->tagItems as $tagItem)
-                            @if ($tagItem->validation == 1)
+                            @if ($tagItem->validation == true && $tagItem->tag->validation == true)
                                 <div class="row">
                                     <div class="col-md-5">
                                         <p class="fw-bold">{{ $tagItem->tag->category->name }}</p>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="card-body row m-1">
                         @foreach ($item->ItemComponents as $ItemComponent)
-                            @if ($ItemComponent->validation == 1)
+                            @if ($ItemComponent->validation == true && $ItemComponent->component->validation == true)
                                 <div class="col-6 p-2">
                                     <a href={{ route('items.show', $ItemComponent->component->id) }}>
                                         <div class="card-anim component-button p-1">
@@ -179,7 +179,7 @@
                 </div>
                 <h3>Linhas do Tempo</h3>
                 @foreach ($item->tagItems as $tagItem)
-                    @if ($tagItem->validation == 1)
+                    @if ($tagItem->validation == true && $tagItem->tag->validation == true)
                         @if ($tagItem->tag->category->name == 'Série')
                             <div class="mx-4 my-5">
                                 <h4 class="mb-4 fw-bold">{{ $tagItem->tag->name }}</h4>

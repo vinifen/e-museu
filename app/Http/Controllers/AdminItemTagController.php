@@ -37,7 +37,7 @@ class AdminItemTagController extends Controller
             $query->where('items.name', 'LIKE', "%{$search}%");
 
         elseif ($searchColumn == 'tag_id')
-            $query->where('tags.name', 'LIKE', "%{search}%");
+            $query->where('tags.name', 'LIKE', "%{$search}%");
 
         elseif ($searchColumn && $search) {
             if ($search == 'sim')

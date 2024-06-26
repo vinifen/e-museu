@@ -75,7 +75,7 @@
                 <img class="tecnolixo-footer-logo" src="/img/tecnolixo-footer-logo.png" alt="">
             </a>
 
-            <p class="col-md-4 mb-0 d-flex justify-content-center">2024 - UTFPR - UNICENTRO</p>
+            <p class="col-md-4 mb-0 d-flex justify-content-center">2024 - UTFPR - Unicentro</p>
         </footer>
     </div>
     <script src="{{ asset('script/assistentDialogueHandler.js') }}"></script>

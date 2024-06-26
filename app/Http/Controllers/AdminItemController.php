@@ -52,8 +52,10 @@ class AdminItemController extends Controller
         if ($searchColumn == 'proprietary_id')
             $query->where('proprietaries.contact', 'LIKE', "%{$search}%");
 
-        elseif ($searchColumn == 'section_id')
-            $query->where('sections.name', 'LIKE', "%{search}%");
+        elseif ($searchColumn == 'section_id') {
+            $query->where('sections.name', 'LIKE', "%{$search}%");
+        }
+
 
         elseif ($searchColumn && $search) {
             if ($search == 'sim')

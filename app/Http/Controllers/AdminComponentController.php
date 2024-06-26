@@ -36,7 +36,7 @@ class AdminComponentController extends Controller
             $query->where('item.name', 'LIKE', "%{$search}%");
 
         elseif ($searchColumn == 'component_id')
-            $query->where('component.name', 'LIKE', "%{search}%");
+            $query->where('component.name', 'LIKE', "%{$search}%");
 
         elseif ($searchColumn && $search) {
             if ($search == 'sim')

@@ -46,7 +46,7 @@
                                         <p class="card-subtitle">{{ date('d/m/Y', strtotime($item->date)) }}</p>
                                     </div>
                                     <div class="division-line my-1"></div>
-                                    <p class="card-text">{{ Str::limit($item->description, 120) }}</p>
+                                    <p class="card-text">{{ Str::limit($item->description, 100) }}</p>
                                 </div>
                             </a>
                         </div>
