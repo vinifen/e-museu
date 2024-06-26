@@ -96,7 +96,7 @@
                                     <p class="ms-3">{{ $item->id }}</p>
                                     <strong>Nome: </strong>
                                     <p class="card-text">{{ $item->name }}</p>
-                                    <img src="{{ url("{$item->image}") }}" class="img-thumbnail clickable-image"
+                                    <img src="{{ url("storage/{$item->image}") }}" class="img-thumbnail clickable-image"
                                         alt="Imagem do item"
                                         style="aspect-ratio: 3 / 2; width: 100%; max-height: 100%; object-fit: cover">
                                     <strong>Descrição: </strong>

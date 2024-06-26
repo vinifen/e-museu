@@ -122,8 +122,7 @@ class AdminItemController extends Controller
         $data = $request->all();
 
         if ($request->image) {
-            $path = $request->image->store('items');
-            $data['image'] = Storage::disk('s3')->url($path);
+            $data['image'] = $request->image->store('items');
         }
 
         $data['identification_code'] = '000';
@@ -156,8 +155,11 @@ class AdminItemController extends Controller
         $data = $request->validated();
 
         if ($request->image) {
-            $path = $request->image->store('items');
-            $data['image'] = Storage::disk('s3')->url($path);
+            $image_path = $item->image;
+
+            Storage::delete($image_path);
+
+            $data['image'] = $request->image->store('items');
         } else {
             unset($data['image']);
         }
@@ -173,6 +175,9 @@ class AdminItemController extends Controller
     {
         $this->unlock($item);
 
+        $image_path = $item->image;
+
+        Storage::delete($image_path);
         $item->delete();
 
         return redirect()->route('admin.items.index')->with('success', 'Item excluído com sucesso.');

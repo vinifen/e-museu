@@ -121,8 +121,7 @@ class ItemController extends Controller
             return back()->withErrors(['Este usuário não possui permissão para registrar itens.']);
 
         if ($request->image) {
-            $path = $request->image->store('items');
-            $itemData['image'] = Storage::disk('s3')->url($path);
+            $itemData['image'] = $request->image->store('items');
         }
 
         $path = $request->image->store('items');
