@@ -124,9 +124,6 @@ class ItemController extends Controller
             $itemData['image'] = $request->image->store('items');
         }
 
-        $path = $request->image->store('items');
-        $data['image'] = Storage::disk('s3')->url($path);
-
         $item = self::storeItem($itemData, $proprietary);
 
         self::storeMultipleTag($request, $item);
