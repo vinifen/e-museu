@@ -52,6 +52,12 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-5">
+                                <p class="fw-bold">Código de Identificação</p>
+                            </div>
+                            <div class="col-md-7">
+                                <p>{{ $item->identification_code }}</p>
+                            </div>
+                            <div class="col-md-5">
                                 <p class="fw-bold">Categoria</p>
                             </div>
                             <div class="col-md-7">
@@ -165,6 +171,7 @@
             <div class="col-md-8 order-md-1">
                 <h1>{{ $item->name }}</h1>
                 <div class="m-4">
+                    <p class="fw-bold">Código de Identificação: {{ $item->identification_code }}<p>
                     <p>{{ $item->description }}</p>
                 </div>
                 <h3>História</h3>

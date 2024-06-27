@@ -64,10 +64,10 @@
                     <p class="p-4">
                         A Universidade Tecnológica Federal do Paraná (UTFPR) e a Universidade Estadual do Centro-Oeste
                         (Unicentro) possuem projetos relacionados a lixo eletrônico. A <a
-                            href="{{ route('about') }}">UTFPR</a>
+                            href="https://www.utfpr.edu.br">UTFPR</a>
                         possui o projeto Tecno-Lixo:
                         Oficina do
-                        Aprender e a <a href="{{ route('about') }}">Unicentro</a> o projeto E-Lixo. Os projetos recebem
+                        Aprender e a <a href="https://www3.unicentro.br">Unicentro</a> o projeto E-Lixo. Os projetos recebem
                         peças de
                         computadores que as pessoas não
                         utilizam
