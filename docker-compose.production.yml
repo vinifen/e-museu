@@ -1,11 +1,10 @@
 services:
   app:
     build:
-        context: .
-        dockerfile: Dockerfile.production
+      context: .
+      dockerfile: Dockerfile.production
+      target: app
     working_dir: /var/www/
-    volumes:
-      - ./:/var/www
     environment:
       - APP_URL=${APP_URL_PRODUCTION}
     networks:
@@ -13,16 +12,17 @@ services:
     depends_on:
       - db
 
-  web: 
+  web:
     build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.production
+      target: web
     ports:
       - "${WEB_SERVER_PORT_PRODUCTION}:80"
-    networks:
-      - e-museu_network 
     depends_on:
       - app
+    networks:
+      - e-museu_network
 
   db:
     image: mysql:8.0-debian
@@ -33,7 +33,6 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     volumes:
       - ./mysql_data:/var/lib/mysql
-
     networks:
       - e-museu_network 
 
