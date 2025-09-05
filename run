@@ -15,6 +15,18 @@ function env {
   chown 1000:1000 .env
 }
 
+function get_compose_file {
+  source .env
+  if [ "$APP_ENV" == "production" ]; then
+    echo "docker-compose.production.yml"
+  elif [ "$APP_ENV" == "local" ]; then
+    echo "docker-compose.local.yml"
+  else
+    echo "Error: APP_ENV must be 'local' or 'production'. Current value: '$APP_ENV'" >&2
+    exit 1
+  fi
+}
+
 function setup-local-hard {
   if [[ "$1" != "-y" ]]; then
     echo "WARNING: You are about to run setup-local-hard."
@@ -30,7 +42,37 @@ function setup-local-hard {
 
   echo "Running setup-local-hard..."
   
-  rm-all || echo "[warn] Could not complete cleanup (rm-all); continuing..."
+  remove-all || echo "[warn] Could not complete cleanup (remove-all); continuing..."
+
+  env || echo "[warn] Failed to copy .env (env); continuing..."
+
+  up || echo "[warn] Failed to start containers (up); continuing..."
+
+  composer || echo "[warn] Composer install failed (composer); continuing..."
+
+  gen_key || echo "[warn] Key generation failed (gen_key); continuing..."
+
+  migrate || echo "[warn] Migrations failed (migrate); continuing..."
+
+  seed || echo "[warn] Seeding failed (seed); continuing..."
+}
+
+function setup-production-hard {
+  if [[ "$1" != "-y" ]]; then
+    echo "WARNING: You are about to run setup-production-hard."
+    echo "This will delete and recreate your production database, node_modules, vendor, and all Docker containers."
+    echo -n "Proceed only if you are sure. (y/n): "
+    read confirm
+
+    if [ "$confirm" != "y" ]; then
+      echo "Aborting setup-production-hard."
+      exit 1
+    fi
+  fi
+
+  echo "Running setup-production-hard..."
+  
+  remove-all -y || echo "[warn] Could not complete cleanup (remove-all); continuing..."
 
   env || echo "[warn] Failed to copy .env (env); continuing..."
 
@@ -48,32 +90,32 @@ function setup-local-hard {
 function seed {
   source .env
   echo ">> Seeding database..."
-  docker compose exec app php artisan db:seed --force
+  docker compose -f "$(get_compose_file)" exec app php artisan db:seed --force
 }
 
 function phpstan {
   TEST_PATH="${@:-}"
-  docker compose run --rm app ./vendor/bin/phpstan analyse --memory-limit 1G ${TEST_PATH}
+  docker compose -f "$(get_compose_file)" run --rm app ./vendor/bin/phpstan analyse --memory-limit 1G ${TEST_PATH}
 }
 
 function phpcs {
   if [ $# -eq 0 ]; then
-    docker compose run --rm app ./vendor/bin/phpcs app routes tests
+    docker compose -f "$(get_compose_file)" run --rm app ./vendor/bin/phpcs app routes tests
   else
-    docker compose run --rm app ./vendor/bin/phpcs "$@"
+    docker compose -f "$(get_compose_file)" run --rm app ./vendor/bin/phpcs "$@"
   fi
 }
 
 function phpcbf {
   if [ $# -eq 0 ]; then
-    docker compose run --rm app ./vendor/bin/phpcbf app routes tests
+    docker compose -f "$(get_compose_file)" run --rm app ./vendor/bin/phpcbf app routes tests
   else
-    docker compose run --rm app ./vendor/bin/phpcbf "$@"
+    docker compose -f "$(get_compose_file)" run --rm app ./vendor/bin/phpcbf "$@"
   fi
 }
 
 function test {
-  docker compose exec app php artisan test
+  docker compose -f "$(get_compose_file)" exec app php artisan test
 }
 
 function all-tests {
@@ -84,59 +126,75 @@ function all-tests {
 }
 
 function ps {
-  docker compose ps
+  docker compose -f "$(get_compose_file)" ps "${@}"
 }
 
 function up {
   source .env
-  echo ">> Starting containers..."
-  docker compose up "${@}" -d
+  docker compose -f "$(get_compose_file)" up -d "${@}"
 }
 
 function down {
-  source .env
-  docker compose down "${@}"
+  docker compose -f "$(get_compose_file)" down "${@}"
 }
 
 function gen_key {
   source .env
   echo ">> Generating application key..."
-  docker compose exec app php artisan key:generate
+  docker compose -f "$(get_compose_file)" exec app php artisan key:generate
 }
 
 function migrate {
   source .env
   echo ">> Running database migrations..."
-  docker compose exec app php artisan migrate
+  docker compose -f "$(get_compose_file)" exec app php artisan migrate
 }
 
 function storage_link {
   source .env
   echo ">> Creating storage symbolic link..."
-  docker compose exec app php artisan storage:link
+  docker compose -f "$(get_compose_file)" exec app php artisan storage:link
 }
 
 function composer {
   source .env
   echo ">> Installing Composer dependencies..."
-  docker compose exec app composer install --no-interaction --optimize-autoloader
+  docker compose -f "$(get_compose_file)" exec app composer install --no-interaction --optimize-autoloader
 }
 
-function rm-all {
-  echo ">> Cleaning up .env, vendor, containers, images, and volumes..."
+function remove-all {
+  if [[ "$1" != "-y" ]]; then
+    echo "WARNING: You are about to run remove-all."
+    echo "This will delete and recreate your production database, node_modules, vendor, and all Docker containers."
+    echo -n "Proceed only if you are sure. (y/n): "
+    read confirm
 
-  rm -rf pgdata 2>/dev/null || echo "pgdata directory not found, skipping removal"
+    if [ "$confirm" != "y" ]; then
+      echo "Aborting setup-production-hard."
+      exit 1
+    fi
+  fi
+
+  echo ">> Cleaning up .env, mysql_data, vendor, containers, images, and volumes..."
+
+  rm -rf mysql_data 2>/dev/null || echo "mysql_data directory not found, skipping removal"
   rm -rf vendor 2>/dev/null || echo "vendor directory not found, skipping removal"
   rm -f .env 2>/dev/null || echo ".env not found, skipping removal"
   rm -rf storage/app/public/products 2>/dev/null || echo "storage/app/public/products directory not found, skipping removal"
 
-  docker ps -a --filter "name=marketcore-api" -q | xargs -r docker rm -f
-
-  docker images --format "{{.Repository}}:{{.Tag}} {{.ID}}" | grep "marketcore-api" | awk '{print $2}' | xargs -r docker rmi -f
-
-  docker volume ls --format "{{.Name}}" | grep "marketcore-api" | xargs -r docker volume rm -f
+  rm-all-docker || echo "[warn] Could not complete Docker cleanup (rm-all-docker); continuing..."
 
   echo ">> Cleanup completed!"
+}
+
+function rm-all-docker {
+  echo ">> Removing all Docker containers, images, and volumes..."
+
+  docker ps -a --filter "name=e-museu" -q | xargs -r docker rm -f
+
+  docker images --format "{{.Repository}}:{{.Tag}} {{.ID}}" | grep "e-museu" | awk '{print $2}' | xargs -r docker rmi -f
+
+  docker volume ls --format "{{.Name}}" | grep "e-museu" | xargs -r docker volume rm -f
 }
 
 function exec {
@@ -147,7 +205,7 @@ function exec {
   fi
 
   echo ">> Executing in app container: $*"
-  sudo docker exec -it marketcore-api-app-1 "$@"
+  sudo docker exec -it e-museu-app-1 "$@"
 }
 
 function help {
@@ -160,7 +218,7 @@ function help {
   echo "  up           - Start Docker containers"
   echo "  down         - Stop Docker containers"
   echo "  ps           - Show container status"
-  echo "  rm-all       - Clean up environment (remove .env, vendor, containers, images, volumes)"
+  echo "  remove-all       - Clean up environment (remove .env, vendor, containers, images, volumes)"
   echo ""
   echo "Laravel Commands:"
   echo "  gen_key      - Generate Laravel application key"
@@ -187,5 +245,5 @@ function help {
   echo "  ./run exec php artisan tinker  # Open Laravel tinker"
 }
 
-TIMEFORMAT=$'\nTask completed in %3lR'
-time ${@}
+TIMEFORMAT='\nTask completed in %3lR'
+time "${@}"

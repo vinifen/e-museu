@@ -7,6 +7,8 @@ services:
     working_dir: /var/www/
     environment:
       - APP_URL=${APP_URL_PRODUCTION}
+      - APP_ENV=production
+      - APP_DEBUG=false
     networks:
       - e-museu_network
     depends_on:

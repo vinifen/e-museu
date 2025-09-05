@@ -8,6 +8,8 @@ services:
       - ./:/var/www
     environment:
       - APP_URL=${APP_URL_LOCAL}
+      - APP_ENV=local
+      - APP_DEBUG=true
     networks:
       - e-museu_network
     depends_on:
@@ -39,18 +41,18 @@ services:
     networks:
       - e-museu_network 
 
-  pgweb:
-    image: sosedoff/pgweb:latest
-    container_name: marketcore-api-pgweb
-    restart: always
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
     ports:
-      - "8011:8081"
+        - "8075:80"
     environment:
-      - PGWEB_DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@db:5432/${DB_DATABASE}?sslmode=disable
-    depends_on:
-      - db
+        PMA_HOST: db
+        PMA_PORT: ${DB_PORT}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-userpass}
     networks:
-      - e-museu_network
+        - e-museu_network
+
 
 networks:
   e-museu_network:
