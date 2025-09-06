@@ -15,8 +15,10 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
-        Tag::factory(100)->create();
+        if(app()->environment('local')) {
+            Tag::factory(100)->create();
 
-        TagItem::factory(50)->create();
+            TagItem::factory(50)->create();
+        }
     }
 }

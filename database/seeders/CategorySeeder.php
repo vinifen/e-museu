@@ -14,10 +14,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         /* Category::factory(10)->create(); */
-
-        Category::create(['name' => 'Marca']);
-        Category::create(['name' => 'Série']);
-        Category::create(['name' => 'Tamanho']);
-        Category::create(['name' => 'Cor']);
+        if(app()->environment('local')) {
+            Category::create(['name' => 'Marca']);
+            Category::create(['name' => 'Série']);
+            Category::create(['name' => 'Tamanho']);
+            Category::create(['name' => 'Cor']);
+        }
     }
 }

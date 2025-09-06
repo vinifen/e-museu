@@ -14,6 +14,8 @@ class ExtraSeeder extends Seeder
      */
     public function run(): void
     {
-        Extra::factory(100)->create();
+        if(app()->environment('local')) {
+            Extra::factory(100)->create();
+        }
     }
 }
