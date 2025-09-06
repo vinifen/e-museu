@@ -185,12 +185,12 @@ function remove-all {
   rm -rf vendor 2>/dev/null || echo "vendor directory not found, skipping removal"
   rm -rf storage/app/public/products 2>/dev/null || echo "storage/app/public/products directory not found, skipping removal"
 
-  rm-all-docker || echo "[warn] Could not complete Docker cleanup (rm-all-docker); continuing..."
+  remove-all-docker || echo "[warn] Could not complete Docker cleanup (remove-all-docker); continuing..."
 
   echo ">> Cleanup completed!"
 }
 
-function rm-all-docker {
+function remove-all-docker {
   echo ">> Removing all Docker containers, images, and volumes..."
 
   docker ps -a --filter "name=e-museu" -q | xargs -r docker rm -f
