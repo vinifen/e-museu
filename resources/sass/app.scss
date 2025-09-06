@@ -6,3 +6,13 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+// Seus estilos customizados
+:root {
+    --bs-body-font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin-left: 0;
+    margin-right: 0;
+}
