@@ -21,30 +21,36 @@ function get_compose_file {
     echo "docker-compose.production.yml"
   elif [ "$APP_ENV" == "local" ]; then
     echo "docker-compose.local.yml"
+  elif [[ "$1" == "--no-check" ]]; then
+    echo $APP_ENV
   else
     echo "Error: APP_ENV must be 'local' or 'production'. Current value: '$APP_ENV'" >&2
     exit 1
   fi
 }
 
-function setup-local-hard {
-  if [[ "$1" != "-y" ]]; then
-    echo "WARNING: You are about to run setup-local-hard."
-    echo "This will delete and recreate your local database, node_modules, vendor, and all Docker containers."
-    echo -n "Proceed only if you are sure. (y/n): "
-    read confirm
+function setup {
+  echo "Running setup..."
 
-    if [ "$confirm" != "y" ]; then
-      echo "Aborting setup-local-hard."
-      exit 1
-    fi
+  if [[ "$1" == "--env" || "$2" == "--env" ]]; then
+    env || echo "[warn] Failed to copy .env (env); continuing..."
   fi
 
-  echo "Running setup-local-hard..."
-  
-  remove-all || echo "[warn] Could not complete cleanup (remove-all); continuing..."
-
-  env || echo "[warn] Failed to copy .env (env); continuing..."
+  compose_file=$(get_compose_file)
+  echo ""
+  echo "=================================================="
+  if [ "$compose_file" == "docker-compose.local.yml" ]; then
+    echo "    RUNNING IN LOCAL ENVIRONMENT"
+  elif [ "$compose_file" == "docker-compose.production.yml" ]; then
+    echo "    RUNNING IN PRODUCTION ENVIRONMENT"
+  else
+    echo "    ERROR: UNKNOWN ENVIRONMENT"
+    echo "    APP_ENV value: $(source .env && echo $APP_ENV)"
+    echo "    Please check your .env file and set APP_ENV to 'local' or 'production'"
+  fi
+  echo "    Docker Compose: $compose_file"
+  echo "=================================================="
+  echo ""
 
   up || echo "[warn] Failed to start containers (up); continuing..."
 
@@ -57,34 +63,32 @@ function setup-local-hard {
   seed || echo "[warn] Seeding failed (seed); continuing..."
 }
 
-function setup-production-hard {
-  if [[ "$1" != "-y" ]]; then
-    echo "WARNING: You are about to run setup-production-hard."
-    echo "This will delete and recreate your production database, node_modules, vendor, and all Docker containers."
+function setup-hard {
+  if [[ "$1" != "-y" && "$2" != "-y" ]]; then
+    echo "WARNING: You are about to run setup-hard."
+    echo "This will delete and recreate your database, node_modules, vendor, and all Docker containers."
     echo -n "Proceed only if you are sure. (y/n): "
     read confirm
 
     if [ "$confirm" != "y" ]; then
-      echo "Aborting setup-production-hard."
+      echo "Aborting setup-hard."
       exit 1
     fi
   fi
 
-  echo "Running setup-production-hard..."
-  
+  if [[ "$1" == "--env" || "$2" == "--env" ]]; then
+    env || echo "[warn] Failed to copy .env (env); continuing..."
+  fi
+
+  echo "Running setup-hard..."
+
   remove-all -y || echo "[warn] Could not complete cleanup (remove-all); continuing..."
 
-  env || echo "[warn] Failed to copy .env (env); continuing..."
-
-  up || echo "[warn] Failed to start containers (up); continuing..."
-
-  composer || echo "[warn] Composer install failed (composer); continuing..."
-
-  gen_key || echo "[warn] Key generation failed (gen_key); continuing..."
-
-  migrate || echo "[warn] Migrations failed (migrate); continuing..."
-
-  seed || echo "[warn] Seeding failed (seed); continuing..."
+  if [[ "$1" == "--env" || "$2" == "--env" ]]; then
+    setup --env || echo "[warn] Setup process failed (setup)."
+  else
+    setup || echo "[warn] Setup process failed (setup)."
+  fi
 }
 
 function seed {
@@ -179,7 +183,6 @@ function remove-all {
 
   rm -rf mysql_data 2>/dev/null || echo "mysql_data directory not found, skipping removal"
   rm -rf vendor 2>/dev/null || echo "vendor directory not found, skipping removal"
-  rm -f .env 2>/dev/null || echo ".env not found, skipping removal"
   rm -rf storage/app/public/products 2>/dev/null || echo "storage/app/public/products directory not found, skipping removal"
 
   rm-all-docker || echo "[warn] Could not complete Docker cleanup (rm-all-docker); continuing..."
@@ -214,11 +217,14 @@ function help {
   echo ""
   echo "Environment & Setup:"
   echo "  env          - Copy environment file (.env.example to .env)"
-  echo "  setup        - Complete environment setup (env, up, composer, gen_key, migrate, seed)"
+  echo "  setup        - Complete environment setup (up, composer, gen_key, migrate, seed)"
+  echo "  setup --env  - Same as setup but copies .env.example to .env first"
+  echo "  setup-hard   - Hard reset: remove all data and containers, then run setup"
+  echo "  setup-hard --env - Same as setup-hard but copies .env.example to .env first"
   echo "  up           - Start Docker containers"
   echo "  down         - Stop Docker containers"
   echo "  ps           - Show container status"
-  echo "  remove-all       - Clean up environment (remove .env, vendor, containers, images, volumes)"
+  echo "  remove-all   - Clean up environment (remove mysql_data, vendor, containers, images, volumes)"
   echo ""
   echo "Laravel Commands:"
   echo "  gen_key      - Generate Laravel application key"
@@ -239,7 +245,8 @@ function help {
   echo "  help         - Show this help message"
   echo ""
   echo "Examples:"
-  echo "  ./run setup                    # Complete project setup"
+  echo "  ./run setup --env              # Complete project setup with new .env file"
+  echo "  ./run setup-hard --env         # Hard reset with new .env file"
   echo "  ./run test                     # Run tests"
   echo "  ./run phpstan app/Models       # Analyze specific directory"
   echo "  ./run exec php artisan tinker  # Open Laravel tinker"

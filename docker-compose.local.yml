@@ -8,8 +8,6 @@ services:
       - ./:/var/www
     environment:
       - APP_URL=${APP_URL_LOCAL}
-      - APP_ENV=local
-      - APP_DEBUG=true
     networks:
       - e-museu_network
     depends_on:
@@ -52,7 +50,6 @@ services:
         MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-userpass}
     networks:
         - e-museu_network
-
 
 networks:
   e-museu_network:
