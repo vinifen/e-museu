@@ -4,6 +4,8 @@ services:
         context: .
         dockerfile: Dockerfile.local
     working_dir: /var/www/
+    ports:
+      - "5173:5173"
     volumes:
       - ./:/var/www
     networks:

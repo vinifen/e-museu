@@ -56,6 +56,11 @@ function setup {
 
   composer || echo "[warn] Composer install failed (composer); continuing..."
 
+  if [ "$APP_ENV" == "local" ]; then
+    echo ">> Starting Vite dev server in background..."
+    npm-local-bg || echo "[warn] Failed to start Vite dev server in background; continuing..."
+  fi
+
   gen_key || echo "[warn] Key generation failed (gen_key); continuing..."
 
   migrate || echo "[warn] Migrations failed (migrate); continuing..."
@@ -89,6 +94,66 @@ function setup-hard {
   else
     setup || echo "[warn] Setup process failed (setup)."
   fi
+}
+
+function npm-local-bg {
+  source .env
+  if [ "$APP_ENV" != "local" ]; then
+    echo "npm-local-bg can only be run in local environment. Current APP_ENV: $APP_ENV" >&2
+    return 1
+  fi
+
+  echo ">> Installing Node.js dependencies in container..."
+    docker compose -f "$(get_compose_file)" exec app npm install
+    
+    echo ">> Starting Vite dev server in background..."
+    echo "Access your site at: http://localhost:$(grep WEB_SERVER_PORT_LOCAL .env | cut -d'=' -f2)"
+    echo ""
+    
+    docker compose -f "$(get_compose_file)" exec -d app npm run dev -- --host 0.0.0.0 --port 5173
+    
+    echo "Vite dev server started in background!"
+    echo "Access Vite at: http://localhost:5173"
+}
+
+function stop-vite-local {
+  source .env
+  echo ">> Stopping Vite dev server..."
+  
+  echo ">> Restarting app container to stop all Node.js processes..."
+  docker compose -f "$(get_compose_file)" restart app
+  
+  if [ $? -eq 0 ]; then
+    echo "Container restarted - Vite dev server stopped!"
+  else
+    echo "Failed to restart container"
+    return 1
+  fi
+}
+
+function start-vite-local {
+  source .env
+  if [ "$APP_ENV" != "local" ]; then
+    echo "start-vite-local can only be run in local environment. Current APP_ENV: $APP_ENV" >&2
+    return 1
+  fi
+
+  VITE_PORT=5173
+  if curl -s http://localhost:$VITE_PORT > /dev/null 2>&1; then
+    echo "Vite dev server is already running on port $VITE_PORT"
+    echo "Access Vite at: http://localhost:$VITE_PORT"
+    echo "Use './run stop-vite-local' to stop it first if you want to restart"
+    return 0
+  fi
+
+  echo ">> Starting Vite dev server in background..."
+  echo "Access your site at: http://localhost:$(grep WEB_SERVER_PORT_LOCAL .env | cut -d'=' -f2)"
+  echo ""
+
+  docker compose -f "$(get_compose_file)" exec -d app npm run dev -- --host 0.0.0.0 --port $VITE_PORT
+  
+  echo "Vite dev server started successfully!"
+  echo "Access Vite at: http://localhost:$VITE_PORT"
 }
 
 function seed {
@@ -225,6 +290,11 @@ function help {
   echo "  down         - Stop Docker containers"
   echo "  ps           - Show container status"
   echo "  remove-all   - Clean up environment (remove mysql_data, vendor, containers, images, volumes)"
+  echo ""
+  echo "Node.js & Vite:"
+  echo "  npm-local-bg - Install npm dependencies and start Vite dev server in background"
+  echo "  stop-vite    - Stop Vite dev server"
+  echo "  start-vite   - Start Vite dev server in background"
   echo ""
   echo "Laravel Commands:"
   echo "  gen_key      - Generate Laravel application key"
