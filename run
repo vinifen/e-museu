@@ -244,11 +244,12 @@ function remove-all {
     fi
   fi
 
-  echo ">> Cleaning up .env, mysql_data, vendor, containers, images, and volumes..."
+  echo ">> Cleaning up .env, mysql_data, vendor, node_modules, containers, images, and volumes..."
 
   rm -rf mysql_data 2>/dev/null || echo "mysql_data directory not found, skipping removal"
   rm -rf vendor 2>/dev/null || echo "vendor directory not found, skipping removal"
   rm -rf storage/app/public/products 2>/dev/null || echo "storage/app/public/products directory not found, skipping removal"
+  rm -rf node_modules 2>/dev/null || echo "node_modules directory not found, skipping removal"
 
   remove-all-docker || echo "[warn] Could not complete Docker cleanup (remove-all-docker); continuing..."
 
