@@ -121,6 +121,7 @@ function stop-vite-local {
   echo ">> Stopping Vite dev server..."
   
   echo ">> Restarting app container to stop all Node.js processes..."
+  docker compose -f "$(get_compose_file)" exec app rm -rf public/hot
   docker compose -f "$(get_compose_file)" restart app
   
   if [ $? -eq 0 ]; then
@@ -154,6 +155,14 @@ function start-vite-local {
   
   echo "Vite dev server started successfully!"
   echo "Access Vite at: http://localhost:$VITE_PORT"
+}
+
+function build-vite {
+  source .env
+  echo ">> Removing old build files..."
+  docker compose -f "$(get_compose_file)" exec app rm -rf public/build public/hot
+  echo ">> Building assets with Vite for production..."
+  docker compose -f "$(get_compose_file)" exec app npm run build
 }
 
 function seed {
@@ -244,16 +253,35 @@ function remove-all {
     fi
   fi
 
-  echo ">> Cleaning up .env, mysql_data, vendor, node_modules, containers, images, and volumes..."
-
-  rm -rf mysql_data 2>/dev/null || echo "mysql_data directory not found, skipping removal"
-  rm -rf vendor 2>/dev/null || echo "vendor directory not found, skipping removal"
-  rm -rf storage/app/public/products 2>/dev/null || echo "storage/app/public/products directory not found, skipping removal"
-  rm -rf node_modules 2>/dev/null || echo "node_modules directory not found, skipping removal"
+  remove-all-files -y || echo "[warn] Could not complete file cleanup (remove-all-files); continuing..."
 
   remove-all-docker || echo "[warn] Could not complete Docker cleanup (remove-all-docker); continuing..."
 
   echo ">> Cleanup completed!"
+}
+
+function remove-all-files {
+  if [[ "$1" != "-y" ]]; then
+    echo "WARNING: You are about to run remove-all-files."
+    echo "This will delete mysql_data, vendor, node_modules, public/hot and public/build."
+    echo -n "Proceed only if you are sure. (y/n): "
+    read confirm
+
+    if [ "$confirm" != "y" ]; then
+      echo "Aborting setup-production-hard."
+      exit 1
+    fi
+  fi
+
+  echo ">> Removing mysql_data, vendor, node_modules, public/hot and public/build..."
+
+  rm -rf mysql_data 2>/dev/null || echo "mysql_data directory not found, skipping removal"
+  rm -rf vendor 2>/dev/null || echo "vendor directory not found, skipping removal"
+  rm -rf node_modules 2>/dev/null || echo "node_modules directory not found, skipping removal"
+  rm -rf public/hot 2>/dev/null || echo "public/hot file not found, skipping removal"
+  rm -rf public/build 2>/dev/null || echo "public/build file not found, skipping removal"
+
+  echo ">> File cleanup completed!"
 }
 
 function remove-all-docker {
@@ -291,11 +319,14 @@ function help {
   echo "  down         - Stop Docker containers"
   echo "  ps           - Show container status"
   echo "  remove-all   - Clean up environment (remove mysql_data, vendor, containers, images, volumes)"
+  echo "  remove-all-files - Remove only files (mysql_data, vendor, node_modules, public/hot, public/build)"
+  echo "  remove-all-docker - Remove only Docker containers, images, and volumes"
   echo ""
   echo "Node.js & Vite:"
   echo "  npm-local-bg - Install npm dependencies and start Vite dev server in background"
   echo "  stop-vite    - Stop Vite dev server"
   echo "  start-vite   - Start Vite dev server in background"
+  echo "  build-vite   - Build assets with Vite for production"
   echo ""
   echo "Laravel Commands:"
   echo "  gen_key      - Generate Laravel application key"
@@ -317,10 +348,16 @@ function help {
   echo ""
   echo "Examples:"
   echo "  ./run setup -env              # Complete project setup with new .env file"
-  echo "  ./run setup-hard -env         # Hard reset with new .env file"
+  echo "  ./run setup-hard -env -y         # Hard reset with new .env file"
   echo "  ./run test                     # Run tests"
   echo "  ./run phpstan app/Models       # Analyze specific directory"
   echo "  ./run exec php artisan tinker  # Open Laravel tinker"
+  echo "  ./run remove-all -y            # Remove all without confirmation prompt"
+  echo "  ./run setup-hard -y            # Hard reset without confirmation prompt"
+  echo ""
+  echo "Options:"
+  echo "  -y           - Skip confirmation prompts (works with setup-hard, remove-all, remove-all-files)"
+  echo "  -env         - Copy .env.example to .env before running setup commands"
 }
 
 TIMEFORMAT='\nTask completed in %3lR'
