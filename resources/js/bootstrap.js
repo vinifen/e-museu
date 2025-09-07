@@ -1,5 +1,12 @@
 import 'bootstrap';
 
+// Import jQuery and make it available globally
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+// Import Bootstrap 3 Typeahead
+import 'bootstrap-3-typeahead';
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

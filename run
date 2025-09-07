@@ -32,7 +32,7 @@ function get_compose_file {
 function setup {
   echo "Running setup..."
 
-  if [[ "$1" == "--env" || "$2" == "--env" ]]; then
+  if [[ "$1" == "-env" || "$2" == "-env" ]]; then
     env || echo "[warn] Failed to copy .env (env); continuing..."
   fi
 
@@ -76,7 +76,7 @@ function setup-hard {
     fi
   fi
 
-  if [[ "$1" == "--env" || "$2" == "--env" ]]; then
+  if [[ "$1" == "-env" || "$2" == "-env" ]]; then
     env || echo "[warn] Failed to copy .env (env); continuing..."
   fi
 
@@ -84,8 +84,8 @@ function setup-hard {
 
   remove-all -y || echo "[warn] Could not complete cleanup (remove-all); continuing..."
 
-  if [[ "$1" == "--env" || "$2" == "--env" ]]; then
-    setup --env || echo "[warn] Setup process failed (setup)."
+  if [[ "$1" == "-env" || "$2" == "-env" ]]; then
+    setup -env || echo "[warn] Setup process failed (setup)."
   else
     setup || echo "[warn] Setup process failed (setup)."
   fi
@@ -218,9 +218,9 @@ function help {
   echo "Environment & Setup:"
   echo "  env          - Copy environment file (.env.example to .env)"
   echo "  setup        - Complete environment setup (up, composer, gen_key, migrate, seed)"
-  echo "  setup --env  - Same as setup but copies .env.example to .env first"
+  echo "  setup -env  - Same as setup but copies .env.example to .env first"
   echo "  setup-hard   - Hard reset: remove all data and containers, then run setup"
-  echo "  setup-hard --env - Same as setup-hard but copies .env.example to .env first"
+  echo "  setup-hard -env - Same as setup-hard but copies .env.example to .env first"
   echo "  up           - Start Docker containers"
   echo "  down         - Stop Docker containers"
   echo "  ps           - Show container status"
@@ -245,8 +245,8 @@ function help {
   echo "  help         - Show this help message"
   echo ""
   echo "Examples:"
-  echo "  ./run setup --env              # Complete project setup with new .env file"
-  echo "  ./run setup-hard --env         # Hard reset with new .env file"
+  echo "  ./run setup -env              # Complete project setup with new .env file"
+  echo "  ./run setup-hard -env         # Hard reset with new .env file"
   echo "  ./run test                     # Run tests"
   echo "  ./run phpstan app/Models       # Analyze specific directory"
   echo "  ./run exec php artisan tinker  # Open Laravel tinker"
