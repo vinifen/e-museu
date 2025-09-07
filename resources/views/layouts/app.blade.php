@@ -73,8 +73,6 @@
             <p class="col-md-4 mb-0 d-flex justify-content-center">2024 - UTFPR - Unicentro</p>
         </footer>
     </div>
-    <script src="{{ asset('script/assistentDialogueHandler.js') }}"></script>
-    <script src="{{ asset('script/assistentButton.js') }}"></script>
 </body>
 
 </html>
