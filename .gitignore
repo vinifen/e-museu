@@ -14,6 +14,8 @@ Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
+vite.log
+vite.pid
 /.fleet
 /.idea
 /.vscode

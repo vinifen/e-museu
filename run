@@ -56,6 +56,14 @@ function setup {
 
   composer || echo "[warn] Composer install failed (composer); continuing..."
 
+  # Assets são opcionais no setup - rode separadamente se precisar
+  if [ "$APP_ENV" == "local" ]; then
+    echo ">> Starting Vite dev server in background..."
+    npm-local-bg || echo "[warn] Failed to start Vite dev server in background; continuing..."
+  elif [ "$APP_ENV" == "production" ]; then
+    npm-build || echo "[warn] NPM build failed (npm-build); continuing..."
+  fi
+
   gen_key || echo "[warn] Key generation failed (gen_key); continuing..."
 
   migrate || echo "[warn] Migrations failed (migrate); continuing..."
@@ -89,6 +97,196 @@ function setup-hard {
   else
     setup || echo "[warn] Setup process failed (setup)."
   fi
+}
+
+function npm-local {
+  source .env
+  if [ "$APP_ENV" != "local" ]; then
+    echo "Error: npm-local can only be run in 'local' environment. Current APP_ENV: '$APP_ENV'" >&2
+    exit 1
+  fi
+
+  # Check if npm is available in container, fallback to host
+  if docker compose -f "$(get_compose_file)" exec app which npm >/dev/null 2>&1; then
+    echo ">> Installing Node.js dependencies in container..."
+    docker compose -f "$(get_compose_file)" exec app npm install
+    
+    echo ">> Starting Vite dev server (press Ctrl+C to stop)..."
+    echo "🌐 Access your site at: http://localhost:$(grep WEB_SERVER_PORT_LOCAL .env | cut -d'=' -f2)"
+    echo "🔥 Vite HMR will be available for hot reloading"
+    echo ""
+    docker compose -f "$(get_compose_file)" exec app npm run dev
+  else
+    echo ">> Node.js not found in container, running on host..."
+    
+    if ! command -v npm &> /dev/null; then
+      echo "Error: npm not found on host either. Please install Node.js or rebuild containers with Node.js support."
+      exit 1
+    fi
+    
+    echo ">> Installing Node.js dependencies on host..."
+    npm install
+    
+    echo ">> Starting Vite dev server (press Ctrl+C to stop)..."
+    echo "🌐 Access your site at: http://localhost:$(grep WEB_SERVER_PORT_LOCAL .env | cut -d'=' -f2)"
+    echo "🔥 Vite HMR will be available for hot reloading"
+    echo ""
+    npm run dev
+  fi
+}
+
+function npm-local-bg {
+  source .env
+  if [ "$APP_ENV" != "local" ]; then
+    echo "Error: npm-local-bg can only be run in 'local' environment. Current APP_ENV: '$APP_ENV'" >&2
+    exit 1
+  fi
+
+  # Check if Vite is already running
+  if pgrep -f "vite" > /dev/null || pgrep -f "npm run dev" > /dev/null; then
+    echo "🔥 Vite dev server is already running!"
+    return 0
+  fi
+
+  # Check if npm is available in container, fallback to host
+  if docker compose -f "$(get_compose_file)" exec app which npm >/dev/null 2>&1; then
+    echo ">> Installing Node.js dependencies in container..."
+    docker compose -f "$(get_compose_file)" exec app npm install
+    
+    echo ">> Starting Vite dev server in background..."
+    echo "🌐 Access your site at: http://localhost:$(grep WEB_SERVER_PORT_LOCAL .env | cut -d'=' -f2)"
+    echo "🔥 Vite HMR will be available for hot reloading"
+    echo "📋 To stop Vite: ./run stop-vite"
+    echo ""
+    
+    # Start Vite in background and save PID
+    docker compose -f "$(get_compose_file)" exec -d app npm run dev
+    
+    # Wait a bit to check if it started successfully
+    sleep 3
+    if docker compose -f "$(get_compose_file)" exec app pgrep -f "vite" > /dev/null; then
+      echo "✅ Vite dev server started successfully in background!"
+    else
+      echo "❌ Failed to start Vite dev server"
+      return 1
+    fi
+  else
+    echo ">> Node.js not found in container, running on host..."
+    
+    if ! command -v npm &> /dev/null; then
+      echo "Error: npm not found on host either. Please install Node.js or rebuild containers with Node.js support."
+      exit 1
+    fi
+    
+    echo ">> Installing Node.js dependencies on host..."
+    npm install
+    
+    echo ">> Starting Vite dev server in background..."
+    echo "🌐 Access your site at: http://localhost:$(grep WEB_SERVER_PORT_LOCAL .env | cut -d'=' -f2)"
+    echo "🔥 Vite HMR will be available for hot reloading"
+    echo "📋 To stop Vite: ./run stop-vite"
+    echo ""
+    
+    # Start Vite in background and save PID
+    nohup npm run dev > vite.log 2>&1 &
+    echo $! > vite.pid
+    
+    # Wait a bit to check if it started successfully
+    sleep 3
+    if kill -0 $(cat vite.pid 2>/dev/null) 2>/dev/null; then
+      echo "✅ Vite dev server started successfully in background!"
+      echo "📋 PID: $(cat vite.pid)"
+      echo "📋 Log: tail -f vite.log"
+    else
+      echo "❌ Failed to start Vite dev server"
+      return 1
+    fi
+  fi
+}
+
+function stop-vite {
+  source .env
+  echo ">> Stopping Vite dev server..."
+  
+  # Try to stop container-based Vite first
+  if docker compose -f "$(get_compose_file)" exec app pgrep -f "vite" > /dev/null 2>&1; then
+    docker compose -f "$(get_compose_file)" exec app pkill -f "vite" || true
+    docker compose -f "$(get_compose_file)" exec app pkill -f "npm run dev" || true
+    echo "✅ Container-based Vite dev server stopped!"
+  fi
+  
+  # Try to stop host-based Vite
+  if [ -f vite.pid ]; then
+    local pid=$(cat vite.pid)
+    if kill -0 $pid 2>/dev/null; then
+      kill $pid
+      echo "✅ Host-based Vite dev server stopped! (PID: $pid)"
+    fi
+    rm -f vite.pid
+  fi
+  
+  # Kill any remaining vite processes
+  pkill -f "vite" 2>/dev/null || true
+  pkill -f "npm run dev" 2>/dev/null || true
+  
+  echo "🔥 All Vite processes stopped!"
+}
+
+function npm-build {
+  source .env
+  echo ">> Installing Node.js dependencies and building assets for production..."
+  
+  # Check if npm is available in container, fallback to host
+  if docker compose -f "$(get_compose_file)" exec app which npm >/dev/null 2>&1; then
+    echo ">> Installing Node.js dependencies in container..."
+    docker compose -f "$(get_compose_file)" exec app npm install
+    
+    echo ">> Building assets for production..."
+    docker compose -f "$(get_compose_file)" exec app npm run build
+  else
+    echo ">> Node.js not found in container, running on host..."
+    
+    if ! command -v npm &> /dev/null; then
+      echo "Error: npm not found on host either. Please install Node.js or rebuild containers with Node.js support."
+      exit 1
+    fi
+    
+    echo ">> Installing Node.js dependencies on host..."
+    npm install
+    
+    echo ">> Building assets for production..."
+    npm run build
+  fi
+}
+
+function npm-quick {
+  source .env
+  echo ">> Quick asset build (no watch mode)..."
+  
+  if [ "$APP_ENV" != "local" ]; then
+    echo "Error: npm-quick is for local development only. Use npm-build for production." >&2
+    exit 1
+  fi
+  
+  # Check if npm is available in container, fallback to host
+  if docker compose -f "$(get_compose_file)" exec app which npm >/dev/null 2>&1; then
+    echo ">> Installing dependencies and building assets..."
+    docker compose -f "$(get_compose_file)" exec app npm install
+    docker compose -f "$(get_compose_file)" exec app npm run build
+  else
+    echo ">> Node.js not found in container, running on host..."
+    
+    if ! command -v npm &> /dev/null; then
+      echo "Error: npm not found on host either. Please install Node.js or rebuild containers with Node.js support."
+      exit 1
+    fi
+    
+    echo ">> Installing dependencies and building assets..."
+    npm install
+    npm run build
+  fi
+  
+  echo "✅ Assets built! Your site should work without Vite dev server."
 }
 
 function seed {
@@ -183,6 +381,7 @@ function remove-all {
 
   rm -rf mysql_data 2>/dev/null || echo "mysql_data directory not found, skipping removal"
   rm -rf vendor 2>/dev/null || echo "vendor directory not found, skipping removal"
+  rm -rf node_modules 2>/dev/null || echo "node_modules directory not found, skipping removal"
   rm -rf storage/app/public/products 2>/dev/null || echo "storage/app/public/products directory not found, skipping removal"
 
   remove-all-docker || echo "[warn] Could not complete Docker cleanup (remove-all-docker); continuing..."
@@ -232,6 +431,13 @@ function help {
   echo "  seed         - Seed database with initial data"
   echo "  storage_link - Create storage symbolic link"
   echo "  composer     - Install Composer dependencies"
+  echo ""
+  echo "Asset Management:"
+  echo "  npm-local    - Start Vite dev server with hot reload (blocks terminal)"
+  echo "  npm-local-bg - Start Vite dev server in background (non-blocking)"
+  echo "  stop-vite    - Stop background Vite dev server"
+  echo "  npm-quick    - Quick asset build without watch mode (non-blocking)"
+  echo "  npm-build    - Build assets for production"
   echo ""
   echo "Testing & Code Quality:"
   echo "  test         - Run PHPUnit tests"
