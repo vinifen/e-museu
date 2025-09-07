@@ -19,7 +19,19 @@ FROM php-base AS vendor
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-COPY . .
+# Copy only necessary files for dependencies caching
+COPY app/ ./app/
+COPY bootstrap/ ./bootstrap/
+COPY config/ ./config/
+COPY database/ ./database/
+COPY lang/ ./lang/
+COPY public/ ./public/
+COPY resources/ ./resources/
+COPY routes/ ./routes/
+COPY storage/ ./storage/
+COPY artisan ./
+COPY .env ./
+
 RUN composer dump-autoload --optimize
 
 FROM node:20 AS node-build
@@ -27,9 +39,13 @@ FROM node:20 AS node-build
 WORKDIR /var/www
 
 COPY package.json package-lock.json ./
-RUN npm ci --include=dev
+RUN npm ci
 
-COPY . .
+# Copy only necessary files for building assets
+COPY resources/ ./resources/
+COPY public/ ./public/
+COPY vite.config.js ./
+
 RUN npm run build
 
 FROM php-base AS app
