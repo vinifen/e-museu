@@ -1,0 +1,512 @@
+// Custom styles for E-museu
+:root {
+    --bs-body-font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin-left: 0;
+    margin-right: 0;
+    background-color: #f8f9fa;
+}
+
+.body-height {
+    height: 100vh;
+}
+
+.navbar-brand {
+    color: #0D233D;
+}
+
+.navbar-border {
+    border-bottom: 4px solid #5BE1B9;
+}
+
+.nav-link {
+    color: #0D233D;
+    position: relative;
+    
+    &::after {
+        content: '';
+        opacity: 0;
+        transition: all 0.2s;
+        height: 5px;
+        width: 100%;
+        background-color: #000000;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    
+    &:hover::after {
+        opacity: 0.4;
+    }
+}
+
+.menu-options {
+    color: #0D233D;
+}
+
+.explore-button {
+    background-color: #5BE1B9;
+    border-bottom: 10px;
+}
+
+.active {
+    opacity: 1;
+    font-weight: bold;
+    color: #ED6E38;
+}
+
+.card-title {
+    color: #ED6E38;
+}
+
+.card {
+    background-color: #e6f6f1;
+    border: 3px solid #5BE1B9;
+    border-radius: 0;
+}
+
+.card-more-details {
+    color: #585858;
+    transition: 0.5s;
+    
+    &:hover {
+        transform: translate(1rem);
+        color: #F47A7A;
+    }
+}
+
+.tag-card {
+    background-color: #e6f6f1;
+    border: 3px solid #5BE1B9;
+    border-radius: 0;
+    overflow: hidden;
+    height: 4rem;
+}
+
+.card-anim {
+    transition: 0.5s;
+    
+    &:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+        border: 3px solid #F47A7A;
+    }
+}
+
+h6 {
+    font-size: 1.1rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+.cancel-button {
+    color: #0D233D;
+    background-color: #F47A7A;
+    border-radius: 0 0 0 0;
+}
+
+.edit-button {
+    color: #0D233D;
+    background-color: #f4da7a;
+    border-radius: 0 0 0 0;
+}
+
+.button {
+    color: #0D233D;
+    background-color: #5BE1B9;
+    border-radius: 0 0 0 0;
+    
+    &:disabled {
+        background-color: #c4c4c4;
+    }
+}
+
+.input-form {
+    border-radius: 0;
+    border: 0;
+    border-bottom: 1px solid #0D233D;
+    background-color: #e6f6f1;
+    padding-bottom: 0;
+    
+    &:focus {
+        box-shadow: 0 0 0px 0px #5BE1B9;
+        background-color: #e6f6f1;
+    }
+}
+
+.image-form {
+    border-radius: 0;
+    border: 0;
+    background-color: #e6f6f1;
+    padding-bottom: 0;
+}
+
+.main-container {
+    margin-top: 2rem;
+    border-left: 4px solid #5BE1B9;
+    padding-left: 0;
+}
+
+h1 {
+    color: #ED6E38;
+    font-weight: bold;
+    padding-left: 1rem;
+    border-left: 20px solid #5BE1B9;
+    margin-bottom: 2rem;
+}
+
+h3 {
+    font-weight: bold;
+    padding-left: 1rem;
+    border-left: 20px solid #5BE1B9;
+    margin-bottom: 2rem;
+}
+
+h5 {
+    color: #0D233D;
+    font-weight: bold;
+    padding-left: 1rem;
+    border-left: 20px solid #5BE1B9;
+}
+
+p {
+    color: #0D233D;
+}
+
+.content {
+    padding-left: 1rem;
+    margin-top: 1rem;
+}
+
+.input-div {
+    background-color: #e6f6f1;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+}
+
+.image-div {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    margin-left: 1rem;
+    margin-bottom: 2rem;
+}
+
+.search-div {
+    background-color: #e6f6f1;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.component-img {
+    aspect-ratio: 3 / 2;
+    width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.component-button {
+    aspect-ratio: 1 / 1;
+    background-color: #5BE1B9;
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+}
+
+.pagination {
+    > li > a,
+    > li > span {
+        color: #0D233D;
+    }
+    
+    > .active > a,
+    > .active > a:focus,
+    > .active > a:hover,
+    > .active > span,
+    > .active > span:focus,
+    > .active > span:hover {
+        background-color: #5BE1B9;
+        border-color: #5BE1B9;
+    }
+}
+
+.timeline {
+    border-left: 3px solid #ED6E38;
+}
+
+.timeline-circle {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 100%;
+    background-color: #ED6E38;
+    margin-left: -1.093rem;
+    overflow: visible;
+}
+
+.timeline-item-date {
+    color: #ED6E38;
+}
+
+.division-line {
+    border-bottom: 1px solid #0D233D;
+}
+
+.footer-division-line {
+    border-bottom: 1px solid #0D233D;
+}
+
+.explore-menu-division-line {
+    border-bottom: 1px solid #0D233D;
+}
+
+.vertical-division-line {
+    border-left: 1px solid #0D233D;
+}
+
+.button-icon {
+    height: 0.5rem;
+    width: 0.5rem;
+}
+
+.disable {
+    background-color: #f0ecec;
+}
+
+.error-div {
+    background-color: #ffaeae;
+    width: fit-content;
+}
+
+.success-div {
+    background-color: #a0df96;
+    width: fit-content;
+}
+
+.warning-div {
+    background-color: #ffe7a1;
+    width: fit-content;
+}
+
+.form-check-input {
+    &:checked {
+        background-color: #ED6E38;
+    }
+    
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.custom-footer {
+    background-color: #5BE1B9;
+}
+
+.tecnolixo-footer-logo {
+    width: 10rem;
+}
+
+.e-lixo-footer-logo {
+    width: 7rem;
+}
+
+.custom-nav {
+    list-style: none;
+}
+
+.inline-block {
+    width: fit-content;
+}
+
+.explore-menu-div {
+    background-color: #5BE1B9;
+    box-shadow: 0 4px 5px #c4c4c4;
+    z-index: 10;
+}
+
+.explore-menu-div-mobile {
+    background-color: #e6f6f1;
+    box-shadow: 0 4px 5px #c4c4c4;
+    z-index: 10;
+}
+
+.explore-menu-options {
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    background-color: #e6f6f1;
+    
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.menu-arrows {
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.right-arrow:hover {
+    transform: translate(0.5rem);
+    color: #F47A7A;
+}
+
+.left-arrow:hover {
+    transform: translate(-0.5rem);
+    color: #F47A7A;
+}
+
+.menu-option-active {
+    color: #F47A7A;
+}
+
+.custom-dropdown {
+    background-color: #5BE1B9;
+    border: 0;
+    color: #0D233D;
+    transition: 0.5s;
+    
+    &:hover {
+        transform: translate(0, 0.5rem);
+        color: #ED6E38;
+    }
+}
+
+.menu-option {
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.toggle-filter-button {
+    border: none;
+    background-color: #5BE1B9;
+    width: 12rem;
+}
+
+.toggle-filter-options {
+    border: none;
+    background-color: #f8f9fa;
+    width: 10rem;
+}
+
+.custom-checkbox-label {
+    cursor: pointer;
+}
+
+.toggle-filter-button-mobile {
+    background-color: #ED6E38;
+    border-radius: 20rem;
+    border: none;
+    box-shadow: 0 0 10px #c4c4c4;
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 10;
+    
+    &:hover {
+        background-color: #ED6E38;
+    }
+}
+
+.category-filter {
+    overflow-y: scroll;
+    max-height: 20rem;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+}
+
+.sidebar-filter {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.img-headline {
+    width: 100%;
+    object-fit: cover;
+    height: 35rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.headline {
+    height: 31rem;
+}
+
+.headline-content {
+    margin-top: 9rem;
+}
+
+.radio-input {
+    cursor: pointer;
+}
+
+footer {
+    z-index: 9999;
+}
+
+.show-item-link {
+    color: #ED6E38;
+}
+
+.search-form {
+    width: 5rem;
+}
+
+.assistent {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 37vh;
+    z-index: 100;
+    border-radius: 10px;
+    padding: 15px 15px 0 15px;
+    overflow: auto;
+    max-height: 100vh;
+}
+
+.assistent-portrait {
+    width: 98%;
+    height: 98%;
+    object-fit: cover;
+    
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.choice {
+    text-align: left;
+    box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.dialogue {
+    border-radius: 5px;
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+    .sticky-top-2 {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 65px;
+        z-index: 1019;
+    }
+}
+
+.assistent-title {
+    background-color: #5BE1B9;
+}
+
+.dialogue-card {
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.orange-text {
+    color: #ED6E38;
+}
