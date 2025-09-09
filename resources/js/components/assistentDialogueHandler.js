@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    console.log('Assistant handler loading...');
-    console.log('Current path:', window.location.pathname);
-    
     let dialogues = window.homeDialogues;
     
     const path = window.location.pathname;
@@ -13,15 +10,11 @@ $(document).ready(function() {
         dialogues = window.indexDialogues || window.homeDialogues;
     }
     
-    console.log('Dialogues loaded:', !!dialogues, dialogues ? dialogues.length : 0);
-    
     if (!dialogues) {
-        console.error('No dialogues available');
         return;
     }
     
     function displayDialogue(nodeId) {
-        console.log('Displaying dialogue:', nodeId);
         const node = dialogues.find(d => d.id === nodeId);
         if (!node) {
             console.error('Node not found:', nodeId);
@@ -37,7 +30,6 @@ $(document).ready(function() {
                 .addClass('choice nav-link px-2 py-1 m-1 fw-bold explore-button');
             
             $button.on('click', function() {
-                console.log('Choice clicked:', choice.text);
                 if (choice.nextId !== undefined) {
                     displayDialogue(choice.nextId);
                 } else if (choice.url) {
@@ -51,6 +43,5 @@ $(document).ready(function() {
         });
     }
 
-    // Initialize first dialogue
     displayDialogue(1);
 });

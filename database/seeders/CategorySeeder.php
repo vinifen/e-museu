@@ -8,12 +8,8 @@ use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        /* Category::factory(10)->create(); */
         if(app()->environment('local')) {
             Category::create(['name' => 'Marca']);
             Category::create(['name' => 'Série']);

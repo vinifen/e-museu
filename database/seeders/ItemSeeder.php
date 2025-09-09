@@ -9,9 +9,6 @@ use App\Models\ItemComponent;
 
 class ItemSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         if(app()->environment('local')) {

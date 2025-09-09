@@ -9,9 +9,6 @@ use App\Models\Extra;
 
 class ExtraSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         if(app()->environment('local')) {

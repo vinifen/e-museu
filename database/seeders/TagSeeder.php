@@ -10,9 +10,6 @@ use App\Models\TagItem;
 
 class TagSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         if(app()->environment('local')) {

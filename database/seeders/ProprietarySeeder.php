@@ -8,9 +8,6 @@ use App\Models\Proprietary;
 
 class ProprietarySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         if(app()->environment('local')) {
