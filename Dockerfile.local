@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.3.25-fpm
 
 ARG user=laravel
 ARG uid=1000

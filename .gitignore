@@ -18,3 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 mysql_data
+vite.config.js.timestamp*
