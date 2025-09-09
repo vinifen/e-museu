@@ -1,6 +1,5 @@
 import './bootstrap';
 
-// Core components
 import './components/img-modal';
 import './components/assistentButton';
 import './components/assistentDialogueHandler';
@@ -9,7 +8,6 @@ import './components/getComponentsBySection';
 import './components/getItemsBySection';
 import './components/getTagsByCategory';
 
-// Warning components
 import './components/warnings/deleteCategoryWarning';
 import './components/warnings/deleteComponentWarning';
 import './components/warnings/deleteContributionWarning';
@@ -21,7 +19,6 @@ import './components/warnings/deleteSectionWarning';
 import './components/warnings/deleteTagWarning';
 import './components/warnings/deleteUserWarning';
 
-// Assistant dialogues
 import './components/assistant-dialogues/aboutDialogue';
 import './components/assistant-dialogues/createDialogue';
 import './components/assistant-dialogues/homeDialogue';

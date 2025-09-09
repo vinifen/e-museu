@@ -1,4 +1,4 @@
-const dialogues = [
+window.homeDialogues = [
     {
         id: 1,
         text: "Olá, sou Ada, sua assistente virtual. Como posso te ajudar?",

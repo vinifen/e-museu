@@ -10,7 +10,6 @@ class SectionSeeder extends Seeder
 {
     public function run(): void
     {
-        if(app()->environment('local')) {
             Section::create(['name' => 'Monitor']);
             Section::create(['name' => 'Notebook']);
             Section::create(['name' => 'Computador de Mesa']);
@@ -27,6 +26,5 @@ class SectionSeeder extends Seeder
             Section::create(['name' => 'Celular']);
             Section::create(['name' => 'Placa-mãe']);
             Section::create(['name' => 'Processador']);
-        }
     }
 }

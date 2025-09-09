@@ -1,4 +1,8 @@
 import 'bootstrap';
+import * as bootstrap from 'bootstrap';
+
+// Make Bootstrap available globally
+window.bootstrap = bootstrap;
 
 // Import jQuery and make it available globally
 import $ from 'jquery';
