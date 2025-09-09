@@ -23,7 +23,7 @@ services:
       - e-museu_network
 
   db:
-    image: mysql:8.0-debian
+    image: mysql:8.0.43-debian
     environment:
       - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_USER=${DB_USERNAME}

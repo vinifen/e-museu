@@ -14,7 +14,7 @@ services:
       - db
 
   web:
-    image: nginx:stable-alpine3.20-perl
+    image: nginx:mainline-alpine3.22-perl
     ports:
       - "${WEB_SERVER_PORT_LOCAL}:80"
     volumes:
@@ -26,7 +26,7 @@ services:
       - app
 
   db:
-    image: mysql:8.0-debian
+    image: mysql:8.0.43-debian
     ports:
       - "${DB_PORT}:3306"
     environment:

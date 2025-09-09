@@ -1,23 +1,33 @@
-FROM php:8.3.25-fpm AS php-base
+FROM php:8.3.25-fpm-alpine3.22 AS php-base
 
-RUN apt-get update && apt-get install -y \
+RUN apk update && apk upgrade && apk add --no-cache \
+    build-base \
+    autoconf \
+    make \
+    gcc \
+    g++ \
+    libc-dev \
+    file \
+    re2c \
     git \
     curl \
     unzip \
     zip \
     libpng-dev \
-    libonig-dev \
+    oniguruma-dev \
     libxml2-dev \
+    linux-headers \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd sockets \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && apk del build-base autoconf make gcc g++ libc-dev file re2c \
+    && rm -rf /var/cache/apk/*
 
 WORKDIR /var/www
 
 FROM php-base AS vendor
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
 # Copy only necessary files for dependencies caching
 COPY app/ ./app/
@@ -34,7 +44,7 @@ COPY .env ./
 
 RUN composer dump-autoload --optimize
 
-FROM node:20 AS node-build
+FROM node:20.18.0-alpine3.20 AS node-build
 
 WORKDIR /var/www
 
@@ -66,7 +76,7 @@ USER www-data
 
 CMD ["php-fpm"]
 
-FROM nginx:1.29.1-alpine3.22-perl AS web
+FROM nginx:mainline-alpine3.22-perl AS web
 
 WORKDIR /var/www
 
