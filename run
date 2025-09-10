@@ -168,7 +168,28 @@ function build-vite {
 function seed {
   source .env
   echo ">> Seeding database..."
-  docker compose -f "$(get_compose_file)" exec app php artisan db:seed --force
+  
+  local max_attempts=3
+  local attempt=1
+  
+  while [ $attempt -le $max_attempts ]; do
+    echo "  Seeding attempt $attempt/$max_attempts..."
+    
+    if docker compose -f "$(get_compose_file)" exec app php artisan db:seed --force; then
+      echo "  Seeding completed successfully!"
+      return 0
+    fi
+    
+    if [ $attempt -lt $max_attempts ]; then
+      echo "  Seeding failed, waiting 5 seconds before retry..."
+      sleep 5
+    fi
+    
+    attempt=$((attempt + 1))
+  done
+  
+  echo "  ERROR: Seeding failed after $max_attempts attempts"
+  return 1
 }
 
 function phpstan {
@@ -225,7 +246,28 @@ function gen_key {
 function migrate {
   source .env
   echo ">> Running database migrations..."
-  docker compose -f "$(get_compose_file)" exec app php artisan migrate
+  
+  local max_attempts=3
+  local attempt=1
+  
+  while [ $attempt -le $max_attempts ]; do
+    echo "  Migration attempt $attempt/$max_attempts..."
+    
+    if docker compose -f "$(get_compose_file)" exec app php artisan migrate --force; then
+      echo "  Migrations completed successfully!"
+      return 0
+    fi
+    
+    if [ $attempt -lt $max_attempts ]; then
+      echo "  Migration failed, waiting 5 seconds before retry..."
+      sleep 5
+    fi
+    
+    attempt=$((attempt + 1))
+  done
+  
+  echo "  ERROR: Migrations failed after $max_attempts attempts"
+  return 1
 }
 
 function storage_link {
