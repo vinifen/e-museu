@@ -61,7 +61,11 @@ function setup {
     npm-local-bg || echo "[warn] Failed to start Vite dev server in background; continuing..."
   fi
 
-  gen_key || echo "[warn] Key generation failed (gen_key); continuing..."
+  if [[ "$1" == "-y" || "$2" == "-y" ]]; then
+    gen_key -y || echo "[warn] Key generation failed (gen_key); continuing..."
+  else
+    gen_key || echo "[warn] Key generation failed (gen_key); continuing..."
+  fi
 
   migrate || echo "[warn] Migrations failed (migrate); continuing..."
 
@@ -90,9 +94,17 @@ function setup-hard {
   remove-all -y || echo "[warn] Could not complete cleanup (remove-all); continuing..."
 
   if [[ "$1" == "-env" || "$2" == "-env" ]]; then
-    setup -env || echo "[warn] Setup process failed (setup)."
+    if [[ "$1" == "-y" || "$2" == "-y" ]]; then
+      setup -env -y || echo "[warn] Setup process failed (setup)."
+    else
+      setup -env || echo "[warn] Setup process failed (setup)."
+    fi
   else
-    setup || echo "[warn] Setup process failed (setup)."
+    if [[ "$1" == "-y" || "$2" == "-y" ]]; then
+      setup -y || echo "[warn] Setup process failed (setup)."
+    else
+      setup || echo "[warn] Setup process failed (setup)."
+    fi
   fi
 }
 
@@ -168,28 +180,7 @@ function build-vite {
 function seed {
   source .env
   echo ">> Seeding database..."
-  
-  local max_attempts=3
-  local attempt=1
-  
-  while [ $attempt -le $max_attempts ]; do
-    echo "  Seeding attempt $attempt/$max_attempts..."
-    
-    if docker compose -f "$(get_compose_file)" exec app php artisan db:seed --force; then
-      echo "  Seeding completed successfully!"
-      return 0
-    fi
-    
-    if [ $attempt -lt $max_attempts ]; then
-      echo "  Seeding failed, waiting 5 seconds before retry..."
-      sleep 5
-    fi
-    
-    attempt=$((attempt + 1))
-  done
-  
-  echo "  ERROR: Seeding failed after $max_attempts attempts"
-  return 1
+  docker compose -f "$(get_compose_file)" exec app php artisan db:seed --force
 }
 
 function phpstan {
@@ -240,34 +231,43 @@ function down {
 function gen_key {
   source .env
   echo ">> Generating application key..."
-  docker compose -f "$(get_compose_file)" exec app php artisan key:generate
+  if [[ "$1" == "-y" ]]; then
+    docker compose -f "$(get_compose_file)" exec app php artisan key:generate --force
+  else
+    docker compose -f "$(get_compose_file)" exec app php artisan key:generate
+  fi
 }
 
-function migrate {
+function wait-for-db {
   source .env
-  echo ">> Running database migrations..."
-  
-  local max_attempts=3
+  echo ">> Waiting for database to be ready..."
+  local max_attempts=30
   local attempt=1
   
   while [ $attempt -le $max_attempts ]; do
-    echo "  Migration attempt $attempt/$max_attempts..."
-    
-    if docker compose -f "$(get_compose_file)" exec app php artisan migrate --force; then
-      echo "  Migrations completed successfully!"
+    # Test connection from app container to db container using PHP PDO
+    if docker compose -f "$(get_compose_file)" exec -T app php -r "try { \$pdo = new PDO('mysql:host=db;port=3306', '${DB_USERNAME}', '${DB_PASSWORD}'); \$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); exit(0); } catch (Exception \$e) { exit(1); }" 2>/dev/null; then
+      echo "  Database is ready!"
       return 0
     fi
     
     if [ $attempt -lt $max_attempts ]; then
-      echo "  Migration failed, waiting 5 seconds before retry..."
-      sleep 5
+      echo "  Waiting for database... (attempt $attempt/$max_attempts)"
+      sleep 2
     fi
     
     attempt=$((attempt + 1))
   done
   
-  echo "  ERROR: Migrations failed after $max_attempts attempts"
+  echo "  ERROR: Database did not become ready after $max_attempts attempts"
   return 1
+}
+
+function migrate {
+  source .env
+  wait-for-db
+  echo ">> Running database migrations..."
+  docker compose -f "$(get_compose_file)" exec app php artisan migrate --force
 }
 
 function storage_link {
@@ -348,58 +348,64 @@ function exec {
 }
 
 function help {
-  echo "Usage: run [command]"
+  echo "Usage: run [command] [options]"
   echo "Available commands:"
   echo ""
   echo "Environment & Setup:"
-  echo "  env          - Copy environment file (.env.example to .env)"
-  echo "  setup        - Complete environment setup (up, composer, gen_key, migrate, seed)"
-  echo "  setup -env  - Same as setup but copies .env.example to .env first"
-  echo "  setup-hard   - Hard reset: remove all data and containers, then run setup"
-  echo "  setup-hard -env - Same as setup-hard but copies .env.example to .env first"
-  echo "  up           - Start Docker containers"
-  echo "  down         - Stop Docker containers"
-  echo "  ps           - Show container status"
-  echo "  remove-all   - Clean up environment (remove mysql_data, vendor, containers, images, volumes)"
-  echo "  remove-all-files - Remove only files (mysql_data, vendor, node_modules, public/hot, public/build)"
-  echo "  remove-all-docker - Remove only Docker containers, images, and volumes"
+  echo "  env                - Copy environment file (.env.example to .env)"
+  echo "  setup              - Complete environment setup (up, composer, gen_key, migrate, seed)"
+  echo "  setup -env         - Same as setup but copies .env.example to .env first"
+  echo "  setup -y           - Setup with automatic confirmation (skip prompts)"
+  echo "  setup -env -y      - Setup with new .env file and automatic confirmation"
+  echo "  setup-hard         - Hard reset: remove all data and containers, then run setup"
+  echo "  setup-hard -env    - Same as setup-hard but copies .env.example to .env first"
+  echo "  setup-hard -y      - Hard reset without confirmation prompt"
+  echo "  setup-hard -env -y - Hard reset with new .env file and no confirmation"
+  echo "  up                 - Start Docker containers"
+  echo "  down               - Stop Docker containers"
+  echo "  ps                 - Show container status"
+  echo "  remove-all         - Clean up environment (remove mysql_data, vendor, containers, images, volumes)"
+  echo "  remove-all-files   - Remove only files (mysql_data, vendor, node_modules, public/hot, public/build)"
+  echo "  remove-all-docker  - Remove only Docker containers, images, and volumes"
   echo ""
   echo "Node.js & Vite:"
-  echo "  npm-local-bg - Install npm dependencies and start Vite dev server in background"
-  echo "  stop-vite    - Stop Vite dev server"
-  echo "  start-vite   - Start Vite dev server in background"
-  echo "  build-vite   - Build assets with Vite for production"
+  echo "  npm-local-bg       - Install npm dependencies and start Vite dev server in background"
+  echo "  stop-vite-local    - Stop Vite dev server"
+  echo "  start-vite-local   - Start Vite dev server in background"
+  echo "  build-vite         - Build assets with Vite for production"
   echo ""
   echo "Laravel Commands:"
-  echo "  gen_key      - Generate Laravel application key"
-  echo "  migrate      - Run database migrations"
-  echo "  seed         - Seed database with initial data"
-  echo "  storage_link - Create storage symbolic link"
-  echo "  composer     - Install Composer dependencies"
+  echo "  gen_key            - Generate Laravel application key"
+  echo "  gen_key -y         - Generate application key without confirmation (production)"
+  echo "  migrate            - Run database migrations"
+  echo "  seed               - Seed database with initial data"
+  echo "  storage_link       - Create storage symbolic link"
+  echo "  composer           - Install Composer dependencies"
   echo ""
   echo "Testing & Code Quality:"
-  echo "  test         - Run PHPUnit tests"
-  echo "  phpstan      - Run PHPStan static analysis (Level 8)"
-  echo "  phpcs        - Run PHP Code Sniffer (PSR-12 standards)"
-  echo "  phpcbf       - Run PHP Code Beautifier and Fixer"
-  echo "  all-tests    - Run all tests and code quality checks (test + phpcs + phpstan)"
+  echo "  test               - Run PHPUnit tests"
+  echo "  phpstan            - Run PHPStan static analysis (Level 8)"
+  echo "  phpcs              - Run PHP Code Sniffer (PSR-12 standards)"
+  echo "  phpcbf             - Run PHP Code Beautifier and Fixer"
+  echo "  all-tests          - Run all tests and code quality checks (test + phpcs + phpstan)"
   echo ""
   echo "Utilities:"
-  echo "  exec <cmd>   - Execute command inside app container"
-  echo "  help         - Show this help message"
+  echo "  exec <cmd>         - Execute command inside app container"
+  echo "  help               - Show this help message"
   echo ""
   echo "Examples:"
-  echo "  ./run setup -env              # Complete project setup with new .env file"
-  echo "  ./run setup-hard -env -y         # Hard reset with new .env file"
-  echo "  ./run test                     # Run tests"
-  echo "  ./run phpstan app/Models       # Analyze specific directory"
+  echo "  ./run setup -env           # Complete project setup with new .env file"
+  echo "  ./run setup -env -y        # Setup with new .env and automatic confirmation"
+  echo "  ./run setup-hard -env -y   # Hard reset with new .env file and no confirmation"
+  echo "  ./run gen_key -y           # Generate app key without confirmation"
+  echo "  ./run test                 # Run tests"
+  echo "  ./run phpstan app/Models   # Analyze specific directory"
   echo "  ./run exec php artisan tinker  # Open Laravel tinker"
-  echo "  ./run remove-all -y            # Remove all without confirmation prompt"
-  echo "  ./run setup-hard -y            # Hard reset without confirmation prompt"
+  echo "  ./run remove-all -y        # Remove all without confirmation prompt"
   echo ""
   echo "Options:"
-  echo "  -y           - Skip confirmation prompts (works with setup-hard, remove-all, remove-all-files)"
-  echo "  -env         - Copy .env.example to .env before running setup commands"
+  echo "  -y                 - Skip confirmation prompts (works with setup, setup-hard, gen_key, remove-all, remove-all-files)"
+  echo "  -env               - Copy .env.example to .env before running setup commands"
 }
 
 TIMEFORMAT='\nTask completed in %3lR'
