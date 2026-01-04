@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile.prod-local
       target: app
     working_dir: /var/www/
     networks:
@@ -13,10 +13,10 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile.prod-local
       target: web
     ports:
-      - "${WEB_SERVER_PORT_PRODUCTION}:80"
+      - "${WEB_SERVER_PORT_PROD_LOCAL}:80"
     depends_on:
       - app
     networks:
