@@ -7,7 +7,7 @@
         <div class="container headline-content">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="h1 fw-bold text-shadow">SEJA BEM-VINDO AO E-MUSEU TEST 5</p>
+                    <p class="h1 fw-bold text-shadow">SEJA BEM-VINDO AO E-MUSEU TEST 6</p>
                     <p class="h2 text-shadow">SEU MUSEU VIRTUAL DE INFORMÁTICA</p>
                     <h6 class="text-shadow">
                         Explore e descubra o que o mundo dos computadores, periféricos, componentes eletrônicos e muitos
