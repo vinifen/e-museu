@@ -30,6 +30,7 @@ FROM php-base AS vendor
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
+# Copy only necessary files for dependencies caching
 COPY app/ ./app/
 COPY bootstrap/ ./bootstrap/
 COPY config/ ./config/
@@ -40,6 +41,7 @@ COPY resources/ ./resources/
 COPY routes/ ./routes/
 COPY storage/ ./storage/
 COPY artisan ./
+# COPY .env ./ # we don't need the .env file in the production environment
 
 RUN composer dump-autoload --optimize
 
@@ -51,6 +53,7 @@ WORKDIR /var/www
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# Copy only necessary files for building assets
 COPY resources/ ./resources/
 COPY public/ ./public/
 COPY vite.config.js ./

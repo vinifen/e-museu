@@ -17,7 +17,8 @@ function env {
 
 function get_compose_file {
   source .env
-  if [ "$APP_ENV" == "prod-local" ]; then
+  # "docker-compose.production.yml" will never be used in local environment, it's only for production environment
+  if [ "$APP_ENV" == "production" ]; then
     echo "docker-compose.prod-local.yml"
   elif [ "$APP_ENV" == "local" ]; then
     echo "docker-compose.local.yml"

@@ -24,6 +24,7 @@ RUN apk update && apk upgrade && apk add --no-cache \
 
 WORKDIR /var/www
 
+# ---------- Composer deps ----------
 FROM php-base AS vendor
 
 COPY composer.json composer.lock ./
@@ -44,6 +45,7 @@ COPY .env ./
 
 RUN composer dump-autoload --optimize
 
+# ---------- Frontend build ----------
 FROM node:lts-alpine3.22 AS node-build
 
 WORKDIR /var/www
@@ -58,6 +60,7 @@ COPY vite.config.js ./
 
 RUN npm run build
 
+# ---------- PHP runtime ----------
 FROM php-base AS app
 
 WORKDIR /var/www
@@ -76,6 +79,7 @@ USER www-data
 
 CMD ["php-fpm"]
 
+# ---------- Nginx ----------
 FROM nginx:mainline-alpine3.22-perl AS web
 
 WORKDIR /var/www
