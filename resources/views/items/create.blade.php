@@ -186,7 +186,7 @@
                         <div class="input-div">
                             <input class="form-control me-2 input-form  @error('contact') is-invalid @enderror"
                                 type="email" name="contact" id="contact" placeholder=""
-                                value="{{ old('contact') }}" onchange="checkContact()" onkeyup="checkContact()"
+                                value="{{ old('contact') }}"
                                 required>
                             @error('email')
                                 <div class="invalid-feedback">
@@ -326,9 +326,17 @@
     @include('items.create-modals.tag-modal')
 
     <script type="text/javascript">
-        let checkContactRoute = "{{ route('check-contact') }}";
+        // Disponibiliza a rota para o componente checkContact.js
+        window.checkContactRoute = "{{ route('check-contact') }}";
 
-        $(document).ready(function() {
+        (function() {
+            function init() {
+                if (typeof window.$ === 'undefined' || typeof window.jQuery === 'undefined') {
+                    setTimeout(init, 50);
+                    return;
+                }
+                
+                $(document).ready(function() {
             @if (session()->has('success'))
                 sessionStorage.clear();
             @endif
@@ -347,35 +355,7 @@
                     getSessionStorage();
                 }
             }
-            checkContact();
         });
-
-        function checkContact() {
-            $.ajax({
-                type: "GET",
-                url: checkContactRoute,
-                data: {
-                    contact: $('#contact').val()
-                },
-                success: function(data) {
-                    if (data == false) {
-                        $('#contact-warning').prop("hidden", false);
-                        $('#contact-success').prop("hidden", true);
-                        return;
-                    } else {
-                        if ($('#contact').val() != '') {
-                            $('#contact-warning').prop("hidden", true);
-                            $('#contact-success').prop("hidden", false);
-                            $('#full_name').val(data.full_name);
-                        } else {
-                            $('#contact-success').prop("hidden", true);
-                            $('#contact-warning').prop("hidden", true);
-                        }
-                        return;
-                    }
-                }
-            });
-        }
 
         function getSessionStorage() {
             tagCount = parseInt(sessionStorage.getItem("tagCount"));
@@ -419,6 +399,9 @@
                 checkComponents();
             }
         }
+            });
+            init();
+        })();
     </script>
 
 @endsection
