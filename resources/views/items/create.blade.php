@@ -336,70 +336,70 @@
                     return;
                 }
                 
+                function getSessionStorage() {
+                    tagCount = parseInt(sessionStorage.getItem("tagCount"));
+                    extraCount = parseInt(sessionStorage.getItem("extraCount"));
+                    componentCount = parseInt(sessionStorage.getItem("componentCount"));
+
+                    if (tagCount > 0) {
+                        for (let i = 0; i < tagCount; i++) {
+                            let tagCategoryText = sessionStorage.getItem("tag" + tagIds + "categoryText");
+                            let tagCategoryVal = sessionStorage.getItem("tag" + tagIds + "categoryVal");
+                            let tagName = sessionStorage.getItem("tag" + tagIds + "name");
+
+                            tagBuilder(tagCategoryText, tagCategoryVal, tagName, tagIds);
+
+                            tagIds++;
+                        }
+                        checkTags();
+                    }
+
+                    if (extraCount > 0) {
+                        for (let i = 0; i < extraCount; i++) {
+                            let extraInfo = sessionStorage.getItem("extra" + extraIds + "info");
+
+                            extraBuilder(extraInfo, extraIds);
+
+                            extraIds++;
+                        }
+                        checkExtras();
+                    }
+
+                    if (componentCount > 0) {
+                        for (let i = 0; i < componentCount; i++) {
+                            let componentCategoryText = sessionStorage.getItem("component" + componentIds + "categoryText");
+                            let componentCategoryVal = sessionStorage.getItem("component" + componentIds + "categoryVal");
+                            let componentName = sessionStorage.getItem("component" + componentIds + "name");
+
+                            componentBuilder(componentCategoryText, componentCategoryVal, componentName, componentIds);
+
+                            componentIds++;
+                        }
+                        checkComponents();
+                    }
+                }
+
                 $(document).ready(function() {
-            @if (session()->has('success'))
-                sessionStorage.clear();
-            @endif
+                    @if (session()->has('success'))
+                        sessionStorage.clear();
+                    @endif
 
-            if (sessionStorage.getItem("itemCreateForm") === null) {
-                return;
-            } else {
-                @if (session()->has('errors'))
-                    getSessionStorage();
-                    return;
-                @endif
+                    if (sessionStorage.getItem("itemCreateForm") === null) {
+                        return;
+                    } else {
+                        @if (session()->has('errors'))
+                            getSessionStorage();
+                            return;
+                        @endif
 
-                if (confirm(
-                        "Deseja recuperar as etiquetas, curiosidades extras e componentes inseridos anteriormente?"
-                    )) {
-                    getSessionStorage();
-                }
+                        if (confirm(
+                                "Deseja recuperar as etiquetas, curiosidades extras e componentes inseridos anteriormente?"
+                            )) {
+                            getSessionStorage();
+                        }
+                    }
+                });
             }
-        });
-
-        function getSessionStorage() {
-            tagCount = parseInt(sessionStorage.getItem("tagCount"));
-            extraCount = parseInt(sessionStorage.getItem("extraCount"));
-            componentCount = parseInt(sessionStorage.getItem("componentCount"));
-
-            if (tagCount > 0) {
-                for (let i = 0; i < tagCount; i++) {
-                    let tagCategoryText = sessionStorage.getItem("tag" + tagIds + "categoryText");
-                    let tagCategoryVal = sessionStorage.getItem("tag" + tagIds + "categoryVal");
-                    let tagName = sessionStorage.getItem("tag" + tagIds + "name");
-
-                    tagBuilder(tagCategoryText, tagCategoryVal, tagName, tagIds);
-
-                    tagIds++;
-                }
-                checkTags();
-            }
-
-            if (extraCount > 0) {
-                for (let i = 0; i < extraCount; i++) {
-                    let extraInfo = sessionStorage.getItem("extra" + extraIds + "info");
-
-                    extraBuilder(extraInfo, extraIds);
-
-                    extraIds++;
-                }
-                checkExtras();
-            }
-
-            if (componentCount > 0) {
-                for (let i = 0; i < componentCount; i++) {
-                    let componentCategoryText = sessionStorage.getItem("component" + componentIds + "categoryText");
-                    let componentCategoryVal = sessionStorage.getItem("component" + componentIds + "categoryVal");
-                    let componentName = sessionStorage.getItem("component" + componentIds + "name");
-
-                    componentBuilder(componentCategoryText, componentCategoryVal, componentName, componentIds);
-
-                    componentIds++;
-                }
-                checkComponents();
-            }
-        }
-            });
             init();
         })();
     </script>

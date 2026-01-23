@@ -1,6 +1,3 @@
-/**
- * Componente para gerenciar o clique no retrato do assistente
- */
 import $ from 'jquery';
 
 $(document).ready(function() {

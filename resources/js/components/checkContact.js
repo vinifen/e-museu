@@ -1,6 +1,3 @@
-/**
- * Componente para verificar contato do proprietário
- */
 import $ from 'jquery';
 
 $(document).ready(function() {
@@ -10,7 +7,7 @@ $(document).ready(function() {
     const $fullNameInput = $('#full_name');
     
     if (!$contactInput.length) {
-        return; // Elemento não existe nesta página
+        return;
     }
 
     const checkContactRoute = window.checkContactRoute || '/check-contact';
@@ -49,7 +46,6 @@ $(document).ready(function() {
         });
     }
 
-    // Verifica quando o campo muda
     $contactInput.on('blur', checkContact);
     $contactInput.on('input', function() {
         if ($(this).val() === '') {

@@ -1,11 +1,6 @@
-/**
- * Componente reutilizável para carregar items baseado em section_id
- * Usado em: item-tags/create, components/create, extras/create, extras/edit
- */
 import $ from 'jquery';
 
 $(document).ready(function() {
-    // Inicializa para todos os elementos com data-section-item-selector
     $('[data-section-item-selector]').each(function() {
         const $container = $(this);
         const sectionSelector = $container.data('section-selector') || '#section_id';
@@ -39,7 +34,6 @@ $(document).ready(function() {
                         });
                     }
                     
-                    // Seleciona o item original se fornecido
                     if (originalItemId) {
                         $(itemSelector).val(originalItemId);
                     }
@@ -50,10 +44,8 @@ $(document).ready(function() {
             });
         }
 
-        // Carrega items inicialmente
         getItems();
 
-        // Atualiza quando section_id muda
         $(sectionSelector).on('change', function() {
             getItems();
         });
