@@ -12,8 +12,6 @@ RUN apk update && apk add --no-cache \
     libxml2-dev \
     zip \
     unzip \
-    nodejs \
-    npm \
     linux-headers \
     icu-dev
 
