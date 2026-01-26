@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\ItemTagRequest;
-
 use App\Models\TagItem;
 use App\Models\Category;
 use App\Models\Section;
@@ -33,36 +31,37 @@ class AdminItemTagController extends Controller
             'items.name AS item_name',
             'tags.name AS tag_name']);
 
-        if ($searchColumn == 'item_id')
+        if ($searchColumn == 'item_id') {
             $query->where('items.name', 'LIKE', "%{$search}%");
-
-        elseif ($searchColumn == 'tag_id')
+        } elseif ($searchColumn == 'tag_id') {
             $query->where('tags.name', 'LIKE', "%{$search}%");
-
-        elseif ($searchColumn && $search) {
-            if ($search == 'sim')
+        } elseif ($searchColumn && $search) {
+            if ($search == 'sim') {
                 $query->where('tag_item.' . $searchColumn, true);
-            elseif ($search == 'não' || $search == 'nao')
+            } elseif ($search == 'não' || $search == 'nao') {
                 $query->where('tag_item.' . $searchColumn, false);
-            else
+            } else {
                 $query->where('tag_item.' . $searchColumn, 'LIKE', "%{$search}%");
+            }
         }
 
         if ($sort && $order) {
             if ($order == 'asc') {
-                if ($sort == 'item_id')
+                if ($sort == 'item_id') {
                     $query->orderBy('items.name', 'desc');
-                elseif ($sort == 'tag_id')
+                } elseif ($sort == 'tag_id') {
                     $query->orderBy('tags.name', 'desc');
-                else
+                } else {
                     $query->orderBy('tag_item.' . $sort, 'desc');
+                }
             } else {
-                if ($sort == 'item_id')
+                if ($sort == 'item_id') {
                     $query->orderBy('items.name', 'asc');
-                elseif ($sort == 'tag_id')
+                } elseif ($sort == 'tag_id') {
                     $query->orderBy('tags.name', 'asc');
-                else
+                } else {
                     $query->orderBy('tag_item.' . $sort, 'asc');
+                }
             }
         }
 
@@ -107,10 +106,11 @@ class AdminItemTagController extends Controller
     {
         $data = $request->all();
 
-        if ($itemTag->validation == true)
+        if ($itemTag->validation == true) {
             $data['validation'] = false;
-        else
+        } else {
             $data['validation'] = true;
+        }
 
         $itemTag->update($data);
 

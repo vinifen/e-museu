@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckLock;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\ProprietaryRequest;
 use App\Http\Requests\NewProprietaryRequest;
-
 use App\Models\Proprietary;
 
 class AdminProprietaryController extends Controller
@@ -30,19 +28,21 @@ class AdminProprietaryController extends Controller
         $query = Proprietary::query();
 
         if ($searchColumn && $search) {
-            if ($search == 'sim')
+            if ($search == 'sim') {
                 $query->where($searchColumn, true);
-            elseif ($search == 'não' || $search == 'nao')
+            } elseif ($search == 'não' || $search == 'nao') {
                 $query->where($searchColumn, false);
-            else
+            } else {
                 $query->where($searchColumn, 'LIKE', "%{$search}%");
+            }
         }
 
         if ($sort && $order) {
-            if ($order == 'asc')
+            if ($order == 'asc') {
                 $query->orderBy($sort, 'desc');
-            else
+            } else {
                 $query->orderBy($sort, 'asc');
+            }
         }
 
         $proprietaries = $query->paginate(10)->withQueryString();

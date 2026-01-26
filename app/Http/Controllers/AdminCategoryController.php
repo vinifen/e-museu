@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckLock;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
-
 use App\Models\Category;
 
 class AdminCategoryController extends Controller
@@ -21,14 +19,16 @@ class AdminCategoryController extends Controller
         $query = Category::query();
         $count = Category::count();
 
-        if ($request->search_column && $request->search)
+        if ($request->search_column && $request->search) {
             $query->where($request->search_column, 'LIKE', "%{$request->search}%");
+        }
 
         if ($request->sort && $request->order) {
-            if ($request->order == 'asc')
+            if ($request->order == 'asc') {
                 $query->orderBy($request->sort, 'desc');
-            else
+            } else {
                 $query->orderBy($request->sort, 'asc');
+            }
         }
 
         $categories = $query->paginate(30)->withQueryString();

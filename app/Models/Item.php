@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Item extends Model
@@ -26,35 +25,43 @@ class Item extends Model
 
     protected $table = 'items';
 
-    public function proprietary() {
+    public function proprietary()
+    {
         return $this->belongsTo(Proprietary::class);
     }
 
-    public function tags() {
+    public function tags()
+    {
         return $this->belongsToMany(Tag::class, 'tag_item', 'item_id', 'tag_id');
     }
 
-    public function composedOf() {
+    public function composedOf()
+    {
         return $this->belongsToMany(Item::class, 'item_component', 'item_id', 'component_id');
     }
 
-    public function composes() {
+    public function composes()
+    {
         return $this->belongsToMany(Item::class, 'item_component', 'component_id', 'item_id');
     }
 
-    public function extras() {
+    public function extras()
+    {
         return $this->hasMany(Extra::class);
     }
 
-    public function section() {
+    public function section()
+    {
         return $this->belongsTo(Section::class);
     }
 
-    public function ItemComponents() {
+    public function ItemComponents()
+    {
         return $this->hasMany(ItemComponent::class);
     }
 
-    public function tagItems() {
+    public function tagItems()
+    {
         return $this->hasMany(TagItem::class);
     }
 

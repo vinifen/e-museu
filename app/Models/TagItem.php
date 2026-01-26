@@ -17,11 +17,13 @@ class TagItem extends Model
 
     protected $table = 'tag_item';
 
-    public function item() {
+    public function item()
+    {
         return $this->belongsTo(Item::class);
     }
 
-    public function tag() {
+    public function tag()
+    {
         return $this->belongsTo(Tag::class);
     }
 }

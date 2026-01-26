@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Section extends Model
@@ -17,7 +16,8 @@ class Section extends Model
 
     protected $table = 'sections';
 
-    public function items() {
+    public function items()
+    {
         return $this->hasMany(Item::class);
     }
 

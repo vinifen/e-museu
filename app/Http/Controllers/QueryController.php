@@ -13,7 +13,7 @@ class QueryController extends Controller
     {
         $query = $request->input('query', '');
         $category = $request->input('category');
-        
+
         $data = Tag::select('name')
                     ->where('category_id', 'LIKE', $category)
                     ->where('validation', true);
@@ -21,7 +21,7 @@ class QueryController extends Controller
         if (!empty($query)) {
             $data = $data->where('name', 'LIKE', '%' . $query . '%');
         }
-        
+
         $data = $data->limit(10)->get();
 
         return response()->json($data);
@@ -31,15 +31,15 @@ class QueryController extends Controller
     {
         $query = $request->input('query', '');
         $category = $request->input('category');
-        
+
         $data = Item::select('name')
                     ->where('section_id', 'LIKE', $category)
                     ->where('validation', true);
-        
+
         if (!empty($query)) {
             $data = $data->where('name', 'LIKE', '%' . $query . '%');
         }
-        
+
         $data = $data->limit(10)->get();
 
         return response()->json($data);
@@ -96,5 +96,4 @@ class QueryController extends Controller
 
         return response()->json($data);
     }
-
 }

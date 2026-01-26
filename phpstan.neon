@@ -1,0 +1,21 @@
+parameters:
+    level: 8
+    paths:
+        - app
+        - routes
+        - tests
+    excludePaths:
+        - ./*/*/FileToIgnore.php
+    checkUninitializedProperties: true
+    checkPhpDocMethodSignatures: true
+    checkPhpDocMissingReturn: true
+    checkTooWideReturnTypesInProtectedAndPublicMethods: false
+    checkTooWideParameterOutInProtectedAndPublicMethods: false
+    ignoreErrors:
+        - '#PHPDoc tag @var#'
+        - '#Access to an undefined property#'
+        - '#Call to an undefined method#'
+        - '#Method .* invoked with .* parameter\(s\)#'
+        - '#Parameter .* of method .* has invalid type#'
+        - '#Return type of method .* has invalid type#'
+    reportUnmatchedIgnoredErrors: false

@@ -7,11 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckLock;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateItemRequest;
 use App\Http\Requests\StoreItemRequest;
-
 use App\Models\Item;
 use App\Models\Section;
 use App\Models\Proprietary;
@@ -49,38 +47,37 @@ class AdminItemController extends Controller
             'proprietaries.contact AS proprietary_contact',
         ]);
 
-        if ($searchColumn == 'proprietary_id')
+        if ($searchColumn == 'proprietary_id') {
             $query->where('proprietaries.contact', 'LIKE', "%{$search}%");
-
-        elseif ($searchColumn == 'section_id') {
+        } elseif ($searchColumn == 'section_id') {
             $query->where('sections.name', 'LIKE', "%{$search}%");
-        }
-
-
-        elseif ($searchColumn && $search) {
-            if ($search == 'sim')
+        } elseif ($searchColumn && $search) {
+            if ($search == 'sim') {
                 $query->where('items.' . $searchColumn, true);
-            elseif ($search == 'não' || $search == 'nao')
+            } elseif ($search == 'não' || $search == 'nao') {
                 $query->where('items.' . $searchColumn, false);
-            else
+            } else {
                 $query->where('items.' . $searchColumn, 'LIKE', "%{$search}%");
+            }
         }
 
         if ($sort && $order) {
             if ($order == 'asc') {
-                if ($sort == 'proprietary_id')
+                if ($sort == 'proprietary_id') {
                     $query->orderBy('proprietaries.contact', 'desc');
-                elseif ($sort == 'section_id')
+                } elseif ($sort == 'section_id') {
                     $query->orderBy('sections.name', 'desc');
-                else
+                } else {
                     $query->orderBy('items.' . $sort, 'desc');
+                }
             } else {
-                if ($sort == 'proprietary_id')
+                if ($sort == 'proprietary_id') {
                     $query->orderBy('proprietaries.contact', 'asc');
-                elseif ($sort == 'section_id')
+                } elseif ($sort == 'section_id') {
                     $query->orderBy('sections.name', 'asc');
-                else
+                } else {
                     $query->orderBy('items.' . $sort, 'asc');
+                }
             }
         }
 
@@ -127,10 +124,11 @@ class AdminItemController extends Controller
 
         $data['identification_code'] = '000';
 
-        if ($data['date'] === null)
+        if ($data['date'] === null) {
             $data['date'] = '0001-01-01 00:00:00';
+        }
 
-        DB::transaction(function () use ($data, $item){
+        DB::transaction(function () use ($data, $item) {
             $item = Item::create($data);
 
             $data['identification_code'] = self::createIdentificationCode($item);
@@ -167,8 +165,9 @@ class AdminItemController extends Controller
             unset($data['image']);
         }
 
-        if ($data['date'] === null)
+        if ($data['date'] === null) {
             $data['date'] = '0001-01-01 00:00:00';
+        }
 
         $item->update($data);
 
@@ -196,8 +195,9 @@ class AdminItemController extends Controller
 
         $words = explode(' ', $section);
 
-        if (count($words) == 1)
+        if (count($words) == 1) {
             $words = explode('-', $words[0]);
+        }
 
         $proprietaryCode = '';
 
@@ -219,7 +219,8 @@ class AdminItemController extends Controller
 
     public function removeAccent($string)
     {
-        return preg_replace(array(
+        return preg_replace(
+            array(
                 "/(á|à|ã|â|ä)/",
                 "/(Á|À|Ã|Â|Ä)/",
                 "/(é|è|ê|ë)/",
@@ -232,7 +233,8 @@ class AdminItemController extends Controller
                 "/(Ú|Ù|Û|Ü)/",
                 "/(ñ)/",
                 "/(Ñ)/"),
-                explode(" ","a A e E i I o O u U n N"),
-                $string);
+            explode(" ", "a A e E i I o O u U n N"),
+            $string
+        );
     }
 }

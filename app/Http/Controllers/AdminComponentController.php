@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\SingleComponentRequest;
-
 use App\Models\ItemComponent;
 use App\Models\Section;
 
@@ -32,42 +30,43 @@ class AdminComponentController extends Controller
             'item.name AS item_name',
             'component.name AS component_name']);
 
-        if ($searchColumn == 'item_id')
+        if ($searchColumn == 'item_id') {
             $query->where('item.name', 'LIKE', "%{$search}%");
-
-        elseif ($searchColumn == 'component_id')
+        } elseif ($searchColumn == 'component_id') {
             $query->where('component.name', 'LIKE', "%{$search}%");
-
-        elseif ($searchColumn && $search) {
-            if ($search == 'sim')
+        } elseif ($searchColumn && $search) {
+            if ($search == 'sim') {
                 $query->where('item_component.' . $searchColumn, true);
-            elseif ($search == 'não' || $search == 'nao')
+            } elseif ($search == 'não' || $search == 'nao') {
                 $query->where('item_component.' . $searchColumn, false);
-            else
+            } else {
                 $query->where('item_component.' . $searchColumn, 'LIKE', "%{$search}%");
+            }
         }
 
         if ($sort && $order) {
             if ($order == 'asc') {
-                if ($sort == 'item_id')
+                if ($sort == 'item_id') {
                     $query->orderBy('item.name', 'desc');
-                elseif ($sort == 'component_id')
+                } elseif ($sort == 'component_id') {
                     $query->orderBy('component.name', 'desc');
-                else
+                } else {
                     $query->orderBy('item_component.' . $sort, 'desc');
+                }
             } else {
-                if ($sort == 'item_id')
+                if ($sort == 'item_id') {
                     $query->orderBy('item.name', 'asc');
-                elseif ($sort == 'component_id')
+                } elseif ($sort == 'component_id') {
                     $query->orderBy('component.name', 'asc');
-                else
+                } else {
                     $query->orderBy('item_component.' . $sort, 'asc');
+                }
             }
         }
 
         $components = $query->paginate(30)->withQueryString();
 
-        return view('admin.components.index', compact('components','count'));
+        return view('admin.components.index', compact('components', 'count'));
     }
 
     public function show($id)
@@ -104,10 +103,11 @@ class AdminComponentController extends Controller
     {
         $data = $request->all();
 
-        if ($component->validation == true)
+        if ($component->validation == true) {
             $data['validation'] = false;
-        else
+        } else {
             $data['validation'] = true;
+        }
 
         $component->update($data);
 

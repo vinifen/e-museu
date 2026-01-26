@@ -11,7 +11,8 @@ use Carbon\Carbon;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, ValidatesRequests;
+    use AuthorizesRequests;
+    use ValidatesRequests;
 
     public function lock($subject)
     {

@@ -6,10 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckLock;
 use Illuminate\Support\Facades\Hash;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
-
 use App\Models\User;
 use App\Models\Lock;
 
@@ -20,17 +18,20 @@ class AdminUserController extends Controller
         $query = User::query();
         $count = User::count();
 
-        if ($request->search_column && $request->search)
+        if ($request->search_column && $request->search) {
             $query->where($request->search_column, 'LIKE', "%{$request->search}%");
-
-        if ($request->sort && $request->order) {
-            if ($request->order == 'asc')
-                $query->orderBy($request->sort, 'desc');
-            else
-                $query->orderBy($request->sort, 'asc');
         }
 
-        $users = $query->paginate(50)->withQueryString();;
+        if ($request->sort && $request->order) {
+            if ($request->order == 'asc') {
+                $query->orderBy($request->sort, 'desc');
+            } else {
+                $query->orderBy($request->sort, 'asc');
+            }
+        }
+
+        $users = $query->paginate(50)->withQueryString();
+        ;
 
         return view('admin.users.index', compact('users', 'count'));
     }

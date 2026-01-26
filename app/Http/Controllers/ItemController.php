@@ -7,7 +7,6 @@ use Illuminate\Validation\Rule;
 use App\Rules\DifferentIds;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\TagRequest;
 use App\Http\Requests\ExtraRequest;
@@ -15,7 +14,6 @@ use App\Http\Requests\ComponentRequest;
 use App\Http\Requests\SingleExtraRequest;
 use App\Http\Requests\ProprietaryRequest;
 use Illuminate\Http\Request;
-
 use App\Models\Item;
 use App\Models\Proprietary;
 use App\Models\Extra;
@@ -36,28 +34,30 @@ class ItemController extends Controller
         $sectionName = '';
         $section_id = $request->section;
 
-        if (!$order)
-            $order= 1;
+        if (!$order) {
+            $order = 1;
+        }
 
-        if (!$section_id)
+        if (!$section_id) {
             $section_id = request()->input('section');
+        }
 
-        if ($section_id)
+        if ($section_id) {
             $query->where('section_id', $section_id);
+        }
 
-        if (isset($request->search) && ($request->search != null))
+        if (isset($request->search) && ($request->search != null)) {
             $query->where('name', 'LIKE', "%{$request->search}%");
+        }
 
-        if (isset($request->category) && ($request->category != null))
-        {
+        if (isset($request->category) && ($request->category != null)) {
             $query->whereHas('tags', function ($query) use ($request) {
                 $query->whereIn('category_id', $request->category)
                         ->where('tag_item.validation', true);
             });
         }
 
-        if (isset($request->tag) && ($request->tag != null))
-        {
+        if (isset($request->tag) && ($request->tag != null)) {
             $query->whereHas('tags', function ($query) use ($request) {
                 $query->whereIn('tag_id', $request->tag)
                         ->where('tag_item.validation', true);
@@ -79,8 +79,9 @@ class ItemController extends Controller
                 break;
         }
 
-        if ($section_id)
+        if ($section_id) {
             $sectionName = Section::find($section_id)->name;
+        }
 
         $items = $query->paginate(24)->withQueryString()->appends(['section' => $section_id]);
 
@@ -114,11 +115,13 @@ class ItemController extends Controller
 
         $proprietary = Proprietary::where('contact', '=', $proprietaryData['contact'])->first();
 
-        if (!$proprietary)
+        if (!$proprietary) {
             $proprietary = self::storeProprietary($proprietaryData);
+        }
 
-        if ($proprietary->blocked == 1)
+        if ($proprietary->blocked == 1) {
             return back()->withErrors(['Este usuário não possui permissão para registrar itens.']);
+        }
 
         if ($request->image) {
             $itemData['image'] = $request->image->store('items');
@@ -161,10 +164,11 @@ class ItemController extends Controller
         $itemData['proprietary_id'] = $proprietary->id;
         $itemData['identification_code'] = '000';
 
-        if ($itemData['date'] === null)
+        if ($itemData['date'] === null) {
             $itemData['date'] = '0001-01-01 00:00:00';
+        }
 
-        $item = DB::transaction(function () use ($itemData){
+        $item = DB::transaction(function () use ($itemData) {
 
             $item = Item::create($itemData);
 
@@ -180,11 +184,12 @@ class ItemController extends Controller
 
     public function storeMultipleTag($request, $item)
     {
-        foreach((array) $request->tags as $key => $data) {
+        foreach ((array) $request->tags as $key => $data) {
             $tag = Tag::where('category_id', '=', $data['category_id'])->where('name', '=', $data['name'])->first();
 
-            if (is_null($tag))
+            if (is_null($tag)) {
                 $tag = Tag::create($data);
+            }
 
             $item->tags()->attach($tag->id);
         }
@@ -192,7 +197,7 @@ class ItemController extends Controller
 
     public function storeMultipleExtra($request, $item, $proprietary)
     {
-        foreach((array) $request->extras as $key => $data) {
+        foreach ((array) $request->extras as $key => $data) {
             $data['proprietary_id'] = $proprietary->id;
             $data['item_id'] = $item->id;
 
@@ -202,7 +207,7 @@ class ItemController extends Controller
 
     public function storeMultipleComponent($request, $item, $componentData)
     {
-        foreach((array) $request->components as $key => $data) {
+        foreach ((array) $request->components as $key => $data) {
             $component = Item::where('section_id', '=', $data['category_id'])
                             ->where('name', '=', $data['name'])
                             ->first();
@@ -245,11 +250,13 @@ class ItemController extends Controller
 
         $proprietary = Proprietary::where('contact', $proprietaryData['contact'])->first();
 
-        if (!$proprietary)
+        if (!$proprietary) {
             $proprietary = self::storeProprietary($proprietary);
+        }
 
-        if ($proprietary->blocked == 1)
+        if ($proprietary->blocked == 1) {
             return back()->withErrors(['Este usuário não possui permissão para registrar itens.']);
+        }
 
         $data['proprietary_id'] = $proprietary->id;
 
@@ -264,8 +271,9 @@ class ItemController extends Controller
 
         $words = explode(' ', $section);
 
-        if (count($words) == 1)
+        if (count($words) == 1) {
             $words = explode('-', $words[0]);
+        }
 
         if (count($words) > 1) {
             $section = strtoupper(substr($words[0], 0, 2));
@@ -281,7 +289,8 @@ class ItemController extends Controller
 
     public function removeAccent($string)
     {
-        return preg_replace(array(
+        return preg_replace(
+            array(
                 "/(á|à|ã|â|ä)/",
                 "/(Á|À|Ã|Â|Ä)/",
                 "/(é|è|ê|ë)/",
@@ -294,7 +303,8 @@ class ItemController extends Controller
                 "/(Ú|Ù|Û|Ü)/",
                 "/(ñ)/",
                 "/(Ñ)/"),
-                explode(" ","a A e E i I o O u U n N"),
-                $string);
+            explode(" ", "a A e E i I o O u U n N"),
+            $string
+        );
     }
 }

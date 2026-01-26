@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Proprietary extends Model
@@ -20,7 +19,8 @@ class Proprietary extends Model
 
     protected $table = 'proprietaries';
 
-    public function items() {
+    public function items()
+    {
         return $this->hasMany(Item::class);
     }
 

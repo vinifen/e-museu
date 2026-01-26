@@ -6,10 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckLock;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\SingleExtraRequest;
-
 use App\Models\Extra;
 use App\Models\Proprietary;
 use App\Models\Section;
@@ -39,36 +37,37 @@ class AdminExtraController extends Controller
             'proprietaries.contact AS proprietary_contact',
         ]);
 
-        if ($searchColumn == 'proprietary_id')
+        if ($searchColumn == 'proprietary_id') {
             $query->where('proprietaries.contact', 'LIKE', "%{$search}%");
-
-        elseif ($searchColumn == 'item_id')
+        } elseif ($searchColumn == 'item_id') {
             $query->where('items.name', 'LIKE', "%{$search}%");
-
-        elseif ($searchColumn && $search) {
-            if ($search == 'sim')
+        } elseif ($searchColumn && $search) {
+            if ($search == 'sim') {
                 $query->where('items.' . $searchColumn, true);
-            elseif ($search == 'não' || $search == 'nao')
+            } elseif ($search == 'não' || $search == 'nao') {
                 $query->where('items.' . $searchColumn, false);
-            else
+            } else {
                 $query->where('items.' . $searchColumn, 'LIKE', "%{$search}%");
+            }
         }
 
         if ($sort && $order) {
             if ($order == 'asc') {
-                if ($sort == 'proprietary_id')
+                if ($sort == 'proprietary_id') {
                     $query->orderBy('proprietaries.contact', 'desc');
-                elseif ($sort == 'item_id')
+                } elseif ($sort == 'item_id') {
                     $query->orderBy('items.name', 'desc');
-                else
+                } else {
                     $query->orderBy('extras.' . $sort, 'desc');
+                }
             } else {
-                if ($sort == 'proprietary_id')
+                if ($sort == 'proprietary_id') {
                     $query->orderBy('proprietaries.contact', 'asc');
-                elseif ($sort == 'item_id')
+                } elseif ($sort == 'item_id') {
                     $query->orderBy('items.name', 'asc');
-                else
+                } else {
                     $query->orderBy('extras.' . $sort, 'asc');
+                }
             }
         }
 

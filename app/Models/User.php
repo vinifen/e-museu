@@ -20,7 +20,8 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function locks() {
+    public function locks()
+    {
         return $this->hasMany(Lock::class);
     }
 }

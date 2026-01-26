@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
 use App\Models\Item;
 
 class ValidateItem
@@ -15,8 +14,9 @@ class ValidateItem
         if ($itemId) {
             $item = Item::find($itemId);
 
-            if ($item && $item->validation == false)
+            if ($item && $item->validation == false) {
                 abort(403, 'Acesso negado.');
+            }
         }
 
         return $next($request);

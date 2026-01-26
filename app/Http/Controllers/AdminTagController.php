@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckLock;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\SingleTagRequest;
-
 use App\Models\Tag;
 use App\Models\Category;
 
@@ -36,33 +34,36 @@ class AdminTagController extends Controller
             'tags.updated_at AS tag_updated',
             'categories.name AS category_name']);
 
-        if ($searchColumn == 'category_id')
+        if ($searchColumn == 'category_id') {
             $query->where('categories.name', 'LIKE', "%{$search}%");
-
-        elseif ($searchColumn && $search) {
-            if ($search == 'sim')
+        } elseif ($searchColumn && $search) {
+            if ($search == 'sim') {
                 $query->where('tags.' . $searchColumn, true);
-            elseif ($search == 'não' || $search == 'nao')
+            } elseif ($search == 'não' || $search == 'nao') {
                 $query->where('tags.' . $searchColumn, false);
-            else
+            } else {
                 $query->where('tags.' . $searchColumn, 'LIKE', "%{$search}%");
+            }
         }
 
         if ($sort && $order) {
             if ($order == 'asc') {
-                if ($sort == 'category_id')
+                if ($sort == 'category_id') {
                     $query->orderBy('categories.name', 'desc');
-                else
+                } else {
                     $query->orderBy('tags.' . $sort, 'desc');
+                }
             } else {
-                if ($sort == 'category_id')
+                if ($sort == 'category_id') {
                     $query->orderBy('categories.name', 'asc');
-                else
+                } else {
                     $query->orderBy('tags.' . $sort, 'asc');
+                }
             }
         }
 
-        $tags = $query->paginate(30)->withQueryString();;
+        $tags = $query->paginate(30)->withQueryString();
+        ;
 
         return view('admin.tags.index', compact('tags', 'count'));
     }

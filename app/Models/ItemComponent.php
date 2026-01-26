@@ -17,11 +17,13 @@ class ItemComponent extends Model
 
     protected $table = 'item_component';
 
-    public function item() {
+    public function item()
+    {
         return $this->belongsTo(Item::class);
     }
 
-    public function component() {
-        return $this->belongsTo(Item::class, );
+    public function component()
+    {
+        return $this->belongsTo(Item::class,);
     }
 }

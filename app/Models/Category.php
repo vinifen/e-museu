@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Category extends Model
@@ -17,7 +16,8 @@ class Category extends Model
 
     protected $table = 'categories';
 
-    public function tags() {
+    public function tags()
+    {
         return $this->hasMany(Tag::class)->orderBy('name', 'asc');
     }
 

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Tag extends Model
@@ -19,11 +18,13 @@ class Tag extends Model
 
     protected $table = 'tags';
 
-    public function items() {
+    public function items()
+    {
         return $this->belongsToMany(Item::class, 'tag_item', 'tag_id', 'item_id');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
