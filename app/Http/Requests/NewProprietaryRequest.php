@@ -12,8 +12,12 @@ class NewProprietaryRequest extends FormRequest
         return true;
     }
 
+    /**
+     * @return array<string, string|array<int, string>>
+     */
     public function rules(): array
     {
+        $proprietaryId = null;
         if ($this->route()) {
             $proprietaryId = $this->route()->parameter('proprietary');
         }
@@ -32,6 +36,9 @@ class NewProprietaryRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [

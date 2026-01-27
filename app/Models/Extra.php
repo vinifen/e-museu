@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Extra extends Model
 {
@@ -19,12 +20,12 @@ class Extra extends Model
 
     protected $table = 'extras';
 
-    public function item()
+    public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
     }
 
-    public function proprietary()
+    public function proprietary(): BelongsTo
     {
         return $this->belongsTo(Proprietary::class);
     }

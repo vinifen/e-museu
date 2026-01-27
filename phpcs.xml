@@ -28,6 +28,11 @@
     <!-- Use PSR-12 standard -->
     <rule ref="PSR12"/>
 
+    <!-- PHPUnit uses snake_case for test method names -->
+    <rule ref="PSR1.Methods.CamelCapsMethodName">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
     <!-- Additional rules -->
     <!-- Allow long lines for comments and strings -->
     <rule ref="Generic.Files.LineLength">

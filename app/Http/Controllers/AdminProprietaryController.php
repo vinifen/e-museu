@@ -9,15 +9,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProprietaryRequest;
 use App\Http\Requests\NewProprietaryRequest;
 use App\Models\Proprietary;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
-class AdminProprietaryController extends Controller
+class AdminProprietaryController extends AdminBaseController
 {
     public function __construct()
     {
         $this->middleware(CheckLock::class)->only(['edit', 'update', 'destroy']);
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $searchColumn = $request->search_column;
         $search = $request->search;
@@ -28,9 +30,9 @@ class AdminProprietaryController extends Controller
         $query = Proprietary::query();
 
         if ($searchColumn && $search) {
-            if ($search == 'sim') {
+            if ($search === 'sim') {
                 $query->where($searchColumn, true);
-            } elseif ($search == 'não' || $search == 'nao') {
+            } elseif ($search === 'não' || $search === 'nao') {
                 $query->where($searchColumn, false);
             } else {
                 $query->where($searchColumn, 'LIKE', "%{$search}%");
@@ -38,7 +40,7 @@ class AdminProprietaryController extends Controller
         }
 
         if ($sort && $order) {
-            if ($order == 'asc') {
+            if ($order === 'asc') {
                 $query->orderBy($sort, 'desc');
             } else {
                 $query->orderBy($sort, 'asc');
@@ -50,19 +52,19 @@ class AdminProprietaryController extends Controller
         return view('admin.proprietaries.index', compact('proprietaries', 'count'));
     }
 
-    public function show($id)
+    public function show(string $id): View
     {
         $proprietary = Proprietary::find($id);
 
         return view('admin.proprietaries.show', compact('proprietary'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('admin.proprietaries.create');
     }
 
-    public function store(ProprietaryRequest $request)
+    public function store(ProprietaryRequest $request): RedirectResponse
     {
         $data = $request->validated();
 
@@ -82,19 +84,21 @@ class AdminProprietaryController extends Controller
 
         $proprietary = Proprietary::create($data);
 
-        return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', 'Colaborador adicionado com sucesso.');
+        $message = 'Colaborador adicionado com sucesso.';
+
+        return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', $message);
     }
 
-    public function edit($id)
+    public function edit(string $id): View
     {
-        $proprietary = Proprietary::find($id);
+        $proprietary = Proprietary::findOrFail($id);
 
         $this->lock($proprietary);
 
         return view('admin.proprietaries.edit', compact('proprietary'));
     }
 
-    public function update(NewProprietaryRequest $request, Proprietary $proprietary)
+    public function update(NewProprietaryRequest $request, Proprietary $proprietary): RedirectResponse
     {
         $data = $request->validated();
 
@@ -116,10 +120,12 @@ class AdminProprietaryController extends Controller
 
         $this->unlock($proprietary);
 
-        return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', 'Colaborador atualizado com sucesso.');
+        $message = 'Colaborador atualizado com sucesso.';
+
+        return redirect()->route('admin.proprietaries.show', $proprietary)->with('success', $message);
     }
 
-    public function destroy(Proprietary $proprietary)
+    public function destroy(Proprietary $proprietary): RedirectResponse
     {
         $this->unlock($proprietary);
 

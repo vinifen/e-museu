@@ -11,11 +11,14 @@ class UserRequest extends FormRequest
         return true;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function rules(): array
     {
         return [
             'username' => 'required|string|min:1|max:100|unique:users',
-            'password' => 'required|string|min:1|max:100'
+            'password' => 'required|string|min:1|max:100',
         ];
     }
 }

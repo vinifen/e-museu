@@ -293,9 +293,34 @@ function test {
 
 function all-tests {
   set -e
+  echo "===="
+  echo ">> Running PHPUnit tests..."
+  echo "===="
   ./run test
+  echo "===="
+  echo ">> Running PHP Code Sniffer (phpcs)..."
+  echo "===="
   ./run phpcs
+  echo "===="
+  echo ">> Running PHP Mess Detector (phpmd)..."
+  echo "===="
+  ./run phpmd
+  echo "===="
+  echo ">> Running PHPStan..."
+  echo "===="
   ./run phpstan
+  echo "===="
+  echo ">> Running PHP Copy/Paste Detector (phpcpd)..."
+  echo "===="
+  ./run phpcpd
+  echo "===="
+  echo ">> Running ESLint..."
+  echo "===="
+  ./run eslint
+  echo "===="
+  echo ">> Running Prettier check..."
+  echo "===="
+  ./run prettier-check
 }
 
 function ps {
@@ -470,6 +495,11 @@ function help {
   echo "  composer           - Install Composer dependencies"
   echo ""
   echo "Testing & Code Quality:"
+  echo "  NOTE: Before running code quality tools:"
+  echo "        1. Ensure APP_ENV=local is set in your .env file"
+  echo "        2. Run './run setup' to start containers and ensure vendor directory is"
+  echo "           properly mounted and binaries are available."
+  echo ""
   echo "  test               - Run PHPUnit tests"
   echo "  phpstan            - Run PHPStan static analysis (Level 5 with Larastan)"
   echo "  phpstan <path>     - Run PHPStan on specific path"
@@ -493,7 +523,7 @@ function help {
   echo "  prettier <path>  - Format specific path with Prettier"
   echo "  prettier-check   - Check if files are formatted correctly (without modifying)"
   echo "  prettier-check <path> - Check specific path formatting"
-  echo "  all-tests          - Run all tests and code quality checks (test + phpcs + phpstan)"
+  echo "  all-tests          - Run all checks (test, phpcs, phpmd, phpstan, phpcpd, eslint, prettier-check)"
   echo ""
   echo "Utilities:"
   echo "  exec <cmd>         - Execute command inside app container"
@@ -506,6 +536,7 @@ function help {
   echo "  ./run setup-hard -env -y   # Hard reset with new .env file and no confirmation"
   echo "  ./run gen_key -y           # Generate app key without confirmation"
   echo "  ./run test                 # Run tests"
+  echo "  ./run all-tests            # Run all checks (test, phpcs, phpmd, phpstan, phpcpd, eslint, prettier)"
   echo "  ./run phpstan app/Models   # Analyze specific directory"
   echo "  ./run phpcs app/Models     # Check code style on specific directory"
   echo "  ./run phpcbf app/Models    # Fix code style on specific directory"

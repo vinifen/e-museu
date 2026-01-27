@@ -11,12 +11,11 @@ class ProprietaryRequest extends FormRequest
         return true;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function rules(): array
     {
-        if ($this->route()) {
-            $proprietaryId = $this->route()->parameter('proprietary');
-        }
-
         return [
             'full_name' => 'required|string|min:1|max:200',
             'contact' => 'required|email:rfc,dns|min:1|max:200',
@@ -24,6 +23,9 @@ class ProprietaryRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [

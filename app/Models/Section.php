@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Section extends Model
@@ -11,12 +12,12 @@ class Section extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     protected $table = 'sections';
 
-    public function items()
+    public function items(): HasMany
     {
         return $this->hasMany(Item::class);
     }

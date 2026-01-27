@@ -6,19 +6,20 @@ use Illuminate\Http\Request;
 use App\Models\Tag;
 use App\Models\Item;
 use App\Models\Proprietary;
+use Illuminate\Http\JsonResponse;
 
 class QueryController extends Controller
 {
-    public function tagNameAutoComplete(Request $request)
+    public function tagNameAutoComplete(Request $request): JsonResponse
     {
         $query = $request->input('query', '');
         $category = $request->input('category');
 
         $data = Tag::select('name')
-                    ->where('category_id', 'LIKE', $category)
-                    ->where('validation', true);
+            ->where('category_id', 'LIKE', $category)
+            ->where('validation', true);
 
-        if (!empty($query)) {
+        if ($query !== null && $query !== '') {
             $data = $data->where('name', 'LIKE', '%' . $query . '%');
         }
 
@@ -27,16 +28,16 @@ class QueryController extends Controller
         return response()->json($data);
     }
 
-    public function componentNameAutoComplete(Request $request)
+    public function componentNameAutoComplete(Request $request): JsonResponse
     {
         $query = $request->input('query', '');
         $category = $request->input('category');
 
         $data = Item::select('name')
-                    ->where('section_id', 'LIKE', $category)
-                    ->where('validation', true);
+            ->where('section_id', 'LIKE', $category)
+            ->where('validation', true);
 
-        if (!empty($query)) {
+        if ($query !== null && $query !== '') {
             $data = $data->where('name', 'LIKE', '%' . $query . '%');
         }
 
@@ -45,32 +46,35 @@ class QueryController extends Controller
         return response()->json($data);
     }
 
-    public function checkTagName(Request $request)
+    public function checkTagName(Request $request): JsonResponse
     {
         $data = Tag::where('category_id', 'LIKE', $request->input('category'))
-                    ->where('name', 'LIKE', $request->input('name'))
-                    ->where('validation', true)
-                    ->count();
+            ->where('name', 'LIKE', $request->input('name'))
+            ->where('validation', true)
+            ->count();
 
         return response()->json($data);
     }
 
-    public function checkComponentName(Request $request)
+    public function checkComponentName(Request $request): JsonResponse
     {
         $data = Item::where('section_id', 'LIKE', $request->input('category'))
-                    ->where('name', 'LIKE', $request->input('name'))
-                    ->where('validation', true)
-                    ->count();
+            ->where('name', 'LIKE', $request->input('name'))
+            ->where('validation', true)
+            ->count();
 
         return response()->json($data);
     }
 
+    /**
+     * @return Proprietary|false
+     */
     public function checkContact(Request $request)
     {
         $data = Proprietary::where('contact', 'LIKE', $request->input('contact'))
-                            ->where('blocked', false)
-                            ->where('is_admin', false)
-                            ->first();
+            ->where('blocked', false)
+            ->where('is_admin', false)
+            ->first();
 
         if ($data) {
             return $data;
@@ -79,20 +83,20 @@ class QueryController extends Controller
         return false;
     }
 
-    public function getTags(Request $request)
+    public function getTags(Request $request): JsonResponse
     {
         $data = Tag::where('category_id', 'LIKE', $request->input('category'))
-                    ->orderBy('name', 'asc')
-                    ->get();
+            ->orderBy('name', 'asc')
+            ->get();
 
         return response()->json($data);
     }
 
-    public function getItems(Request $request)
+    public function getItems(Request $request): JsonResponse
     {
         $data = Item::where('section_id', 'LIKE', $request->input('section'))
-                    ->orderBy('name', 'asc')
-                    ->get();
+            ->orderBy('name', 'asc')
+            ->get();
 
         return response()->json($data);
     }
