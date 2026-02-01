@@ -12,7 +12,6 @@ function env {
   fi
   cp -f .env.example .env
   chmod 664 .env
-  chown 1000:1000 .env 2>/dev/null || true
 }
 
 function get_compose_file {
@@ -56,6 +55,9 @@ function setup {
   up || echo "[warn] Failed to start containers (up); continuing..."
 
   composer || echo "[warn] Composer install failed (composer); continuing..."
+
+  echo ">> Fixing permissions (storage, vendor, bootstrap/cache, .env)..."
+  docker compose -f "$(get_compose_file)" exec -u root app sh -c 'mkdir -p /var/www/storage/logs /var/www/storage/framework/sessions /var/www/storage/framework/views /var/www/storage/framework/cache && chown -R laravel:www-data /var/www/vendor /var/www/bootstrap/cache /var/www/storage && (touch /var/www/.env && chown laravel:www-data /var/www/.env) 2>/dev/null || true'
 
   if [ "$APP_ENV" == "local" ]; then
     echo ">> Starting Vite dev server in background..."
@@ -117,13 +119,13 @@ function npm-local-bg {
   fi
 
   echo ">> Installing Node.js dependencies in container..."
-  docker compose -f "$(get_compose_file)" exec vite sh -c 'npm install'
+  docker compose -f "$(get_compose_file)" exec vite npm install
 
   echo ">> Starting Vite dev server in background..."
   echo "Access your site at: http://localhost:$(grep WEB_SERVER_PORT_LOCAL .env | cut -d'=' -f2)"
   echo ""
 
-  docker compose -f "$(get_compose_file)" exec -d vite sh -c 'npm run dev -- --host 0.0.0.0 --port 5173'
+  docker compose -f "$(get_compose_file)" exec -d vite npm run dev -- --host 0.0.0.0 --port 5173
     
     echo "Vite dev server started in background!"
     echo "Access Vite at: http://localhost:5173"
@@ -390,8 +392,6 @@ function composer {
   docker compose -f "$(get_compose_file)" exec app git config --global --add safe.directory /var/www 2>/dev/null || true
   echo ">> Installing Composer dependencies (as root to avoid permission issues)..."
   docker compose -f "$(get_compose_file)" exec -u root app sh -c 'php -d error_reporting="E_ALL&~E_DEPRECATED&~E_USER_DEPRECATED" /usr/bin/composer install --no-interaction --optimize-autoloader'
-  echo ">> Fixing ownership of vendor and bootstrap/cache..."
-  docker compose -f "$(get_compose_file)" exec -u root app sh -c 'chown -R laravel:www-data /var/www/vendor /var/www/bootstrap/cache 2>/dev/null || true'
 }
 
 function remove-all {
